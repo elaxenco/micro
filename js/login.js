@@ -18,7 +18,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
     	}
 
     		//funcion ajax para comunicarnos con php (url,arreglo con datos,funcion de respuest, funcion loading)
-			//onRequest({ opcion : 1 ,txtuser:txtUser,txtpass: txtPass},resLogin);
+			onRequestMant({ opcion : 1 ,user:txtUser,pass: txtPass},resLogin);
  
 	});
 
@@ -54,23 +54,29 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 
 var resLogin = function(data){
     if (!data && data == null) 
-            return;    
+            return;  
 
-        if (data['user'][0]>0) { 
+            console.log(data)  
+
+        if (data[0].respuesta>0) { 
  
-               Cookies.set("presico_usuario_id", data['user'][0] );
-               Cookies.set("presico_capturista_id", data['user'][1] );
-               Cookies.set("presico_capturista",data['user'][2]);
-               Cookies.set("presico_autorizacion",data['user'][3]);
-               Cookies.set("presico_autorizacion_admin",data['user'][4]);
-               Cookies.set("presico_autorizacion_especial",data['user'][5]);
+               Cookies.set("micro_id", data[1].usuario_id );
+               Cookies.set("micro_nombre", data[1].nombre );
+               Cookies.set("micro_autorizacion",data[1].autorizacion);
+               Cookies.set("micro_autorizacion_admin",data[1].autorizacion_admin);
+               Cookies.set("micro_autorizacion_esp",data[1].autorizacion_esp); 
 
-               window.location = "/presico/index.php";
+               window.location = "/micro/clientes/clientes.php";
 
             return;
+ 
         }
         else{ 
-            Materialize.toast('Usuario o Contraseña son Incorrectos.', 4000,'rounded red');
+            $("#alertLogin").html(
+                                '<div class="alert alert-danger" role="alert">'+
+                                '<button type="button" class="close" data-dismiss="alert">&times;</button>'+
+                                'Usuario o contraseña invalidos.'+
+                                '</div>');
         }
         
 

@@ -6,7 +6,9 @@
 	$opcion=$_REQUEST['opcion']; 
  
  	switch ($opcion) { 
-  
+  				case 1: 
+			 			   echo (json_encode($mantenimientoclass->iniciarSesion($_REQUEST['user'],$_REQUEST['pass'])));
+			 		break; 
  
  		 
  	}
