@@ -5,7 +5,4 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 });
 
    
- $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+ 
