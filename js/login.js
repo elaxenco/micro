@@ -60,11 +60,11 @@ var resLogin = function(data){
 
         if (data[0].respuesta>0) { 
  
-               Cookies.set("micro_id", data[1].usuario_id );
-               Cookies.set("micro_nombre", data[1].nombre );
-               Cookies.set("micro_autorizacion",data[1].autorizacion);
-               Cookies.set("micro_autorizacion_admin",data[1].autorizacion_admin);
-               Cookies.set("micro_autorizacion_esp",data[1].autorizacion_esp); 
+               Cookies.set("micro_id", data[1].usuario_id,.5 );
+               Cookies.set("micro_nombre", data[1].nombre ,.5);
+               Cookies.set("micro_autorizacion",data[1].autorizacion,.5);
+               Cookies.set("micro_autorizacion_admin",data[1].autorizacion_admin,.5);
+               Cookies.set("micro_autorizacion_esp",data[1].autorizacion_esp,.5); 
 
                window.location = "/micro/clientes/clientes.php";
 

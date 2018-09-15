@@ -6,20 +6,13 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <div class="container">
-      <ul class="navbar-nav ml-auto ">
+      <ul class="navbar-nav ml-auto justify-content-end">
           <li class="nav-item active">
             <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
-          </li> 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Clientes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Registro</a>
-              <a class="dropdown-item" href="#">Pagos</a> 
-              <a class="dropdown-item" href="#">Prestamos</a>
-            </div>
           </li>
+           <li class="nav-item">
+            <a class="nav-link" href="#">Clientes</a>
+          </li>    
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Reportes
