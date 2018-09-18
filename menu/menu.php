@@ -11,8 +11,11 @@
             <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
           </li>
            <li class="nav-item">
-            <a class="nav-link" href="#">Clientes</a>
-          </li>    
+            <a class="nav-link" href="../clientes/clientes.php">Clientes</a>
+          </li>   
+           <li class="nav-item">
+            <a class="nav-link" href="../carteras/carteras.php">Carteras</a>
+          </li>  
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Reportes
