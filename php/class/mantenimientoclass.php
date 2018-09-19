@@ -36,6 +36,33 @@
 							} 
 					}
 
+				public function guardarCartera($cartera,$encargado_id){
+							$res=array();
+							$datos=array();
+							$i=0;
+							$respuesta=0;
+							 
+
+							$sql="INSERT INTO carteras (descripcion,encargado_id)
+												VALUES('$cartera',$encargado_id)";  
+							 mysqli_query($this->con(), $sql); 
+
+
+							$sql="SELECT carteras.id,carteras.descripcion,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) usuario FROM carteras
+                                    JOIN usuarios ON usuarios.id=carteras.encargado_id"; 
+							$resultado = mysqli_query($this->con(), $sql); 
+						    while ($res = mysqli_fetch_row($resultado)) {
+
+						       $datos[$i]['cartera_id'] 		= $res[0];
+						       $datos[$i]['nombre'] 			= $res[1];
+						       $datos[$i]['encargado'] 		= $res[2]; 
+
+						       $i++;
+						    } 
+							 
+							return $datos; 
+					}
+
 
 
 	}

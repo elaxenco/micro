@@ -1,4 +1,9 @@
+ <?php 
+  require_once("../php/conexion/conexion.php"); 
+  $Conectar = new Conectar();  
 
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,9 +30,15 @@
               <label for="c_cartera">Seleccione su cartera</label>
               <select class="custom-select" id="c_cartera">
                 <option selected>Seleccione una opcion</option> 
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <?php
+                    $sql="SELECT carteras.id,carteras.descripcion,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) usuario FROM carteras
+                                    JOIN usuarios ON usuarios.id=carteras.encargado_id"; 
+                          $resultado = mysqli_query($Conectar->con(), $sql);  
+                          while ($res = mysqli_fetch_row($resultado)) {
+                                 
+                                echo "<option value=".$res[0].">".$res[1]."</option>"; 
+                              } 
+                ?>
               </select>
             </div> 
           </div>

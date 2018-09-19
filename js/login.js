@@ -3,8 +3,8 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
   
     $( "#btnLogin" ).click(function() { 
 
-    	var txtUser = $("#inputUsurio").val();
-    	var txtPass = $("#inputPassword").val();
+    	var txtUser = $("#inputUsurio").val().toUpperCase();
+    	var txtPass = $("#inputPassword").val().toUpperCase();
 
     	if (txtUser=="" || txtPass=="")
     	{

@@ -120,3 +120,12 @@ body {
     margin-right: 0;
   }
 }
+
+.scroller-monitor {
+  padding-top: 0;
+  margin-top: 0;
+  height: 300px;
+  width: 100%; 
+  border: 1px  solid grey;
+  overflow-y: scroll;
+}

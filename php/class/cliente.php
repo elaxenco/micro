@@ -13,8 +13,7 @@
 									$sql="UPDATE clientes SET appaterno='$c_appaterno',appmaterno='$c_apmaterno',nombre='$c_nombre',IFE='$c_ife',cp=$c_cp,colonia='$c_colonia',calle='$c_calle',dom_ref='$c_referencia' WHERE id=$c_id"; 
 									 mysqli_query($this->con(), $sql); 
 							}else{
-									$sql="SELECT id,CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,autorizacion,admin,autorizacion_esp 
-										FROM usuarios WHERE usuario='$user' AND PASSWORD=MD5('$pass') AND estatus_id=5"; 
+									$sql="INSERT INTO clientes ()"; 
 									 mysqli_query($this->con(), $sql); 
 							}
 						
