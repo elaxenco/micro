@@ -2,7 +2,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
  
 	  $( "#btnGuardarCartera" ).click(function() { 
 
-        var c_cartera = $("#c_cartera").val();
+        var c_cartera = $("#c_cartera").val().toString();
         var c_responsable = $("#c_responsable").val();
       
 

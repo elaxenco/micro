@@ -3,17 +3,18 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
     $( "#btnCgClientes" ).click(function() { 
 
         var c_id = $("#c_id").val();
-        var c_nombre = $("#c_nombre").val();
-        var c_appaterno = $("#c_appaterno").val();
-        var c_apmaterno = $("#c_apmaterno").val();
+        var c_nombre = $("#c_nombre").val().toUpperCase();;
+        var c_appaterno = $("#c_appaterno").val().toUpperCase();
+        var c_apmaterno = $("#c_apmaterno").val().toUpperCase();
         var c_fecha = $("#c_fecha").val();
         var c_sexo = $("#c_sexo").val(); 
         var c_ife = $("#c_ife").val();
         var c_cp = $("#c_cp").val();
-        var c_colonia = $("#c_colonia").val(); 
-        var c_calle = $("#c_calle").val();
-        var c_referencia = $("#c_referencia").val();
+        var c_colonia = $("#c_colonia").val().toUpperCase(); 
+        var c_calle = $("#c_calle").val().toUpperCase();
+        var c_referencia = $("#c_referencia").val().toUpperCase();
         var c_cartera = $("#c_cartera").val();
+         var c_tel = $("#c_tel").val();
 
 
         if (c_nombre==""){$("#c_nombre").addClass('is-invalid')}
@@ -22,7 +23,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
         if (c_referencia==""){$("#c_referencia").addClass('is-invalid')}
         if (c_cartera==""){$("#c_cartera").addClass('is-invalid')}
 
-        if(c_nombre="" || c_appaterno=="" || c_colonia=="" ||  c_referencia=="" || c_cartera==""){
+        if(c_nombre="" || c_appaterno=="" || c_colonia=="" ||  c_referencia=="" || c_cartera==0){
             $("#alertClientes").html(
                                 '<div class="alert alert-danger" role="alert">'+
                                 '<button type="button" onClick="limpiarCampos()" class="close" data-dismiss="alert">&times;</button>'+
@@ -33,7 +34,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 
 
           //funcion ajax para comunicarnos con php (url,arreglo con datos,funcion de respuest, funcion loading)
-           onRequestCte({ opcion : 1 ,c_id:c_id,c_nombre:c_nombre,c_appaterno:c_appaterno,c_apmaterno:c_apmaterno,c_fecha:c_fecha,c_sexo:c_sexo,c_ife:c_ife,c_cp:c_cp,c_colonia:c_colonia,c_calle:c_calle,c_referencia:c_referencia,c_cartera:c_cartera},resRegClientes);
+           onRequestCte({ opcion : 1 ,c_id:c_id,c_nombre:c_nombre,c_appaterno:c_appaterno,c_apmaterno:c_apmaterno,c_fecha:c_fecha,c_sexo:c_sexo,c_ife:c_ife,c_cp:c_cp,c_colonia:c_colonia,c_calle:c_calle,c_referencia:c_referencia,c_tel:c_tel,c_cartera:c_cartera},resRegClientes);
  
     });
 
@@ -44,6 +45,33 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 var resRegClientes = function(data){
     if (!data && data == null) 
             return;  
+
+     if(data[0].respuesta=='0'){
+         $("#alertClientes").html(
+          '<div class="alert alert-danger" role="alert">'+
+          '<button type="button" onClick="limpiarCampos()" class="close" data-dismiss="alert">&times;</button>'+
+          'Ocurrio un error al intentar guardar los datos, favor de intentarlo nueva mente si el problema persiste llamar al administrador.'+
+          '</div>');
+     }
+
+      if(data[0].respuesta=='1'){
+         $("#alertClientes").html(
+          '<div class="alert alert-success" role="alert">'+
+          '<button type="button" onClick="limpiarCampos()" class="close" data-dismiss="alert">&times;</button>'+
+          'El cliente fue registrado correctamente.'+
+          '</div>');
+         limpiarCampos()
+     }
+
+     if(data[0].respuesta=='2'){
+         $("#alertClientes").html(
+          '<div class="alert alert-danger" role="alert">'+
+          '<button type="button" onClick="limpiarCampos()" class="close" data-dismiss="alert">&times;</button>'+
+          'Ocurrio un error al intentar guardar los datos ya que le cliente esta registrado.'+
+          '</div>');
+     }
+
+
  
 
 }

@@ -29,7 +29,7 @@
              <div class="col-md-4 col-12 ">
               <label for="c_cartera">Seleccione su cartera</label>
               <select class="custom-select" id="c_cartera">
-                <option selected>Seleccione una opcion</option> 
+                <option selected value="0">Seleccione una opcion</option> 
                 <?php
                     $sql="SELECT carteras.id,carteras.descripcion,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) usuario FROM carteras
                                     JOIN usuarios ON usuarios.id=carteras.encargado_id"; 
@@ -95,6 +95,10 @@
             <div class="col-md-4 col-12 ">
               <label for="c_referencia">Referencia</label>
               <input type="text" class="form-control" id="c_referencia" placeholder="Referencia"  required>  
+            </div>  
+            <div class="col-md-4 col-12 ">
+              <label for="c_tel">Telefono</label>
+              <input type="text" class="form-control" id="c_tel" placeholder="Referencia"  required>  
             </div>  
            
            

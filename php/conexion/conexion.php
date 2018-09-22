@@ -21,5 +21,8 @@
 		}
 
 	}
-	 
+
+/**
+ * Puente entre la bases de datos y php.
+ */ 
 ?>
