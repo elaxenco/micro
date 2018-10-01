@@ -17,6 +17,8 @@
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
  
   </head>
 
@@ -110,16 +112,56 @@
             </div>
           </div> 
  
+ 
       </div>  
+
+      <div class="container ">
+        <div class="card scroller-monitor">
+          <div class="card-header bg-success text-white">
+             
+          <div class="row">
+            <div class="col-md-6  mt-2">
+              Clientes 
+            </div>
+            <div class="col-md-6 col-12"> 
+              <input type="text" class="form-control col-md-12 col-12" id="c_tel" placeholder="Buscar cliente"  required>  
+            </div>
+          </div>
+              
+            
+          </div>
+          <div class="card-body">
+              <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Estatus</th> 
+                      <th scope="col">Acciones</th> 
+                    </tr>
+                  </thead>
+                  <tbody id="tb_clientes">
+                    
+                    
+                  </tbody>
+                </table>
+            
+          </div>
+        </div>
+      </div>
+
+
 
     
     
   </body>
-  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script> 
+  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="../js/popper.min.js"></script>  
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/main.js"></script> 
   <script type="text/javascript" src="../js/js.cookie.js"></script>
   <script type="text/javascript" src="../js/ajax.js"></script>  
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/clientes.js"></script>  
+ 
+
 </html>
