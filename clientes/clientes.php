@@ -124,7 +124,7 @@
               Clientes 
             </div>
             <div class="col-md-6 col-12"> 
-              <input type="text" class="form-control col-md-12 col-12" id="c_tel" placeholder="Buscar cliente"  required>  
+              <input type="text" class="form-control col-md-12 col-12" id="b_cliente" onkeyup="buscarClientes()" placeholder="Buscar cliente"  required>  
             </div>
           </div>
               
@@ -155,6 +155,7 @@
     
     
   </body>
+   <?php   include('../modals/modals.php'); ?>
   <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="../js/popper.min.js"></script>  
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>

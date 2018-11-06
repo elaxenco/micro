@@ -96,7 +96,7 @@ var resClientesCartera = function(data){
 
               contenido+='<tr><td>'+data[i].cliente_id+'</td><td>'+data[i].nombre+'</td><td>'+data[i].desembolso+'</td>'+
               '<td><button onclick="buscarCliente('+data[i].cliente_id+')" class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fas fa-edit "></i></button>'+
-              '<button   class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button>'+
+              '<span data-toggle="modal" data-target="#modalDesembolso"><button onclick="desembolsoCliente('+data[i].cliente_id+')"   class="mr-1 ml-1" data-toggle="tooltip,modal" data-placement="top" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>'+
               '<button  class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Historial"><i class="fas fa-align-justify "></i></button>'+
               '</td></tr>';
 
@@ -135,7 +135,32 @@ function limpiarCampos(flag){
       
       if(flag==1){ $("#alertClientes").html('');}
  }
-
+// Buscar clientes por id
 function buscarCliente(c_id){
   console.log(c_id)
+}
+//Buscar clientes por nombre
+function buscarClientes(){
+  var cliente = $("#b_cliente").val();
+  var c_cartera = $("#c_cartera").val();
+
+  if(cliente.length>3){
+      onRequestCte({ opcion : 3 ,nombre:cliente,c_cartera:c_cartera},resClientesCartera);
+  }else{
+
+     onRequestCte({ opcion : 2 ,c_cartera:c_cartera},resClientesCartera);
+  }
+
+}
+
+function buscarClientes(id){
+  $("#b_cliente").val();
+  $("#c_cartera").val();
+
+ console.log(id+'-'+cliente)
+
+}
+
+function desembolsoCliente(){
+
 }

@@ -13,7 +13,13 @@
 		 		break; 
 		 	case 2: 
 
-		 	  echo (json_encode($cliente->clientesCartea($_REQUEST['c_cartera']))); 
+		 	  echo (json_encode($cliente->clientesCartera($_REQUEST['c_cartera']))); 
+
+		 		break;
+
+		 	case 3: 
+
+		 	  echo (json_encode($cliente->clienteCartera($_REQUEST['nombre'],$_REQUEST['c_cartera']))); 
 
 		 		break;
  	

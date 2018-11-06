@@ -54,7 +54,7 @@
 				}
 
 				//buscar los clientes de la cartera
-				public function clientesCartea($c_cartera){
+				public function clientesCartera($c_cartera){
 							$res=array();
 							$datos=array();  
 							$i=0;
@@ -73,6 +73,26 @@
 							return $datos;
 						       		  
 				}	
+
+				public function clienteCartera($nombre,$c_cartera){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 
+							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id),0) desembolso FROM clientes WHERE cartera_id=$c_cartera AND appaterno LIKE '%$nombre%' OR apmaterno LIKE'%$nombre%' OR nombre LIKE '%$nombre%' "; 
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$datos[$i]['cliente_id'] 	= $res[0]; 
+								$datos[$i]['nombre'] 		= $res[1]; 
+								$datos[$i]['desembolso']	= $res[2]; 
+
+								$i++;
+							} 
+
+							return $datos;
+						       		  
+				}
 
 
 
