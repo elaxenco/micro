@@ -30,8 +30,8 @@
 
 							}
 							else{
-									$sqlinsert="INSERT INTO clientes (appaterno,apmaterno,nombre,sexo,IFE,cp,colonia,calle,domicilio_ref,cartera_id,telefono,capturista_id,fecha_registro,hora_registro)
-									VALUES('$c_appaterno','$c_apmaterno','$c_nombre','$c_sexo','$c_ife','$c_cp','$c_colonia','$c_calle','$c_referencia',$c_cartera,'$c_tel',$capturista_id,CURDATE(),CURTIME())";  
+									$sqlinsert="INSERT INTO clientes (appaterno,apmaterno,nombre,sexo,IFE,cp,colonia,calle,domicilio_ref,cartera_id,telefono,capturista_id,fecha_registro,hora_registro,fecha_nacimiento)
+									VALUES('$c_appaterno','$c_apmaterno','$c_nombre','$c_sexo','$c_ife','$c_cp','$c_colonia','$c_calle','$c_referencia',$c_cartera,'$c_tel',$capturista_id,CURDATE(),CURTIME(),'$c_fecha')";  
 									$resp= mysqli_query($this->con(), $sqlinsert);  
 
 									//$resp= $this->insertar($sqlinsert);
@@ -86,6 +86,35 @@
 								$datos[$i]['cliente_id'] 	= $res[0]; 
 								$datos[$i]['nombre'] 		= $res[1]; 
 								$datos[$i]['desembolso']	= $res[2]; 
+
+								$i++;
+							} 
+
+							return $datos;
+						       		  
+				}
+
+				public function buscarClientePorId($cliente_id){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 
+							 $sql="SELECT  id,appaterno,apmaterno,nombre,fecha_nacimiento,sexo,IFE,cp,colonia,calle,domicilio_ref,telefono FROM  clientes	WHERE id=$cliente_id";  
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$datos[$i]['cliente_id']= $res[0]; 
+								$datos[$i]['appaterno'] = $res[1]; 
+								$datos[$i]['apmaterno']	= $res[2];
+								$datos[$i]['nombre'] 	= $res[3]; 
+								$datos[$i]['fecha_nacimiento']		= $res[4]; 
+								$datos[$i]['sexo']		= $res[5]; 
+								$datos[$i]['IFE'] 		= $res[6]; 
+								$datos[$i]['cp']		= $res[7]; 
+								$datos[$i]['colonia'] 	= $res[8]; 
+								$datos[$i]['calle']		= $res[9]; 
+								$datos[$i]['domicilio_ref']	= $res[10]; 
+								$datos[$i]['telefono']	= $res[11];  
 
 								$i++;
 							} 

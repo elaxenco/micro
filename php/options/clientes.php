@@ -22,6 +22,11 @@
 		 	  echo (json_encode($cliente->clienteCartera($_REQUEST['nombre'],$_REQUEST['c_cartera']))); 
 
 		 		break;
+		 	case 4: 
+
+		 	  echo (json_encode($cliente->buscarClientePorId($_REQUEST['cliente_id']))); 
+
+		 		break;
  	
  		 
  	}

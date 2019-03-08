@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content=""> 
 
-    <title>Signin Template for Bootstrap</title>
+    <title>MiMicro</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
   <body  >  
       <?php   include('../menu/menu.php'); ?>
 
-      <div class="container mt-5"> 
+<div class="container mt-5"> 
           <div class="text-cente"><h2> Registro de Clientes</h2></div>
           <div class="form-row">
              <div class="col-md-4 col-12 ">
@@ -44,15 +44,14 @@
               </select>
             </div> 
           </div>
-          <div class="form-row">
-            <div class="col-md-2 col-2">
+      <div class="form-row">
+          <div class="col-md-2 col-2">
               <label for="c_id">Id</label>
               <input type="number" min="1" class="form-control" id="c_id" placeholder="Id" value="0" required> 
-            </div>
-            <div class="col-md-10 col-10 ">
+          </div>
+          <div class="col-md-10 col-10 ">
               <label for="c_nombre ">Nombre</label>
-              <input type="text" class="form-control" id="c_nombre" placeholder="Ingrese su nombre"   required>
-               
+              <input type="text" class="form-control" id="c_nombre" placeholder="Ingrese su nombre"   required> 
             </div> 
             <div class="col-md-4 col-6 ">
               <label for="c_appaterno">Apellido Paterno</label>
@@ -106,30 +105,30 @@
            
             <div id="alertClientes" class="col-12 mt-3"></div>
 
-            <div class="col mt-3 ">
+            <div class="col-12  mt-3 ">
               <button type="button" class="btn btn-success col-12 col-lg-2   float-right mr-2 mt-2 mb-2" id="btnCgClientes">Guardar</button>
               <button type="button" class="btn btn-danger  col-12 col-lg-2   float-right mr-2 mt-2 mb-2" onclick="limpiarCampos()" id="btnCcClientes">Cancelar</button>
             </div>
-          </div> 
+            
+      </div> 
  
  
-      </div>  
+</div>  
 
       <div class="container ">
+
+        <div class="card-header bg-success text-white"> 
+            <div class="row">
+              <div class="col-md-6  mt-2">
+                Clientes 
+              </div>
+              <div class="col-md-6 col-12"> 
+                <input type="text" class="form-control col-md-12 col-12" id="b_cliente" onkeyup="buscarClientes()" placeholder="Buscar cliente"  required>  
+              </div>
+            </div> 
+          </div>
         <div class="card scroller-monitor">
-          <div class="card-header bg-success text-white">
-             
-          <div class="row">
-            <div class="col-md-6  mt-2">
-              Clientes 
-            </div>
-            <div class="col-md-6 col-12"> 
-              <input type="text" class="form-control col-md-12 col-12" id="b_cliente" onkeyup="buscarClientes()" placeholder="Buscar cliente"  required>  
-            </div>
-          </div>
-              
-            
-          </div>
+          
           <div class="card-body">
               <table class="table table-sm">
                   <thead>
@@ -163,6 +162,7 @@
   <script type="text/javascript" src="../js/js.cookie.js"></script>
   <script type="text/javascript" src="../js/ajax.js"></script>  
   <script type="text/javascript" src="../js/clientes.js"></script>  
- 
+  <script type="text/javascript" src="../js/utileria.js"></script>  
+  <script type="text/javascript" src="../js/sweetalert.js"></script>
 
 </html>

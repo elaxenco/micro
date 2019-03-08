@@ -12,6 +12,7 @@
 			 	case 2: 
 			 			   echo (json_encode($mantenimientoclass->guardarCartera($_REQUEST['c_cartera'],$_REQUEST['c_responsable'])));
 			 		break;
+			  
  
  		 
  	}
