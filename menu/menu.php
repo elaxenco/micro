@@ -1,34 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">MMicro</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+ 
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <div class="container">
-      <ul class="navbar-nav ml-auto justify-content-end">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
-          </li>
-           <li class="nav-item">
-            <a class="nav-link" href="../clientes/clientes.php">Clientes</a>
-          </li>   
-           <li class="nav-item">
-            <a class="nav-link" href="../carteras/carteras.php">Carteras</a>
-          </li>  
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Reportes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Prestamos</a>
-              <a class="dropdown-item" href="#">Pagos</a>  
-            </div>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link" href="#">Cerrar Sesion </a>
-          </li>
-        </ul> 
+ <!-- Sidebar -->
+    <div class="  border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">MiMicro</div>
+      <div class="list-group list-group-flush">
+        <a href="http://localhost/micro/index.php" class="list-group-item list-group-item-action bg-light">Inicio</a>
+        <a href="http://localhost/micro/clientes/cliente.php" class="list-group-item list-group-item-action bg-light">Clientes</a>
+        <a href="http://localhost/micro/carteras/carteras.php" class="list-group-item list-group-item-action bg-light">Carteras</a> 
+        <a href="#" class="list-group-item list-group-item-action bg-light">Reportes</a> 
+
+        
+        <div class="btn-group dropright">
+          <a href="#" class="list-group-item list-group-item-action bg-light  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Mantenimiento
+          </a> 
+          <div class="dropdown-menu   ">
+                  <a href="#" class=" list-group-item list-group-item-action bg-blue-grey">Action</a> 
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Another action</a> 
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Something else here</a>  
+          </div>
+        </div> 
+
       </div>
-  </div>
-</nav>
+
+       
+</div>
+    <!-- /#sidebar-wrapper -->

@@ -1,9 +1,3 @@
- <?php 
-  require_once("../php/conexion/conexion.php"); 
-  $Conectar = new Conectar();  
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,12 +8,14 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Carteras</title>
+  <title>Simple Sidebar - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+   
+
   <!-- Custom styles for this template -->
-  <link href="../css/simple-sidebar.css" rel="stylesheet">
+  <link href="css/simple-sidebar.css" rel="stylesheet">
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
@@ -29,7 +25,7 @@
 
   <div class="d-flex" id="wrapper">
 
-   <?php   include('../menu/menu.php'); ?>
+   <?php   include('menu/menu.php'); ?>
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
@@ -40,7 +36,8 @@
         </nav>
 
       <div class="container-fluid"  >
-            <?php   include('cartera.php'); ?> 
+
+        
       </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -48,23 +45,18 @@
   </div>
   <!-- /#wrapper -->
 
-
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
-  <script type="text/javascript" src="../js/js.cookie.js"></script>
-  <script type="text/javascript" src="../js/ajax.js"></script>
-  <script type="text/javascript" src="../js/utileria.js"></script> 
-  <script type="text/javascript" src="../js/main.js"></script>  
-  <script type="text/javascript" src="../js/menu.js"></script>   
-  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="../js/popper.min.js"></script> 
-  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script> 
-
+  <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/js.cookie.js"></script>
+  <script type="text/javascript" src="js/ajax.js"></script>
+  <script type="text/javascript" src="js/utileria.js"></script> 
+  <script type="text/javascript" src="js/menu.js"></script>   
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script> 
+  <script type="text/javascript" src="js/popper.min.js"></script> 
 
    
 
 </body>
 
 </html>
-
- 

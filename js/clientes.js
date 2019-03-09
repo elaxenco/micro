@@ -128,6 +128,7 @@ var resRegClientes = function(data){
     if (!data && data == null) 
             return;   
 
+          console.log(data)
           //creamos un switch para las posibles respuestas
         switch(data[0].respuesta){
               case '1':
@@ -155,6 +156,15 @@ var resRegClientes = function(data){
                      limpiarCampos(2)
               break
 
+              case '4':
+                      $("#alertClientes").html(
+                      '<div class="alert alert-success" role="alert">'+
+                      '<button type="button" onClick="limpiarCampos(2)" class="close" data-dismiss="alert">&times;</button>'+
+                      'Los datos se actualizaron correctamente.'+
+                      '</div>');
+                     limpiarCampos(2)
+              break
+
         } 
 
     //seleccionamos la cartera actual y actualizamos los clientes   
@@ -173,8 +183,8 @@ var resClientesCartera = function(data){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
               contenido += `<tr><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fas fa-edit "></i></button>
-                            <span data-toggle="modal" data-target="#modalDesembolso"><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip,modal" data-placement="top" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>
-                            <span data-toggle="modal" data-target="#modalHistial"><button  class="mr-1 ml-1" data-toggle="tooltip,modal" data-placement="top" title="Historial"><i class="fas fa-file-alt "></i></button>
+                            <span data-toggle="modal" data-target="#modalDesembolso"><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>
+                            <span data-toggle="modal" data-target="#modalHistial"><button  class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Historial"><i class="fas fa-file-alt "></i></button>
                             </td></tr>`
 
           }
