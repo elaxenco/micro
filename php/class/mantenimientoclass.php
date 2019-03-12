@@ -63,6 +63,25 @@
 							return $datos; 
 					}
 
+				public function buscarCarteras(){
+							$res=array();
+							$datos=array();
+							$i=0;
+							$respuesta=0; 
+
+							$sql="SELECT id, descripcion FROM carteras"; 
+							$resultado = mysqli_query($this->con(), $sql); 
+						    while ($res = mysqli_fetch_row($resultado)) {
+
+						       $datos[$i]['cartera_id'] 		= $res[0];
+						       $datos[$i]['cartera'] 		= $res[1]; 
+
+						       $i++;
+						    } 
+							 
+							return $datos; 
+					}
+
 
 
 	}

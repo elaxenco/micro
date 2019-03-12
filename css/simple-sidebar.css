@@ -76,3 +76,14 @@ body {
     display: block;
   }
 }
+
+.mostrar{
+  border: 1px black solid;
+}
+.scroller-accesos {
+  padding-top: 0;
+  margin-top: 0;
+  height: 330px;
+  width: 100%;  
+  overflow-y: scroll;
+}

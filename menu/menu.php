@@ -14,10 +14,8 @@
           <a href="#" class="list-group-item list-group-item-action bg-light  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          Mantenimiento
           </a> 
-          <div class="dropdown-menu   ">
-                  <a href="#" class=" list-group-item list-group-item-action bg-blue-grey">Action</a> 
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Another action</a> 
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Something else here</a>  
+          <div class="dropdown-menu   "> 
+                  <a href="http://localhost/micro/mantenimiento/usuarios.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Usuarios</a>  
           </div>
         </div> 
 

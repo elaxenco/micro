@@ -8,7 +8,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 
     	if (txtUser=="" || txtPass=="")
     	{
-    		//aler tipo toas (MENSAJE,TIEMPO EN PANTALL,CLASES CSS)
+    		//aler  
     		$("#alertLogin").html(
                                 '<div class="alert alert-danger" role="alert">'+
                                 '<button type="button" class="close" data-dismiss="alert">&times;</button>'+
@@ -41,7 +41,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
         }
 
             //funcion ajax para comunicarnos con php (url,arreglo con datos,funcion de respuest, funcion loading)
-            onRequest({ opcion : 1 ,txtuser:txtUser,txtpass: txtPass},resLogin);
+            onRequestMant({ opcion : 1 ,user:txtUser,pass: txtPass},resLogin);
           } 
 
 
