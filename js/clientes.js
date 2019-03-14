@@ -127,8 +127,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 var resRegClientes = function(data){
     if (!data && data == null) 
             return;   
-
-          console.log(data)
+ 
           //creamos un switch para las posibles respuestas
         switch(data[0].respuesta){
               case '1':
@@ -176,7 +175,7 @@ var resRegClientes = function(data){
 var resClientesCartera = function(data){
     if (!data && data == null) 
             return   
- 
+  
           let contenido='' 
 
           for(var i=0; i<data.length; i++){
@@ -252,8 +251,29 @@ var resBuscarImportePorTipoId = function(data){
           $("#importe_id").html(contenido);  
 
 }
+//respuesta de carteras por usuario
+var resRegCarterasPorUsuario = function(data){
+    if (!data && data == null) 
+            return;   
 
+     let contenido='<option selected value="0">Seleccione una cartera</option>' 
+
+          for(var i=0; i<data.length; i++){
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+              contenido += `<option value="${data[i].cartera_id}">${data[i].nombre}</option>`
+
+
+          }
+          //incrustamos el codigo html en la tabla
+          $("#c_cartera").html(contenido);  
+
+}
 ///FUNCIONES 
+
+// cargamos controles iniciales
+function cargarControlesUsuario(){
+  onRequestMant({ opcion :10,usuario_id:USUARIO_ID,rol_id:ROL_ID },resRegCarterasPorUsuario);
+}
 // funcion para  inicializar los valores de todos los campos
 function limpiarCampos(flag){
  
@@ -299,13 +319,14 @@ function buscarClientes(){
 function buscarClientePorIdDesembolso(c_id){
      onRequestCte({ opcion : 4 ,cliente_id:c_id},resBuscarClientePorIdDesembolso);
 }
-
+//
 function guardarDesembolso(){
-  console.log('se guardo el mensaje')
+  //console.log('se guardo el mensaje')
   swal("Su prestamo esta siendo guardado", { icon: "success" })
  }
-
+//
 function calcularPagoDiez(valor){ 
   if(valor>=100)
     document.getElementById('pagoSemanal').value=`${Math.round(valor*1.10)} para proxima quincena.`;
 }
+//

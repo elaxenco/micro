@@ -16,8 +16,10 @@
           </a> 
           <div class="dropdown-menu   "> 
                   <a href="http://localhost/micro/mantenimiento/usuarios.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Usuarios</a>  
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Roles</a> 
           </div>
         </div> 
+        <a href="#" onclick="cerrarSesion()" class="list-group-item list-group-item-action bg-light"><i class="fas fa-times-circle h4"></i> Cerrar Sesión</a> 
 
       </div>
 

@@ -27,7 +27,7 @@
 
 </head>
 
-<body onload="buscarCarteras()">
+<body onload="cargarControles()">
 
   <div class="d-flex" id="wrapper">
 
@@ -61,7 +61,8 @@
   <script type="text/javascript" src="../js/usuarios.js"></script>   
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/popper.min.js"></script> 
-  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script> 
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>   
+  <script type="text/javascript" src="../js/sweetalert.js"></script> 
 
 
    

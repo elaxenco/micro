@@ -60,13 +60,15 @@ var resLogin = function(data){
 
         if (data[0].respuesta>0) { 
  
-               Cookies.set("micro_id", data[1].usuario_id,.5 );
+              /* Cookies.set("micro_id", data[1].usuario_id,.5 );
                Cookies.set("micro_nombre", data[1].nombre ,.5);
-               Cookies.set("micro_autorizacion",data[1].autorizacion,.5);
-               Cookies.set("micro_autorizacion_admin",data[1].autorizacion_admin,.5);
-               Cookies.set("micro_autorizacion_esp",data[1].autorizacion_esp,.5); 
+               Cookies.set("micro_rol_id",data[1].autorizacion,.5); */
+               //creamos las cookies necesarias para el sistema
+               document.cookie = `micro_id=${data[1].usuario_id}; max-age=10600; path=/`;
+               document.cookie = `micro_nombre=${data[1].nombre }; max-age=10600; path=/`;
+               document.cookie = `micro_rol_id=${data[1].rol_id}; max-age=10600; path=/`; 
 
-               window.location = "/micro/clientes/clientes.php";
+               window.location = "/micro/clientes/cliente.php";
 
             return;
  

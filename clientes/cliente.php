@@ -26,7 +26,7 @@
 
 </head>
 
-<body>
+<body onload="cargarControlesUsuario()">
 
   <div class="d-flex" id="wrapper">
 
@@ -48,15 +48,6 @@
               <label for="c_cartera">Seleccione su cartera</label>
               <select class="custom-select" id="c_cartera">
                 <option selected value="0">Seleccione una opcion</option> 
-                <?php
-                    $sql="SELECT carteras.id,carteras.descripcion,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) usuario FROM carteras
-                                    JOIN usuarios ON usuarios.id=carteras.encargado_id"; 
-                          $resultado = mysqli_query($Conectar->con(), $sql);  
-                          while ($res = mysqli_fetch_row($resultado)) {
-                                 
-                                echo "<option value=".$res[0].">".$res[1]."</option>"; 
-                              } 
-                ?>
               </select>
             </div> 
           </div>
@@ -176,12 +167,11 @@
   <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="../js/js.cookie.js"></script>
   <script type="text/javascript" src="../js/ajax.js"></script> 
-  <script type="text/javascript" src="../js/menu.js"></script> 
-   
+  <script type="text/javascript" src="../js/utileria.js"></script> 
+  <script type="text/javascript" src="../js/menu.js"></script>  
   <script type="text/javascript" src="../js/sweetalert.js"></script>
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script> 
-  <script type="text/javascript" src="../js/utileria.js"></script> 
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>  
   <script type="text/javascript" src="../js/clientes.js"></script>   
   <script type="text/javascript" src="../js/popper.min.js"></script> 
 

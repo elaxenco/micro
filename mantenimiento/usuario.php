@@ -7,9 +7,10 @@
 	<div class="row">
 		<div class="col-md-6 col-12">
 			<div class="row ">
+ 
 		          <div class="col-md-2 col-3">
 		              <label for="usuario_id">Id</label>
-		              <input type="number" min="1" class="form-control" id="usuario_id" placeholder="Id" value="0"   readonly=""> 
+		              <input type="number" min="1" class="form-control" id="usuario_id" placeholder="0" value="0"   readonly=""> 
 		          </div>
 		          <div class="col-md-8 col-9 ">
 		              <label for="usuario_nombre ">Nombre</label>
@@ -25,7 +26,7 @@
 		           </div>  
 		           <div class="col-md-5 col-12 ">
 		              <label for="usuario_rol ">Rol</label>
-		               <select class="custom-select" id="usuario_rol">
+		               <select class="custom-select" id="usuario_rol" onchange="verPermisos(this.value)">
 			                <option selected value="0">Seleccione un Rol</option> 
 			                <?php
 			                    $sql="SELECT id,descripcion FROM roles"; 
@@ -38,8 +39,8 @@
 			              </select>
 		           </div>  
 		         	<div class="col-md-5 col-12 ">
-		              <label for="usuario_usuario ">Nombre Usuario</label>
-		              <input type="text" class="form-control" id="usuario_usuario" placeholder="Nombre de usuario"  > 
+		              <label for="nombre_usuario ">Nombre Usuario</label>
+		              <input type="text" class="form-control" id="nombre_usuario" placeholder="Nombre de usuario"  > 
 		           </div> 
 		           <div class="col-md-5 col-12 ">
 		              <label for="usuario_pwd ">Contraseña</label>
@@ -55,12 +56,12 @@
 	     	<div class="row  mt-3  ">
 	     	
 	           		<div class="col-10  text-right">
-		     			<button type="button" class="btn btn-danger mr-1">Cancelar</button>
-						<button type="button" class="btn btn-success">Guardar</button>
+		     			<button type="button" onclick="limpiartCampos()" class="btn btn-danger mr-1">Cancelar</button>
+						<button type="button" onclick="guardarUsuario()" class="btn btn-success">Guardar</button>
 		     		</div>
 	         </div>	
 		</div>
-		<div class="col-md-6 col-12 ">
+		<div class="col-md-6 col-12" id="divAccesosUsuarios" style="display: none">
 				<div class=" col-12 text-center ">
 					<h3>Accesos</h3>
 				</div>
@@ -91,8 +92,23 @@
 		
 		<div class="col-md-8  offset-md-2 col-12 ">
 			<div class=" col-12 text-center ">
-				<h3>Accesos</h3>
+				<h3>Lista de usuarios</h3>
 			</div>
+			<div class="col-12 scroller-accesos" >
+					<table class="table  table-bordered table-sm">
+					  <thead  class="text-center" ">
+					    <tr class="">
+					      <th scope="col">Usuario</th>
+					      <th scope="col">Estatus</th>
+					      <th scope="col">Acciones</th> 
+					    </tr>
+					  </thead>
+					  <tbody id="tbUsuarios">
+					  
+					     
+					  </tbody>
+					</table>
+				</div>
 				
 		</div>
 	</div>

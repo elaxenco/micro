@@ -25,7 +25,7 @@
 
 </head>
 
-<body>
+<body onload="cargarCarteras()">
 
   <div class="d-flex" id="wrapper">
 
@@ -54,8 +54,8 @@
   <script type="text/javascript" src="../js/js.cookie.js"></script>
   <script type="text/javascript" src="../js/ajax.js"></script>
   <script type="text/javascript" src="../js/utileria.js"></script> 
-  <script type="text/javascript" src="../js/main.js"></script>  
   <script type="text/javascript" src="../js/menu.js"></script>   
+  <script type="text/javascript" src="../js/main.js"></script>   
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/popper.min.js"></script> 
   <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script> 
