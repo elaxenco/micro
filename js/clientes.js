@@ -90,14 +90,14 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
         //mostramos una advertencia para el operador
           swal({
               title:"¿Seguro de realizar el movimiento?",
-              text: "Una vez guardado tendra que contactar aun administrador para cancelar",
+              text: "Una vez guardado tendra que contactar aun administrador para cancelar.",
               icon: "warning",
               buttons: true,  
             })
             .then((willDelete) => {
               if (willDelete) { 
                 //comprovamos la respuesta en caso de aceptar validamos que los campos necesarios esten seleccionados de lo contrario lanzara otro alert
-                if($( "#importe_id" ).val()>0 && $( "#tipo_prestamo_id" ).val()>0 ){
+                if($( "#tipo_prestamo_id" ).val()>0 ){
                   //ejecutamos la siguiente funcion
                     guardarDesembolso()
                   }else{
@@ -322,7 +322,22 @@ function buscarClientePorIdDesembolso(c_id){
 //
 function guardarDesembolso(){
   //console.log('se guardo el mensaje')
-  swal("Su prestamo esta siendo guardado", { icon: "success" })
+  let cliente_id = document.getElementById('c_id_desembolso').value.split(' ', 1)
+  let tipo_id = document.getElementById('tipo_prestamo_id').value;
+  let fecha   =fechaActual();
+
+  if(tipo_id==3){
+      let importe = document.getElementById('importeDiez').value;
+      if(importe>499){
+        console.log('CLIENTE : '+cliente_id+' IMPORTE : '+importe+' TIPO : '+tipo_id+' USUARIO : '+USUARIO_ID+' FECHA : '+fecha)
+        // onRequestBanco({ opcion : 2  },resBuscarClientePorId);
+      }else{
+        mensajeAlerta('El monto ingresado no es correcto.','error')
+      }
+  }else{
+
+  }
+  // swal("Su prestamo esta siendo guardado", { icon: "success" })
  }
 //
 function calcularPagoDiez(valor){ 

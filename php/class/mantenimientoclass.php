@@ -1,8 +1,8 @@
 <?php
 	
-	require_once("../conexion/conexion.php");
+		require_once("../utilidades/Funciones.php");
 
-	class Mantenimientoclass extends Conectar{
+	class Mantenimientoclass extends Funciones{
 
 
  				public function iniciarSesion($user,$pass){
@@ -49,7 +49,7 @@
 					}
 
 				public function buscarCarteras(){
-							$res=array();
+							/*$res=array();
 							$datos=array();
 							$i=0;
 							$respuesta=0; 
@@ -62,9 +62,12 @@
 						       $datos[$i]['cartera'] 		= $res[1]; 
 
 						       $i++;
-						    } 
-							 
-							return $datos; 
+						    }  
+							 	
+							return $datos;  */
+
+							return $this->fechaPrimerPago( date('2019/03/20') );
+
 				}
 				
 				public function guardarUsuario($usuario_id,$nombre,$appaterno,$apmaterno,$rol_id,$nombreUsuario,$pwd){

@@ -113,14 +113,7 @@ function validarDatos(){
 
         return true;
 }
-//mesnaje de alerta dinamico 
-function mensajeAlerta(mensaje,tipo){
-         swal({ 
-                  text: mensaje,
-                  icon: tipo,
-                  buttons: true,  
-                })
-} 
+
 
 // editar usuario
 function editarUsuario(usuario_id){

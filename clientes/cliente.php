@@ -167,9 +167,9 @@
   <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="../js/js.cookie.js"></script>
   <script type="text/javascript" src="../js/ajax.js"></script> 
-  <script type="text/javascript" src="../js/utileria.js"></script> 
-  <script type="text/javascript" src="../js/menu.js"></script>  
   <script type="text/javascript" src="../js/sweetalert.js"></script>
+  <script type="text/javascript" src="../js/utileria.js"></script> 
+  <script type="text/javascript" src="../js/menu.js"></script>   
   <script type="text/javascript" src="../js/bootstrap.min.js"></script>
   <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>  
   <script type="text/javascript" src="../js/clientes.js"></script>   

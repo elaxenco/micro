@@ -47,6 +47,10 @@
                     <label for="pagoSemanal">Pago</label>
                     <input  class="form-control" id="pagoSemanal" readonly="" placeholder="Pago">
               </div>
+              <div class="form-group col-12 col-md-6 offset-md-3"> 
+                    <label for="pagoSemanal">Pagando apartir de : </label>
+                    <input  class="form-control" id="pagoSemanal" readonly="" placeholder="Pago">
+              </div>
               
             </div>
         </div>

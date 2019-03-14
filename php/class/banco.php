@@ -1,16 +1,14 @@
 <?php
 	
-	require_once("../conexion/conexion.php");
+	require_once("../utilidades/Funciones.php");
 
-	class Banco extends Conectar{
+	class Banco extends Funciones{
 
 		 	//buscar monstos dependiendo el tipo de cartera
 				public function buscarMontosPorTipoId($tipo_id){
 							$res=array();
 							$datos=array();  
-							$i=0;
-							 
- 
+							$i=0; 
 							 $sql="SELECT id,importe,semanas,quincenas,pago_completo FROM importes WHERE tipo_id=$tipo_id"; 
 							$resultado= mysqli_query($this->con(), $sql); 
 							while ($res = mysqli_fetch_row($resultado)){

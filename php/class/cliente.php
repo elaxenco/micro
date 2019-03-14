@@ -1,8 +1,8 @@
 <?php
 	
-	require_once("../conexion/conexion.php");
+	require_once("../utilidades/Funciones.php");
 
-	class Cliente extends Conectar{
+	class Cliente extends Funciones{
 
 				// registro de clientes
  				public function guardarCliente($c_id,$c_nombre,$c_appaterno,$c_apmaterno,$c_fecha,$c_sexo,$c_ife,$c_cp,$c_colonia,$c_calle,$c_referencia,$c_cartera,$c_tel){
