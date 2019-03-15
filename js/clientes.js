@@ -5,19 +5,19 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
     $( "#btnCgClientes" ).click(function() { 
 
         // volvemos mayusculas  y asignamos a variables 
-        var c_id = $("#c_id").val();
-        var c_nombre = $("#c_nombre").val().toUpperCase();
-        var c_appaterno = $("#c_appaterno").val().toUpperCase();
-        var c_apmaterno = $("#c_apmaterno").val().toUpperCase();
-        var c_fecha = $("#c_fecha").val();
-        var c_sexo = $("#c_sexo").val(); 
-        var c_ife = $("#c_ife").val();
-        var c_cp = $("#c_cp").val();
-        var c_colonia = $("#c_colonia").val().toUpperCase(); 
-        var c_calle = $("#c_calle").val().toUpperCase();
-        var c_referencia = $("#c_referencia").val().toUpperCase();
-        var c_cartera = $("#c_cartera").val();
-        var c_tel = $("#c_tel").val();
+        let c_id = $("#c_id").val();
+        let c_nombre = $("#c_nombre").val().toUpperCase();
+        let c_appaterno = $("#c_appaterno").val().toUpperCase();
+        let c_apmaterno = $("#c_apmaterno").val().toUpperCase();
+        let c_fecha = $("#c_fecha").val();
+        let c_sexo = $("#c_sexo").val(); 
+        let c_ife = $("#c_ife").val();
+        let c_cp = $("#c_cp").val();
+        let c_colonia = $("#c_colonia").val().toUpperCase(); 
+        let c_calle = $("#c_calle").val().toUpperCase();
+        let c_referencia = $("#c_referencia").val().toUpperCase();
+        let c_cartera = $("#c_cartera").val();
+        let c_tel = $("#c_tel").val();
 
         // verificamos que algunos campos no este vacios
         if (c_nombre==""){$("#c_nombre").addClass('is-invalid')}
@@ -268,6 +268,14 @@ var resRegCarterasPorUsuario = function(data){
           $("#c_cartera").html(contenido);  
 
 }
+
+//respuesta en donde obtenemos el primer dia de pago dependiendo el tipo de desembolso que se realizara
+var resVerPrimerDiaDePago = function(data){
+    if (!data && data == null) 
+            return;   
+
+  document.getElementById('fechaPrimerPago').value=data[0].fecha
+}
 ///FUNCIONES 
 
 // cargamos controles iniciales
@@ -289,13 +297,13 @@ function limpiarCampos(flag){
        $("#c_referencia").val('');
        $("#c_cartera").val();
        $("#c_tel").val();
-
+       document.getElementById('fechaPrimerPago').value='';
        $("#c_nombre").removeClass('is-invalid');
        $("#c_appaterno").removeClass('is-invalid');
        $("#c_colonia").removeClass('is-invalid');
        $("#c_referencia").removeClass('is-invalid');
-       $("#c_cartera").removeClass('is-invalid');
-      
+       $("#c_cartera").removeClass('is-invalid'); 
+
       if(flag==1){ $("#alertClientes").html('');}
  }
 // Buscar clientes por id
@@ -324,13 +332,14 @@ function guardarDesembolso(){
   //console.log('se guardo el mensaje')
   let cliente_id = document.getElementById('c_id_desembolso').value.split(' ', 1)
   let tipo_id = document.getElementById('tipo_prestamo_id').value;
-  let fecha   =fechaActual();
+  let fecha   =document.getElementById('fechaPrimerPago').value;
+  let cartera_id   =document.getElementById('c_cartera').value;
 
   if(tipo_id==3){
       let importe = document.getElementById('importeDiez').value;
       if(importe>499){
-        console.log('CLIENTE : '+cliente_id+' IMPORTE : '+importe+' TIPO : '+tipo_id+' USUARIO : '+USUARIO_ID+' FECHA : '+fecha)
-        // onRequestBanco({ opcion : 2  },resBuscarClientePorId);
+        // console.log('CLIENTE : '+cliente_id+' IMPORTE : '+importe+' TIPO : '+tipo_id+' USUARIO : '+USUARIO_ID+' FECHA PRIMER PAGO : '+fecha)
+         onRequestBanco({ opcion : 3,cliente_id:cliente_id,importe:importe,tipo_id:tipo_id,capturista_id:USUARIO_ID,fechaPrimerPago:fecha,cartera_id:cartera_id },resBuscarClientePorId);
       }else{
         mensajeAlerta('El monto ingresado no es correcto.','error')
       }
@@ -341,7 +350,15 @@ function guardarDesembolso(){
  }
 //
 function calcularPagoDiez(valor){ 
-  if(valor>=100)
+  if(valor>=100){
     document.getElementById('pagoSemanal').value=`${Math.round(valor*1.10)} para proxima quincena.`;
+    primerDiaDePago(document.getElementById('tipo_prestamo_id').value)
+  }
+
+
 }
-//
+//vemos el primer dia de pago del prestamo validando los cortes  y el tipo de prestamo
+function primerDiaDePago(tipoDesembolso_id){
+
+   onRequestBanco({ opcion : 2 ,tipoDesembolso_id:tipoDesembolso_id},resVerPrimerDiaDePago);
+}

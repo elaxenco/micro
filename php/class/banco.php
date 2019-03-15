@@ -25,6 +25,35 @@
 						       		  
 				}	
 
+				public function calcularPrimerDiaDePago($tipoDesembolso_id){
+							$res=array();
+					 		$datos=array();  
+							$i=0; 
+							//sacamos la fecha actual
+							$fechaActual = date('Y-m-d');
+							$fechaPrimerPago = $this->fechaPrimerPago( $fechaActual,$tipoDesembolso_id );
+
+							$datos[0]['fecha'] 		=$fechaPrimerPago; 
+
+						return $datos;  
+
+				}
+
+
+				public function gurdarDesembolso($cliente_id,$importe,$tipo_id,$capturista_id,$fechaPrimerPago,$cartera_id){
+							$res=array();
+					 		$datos=array();  
+							$i=0; 
+							//sacamos la fecha actual
+							$fechaActual = date('Y-m-d');
+							$fechaPrimerPago = $this->fechaPrimerPago( $fechaActual,$tipoDesembolso_id );
+
+							$datos[0]['fecha'] 		=$fechaPrimerPago; 
+
+						return $datos;  
+
+				}
+
 
 	}
 

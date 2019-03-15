@@ -62,7 +62,7 @@ class Funciones extends Conectar{
     }
 
      // FUNCION FECHA DEL PRIMER PAGO  //
-    function fechaPrimerPago( $fecha_corrida )
+    function fechaPrimerPago( $fecha_corrida,$tipoDesembolso_id )
     {
         $dia_corte1 = 0;
         $dia_corte2 = 0;
@@ -72,7 +72,7 @@ class Funciones extends Conectar{
         if (empty($anio) || empty($mes))
             list($anio, $mes, $dia) = explode('-', $fecha_corrida);
 
-        $sql = "SELECT dia_mes FROM dias_corte"; 
+        $sql = "SELECT dia_mes FROM dias_corte WHERE tipo_id=$tipoDesembolso_id"; 
         $resultado= mysqli_query($this->con(), $sql); 
         while ($fila = mysqli_fetch_row($resultado)){
        

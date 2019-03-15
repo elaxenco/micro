@@ -49,7 +49,7 @@
 					}
 
 				public function buscarCarteras(){
-							/*$res=array();
+							$res=array();
 							$datos=array();
 							$i=0;
 							$respuesta=0; 
@@ -64,9 +64,9 @@
 						       $i++;
 						    }  
 							 	
-							return $datos;  */
+							return $datos;   
 
-							return $this->fechaPrimerPago( date('2019/03/20') );
+							
 
 				}
 				
