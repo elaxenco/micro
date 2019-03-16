@@ -57,13 +57,13 @@ DROP TABLE IF EXISTS `carteras`;
 CREATE TABLE `carteras` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `encargado_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `descripcion` (`descripcion`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `carteras` */
 
-insert  into `carteras`(`id`,`descripcion`,`encargado_id`) values (1,'CARTERA A',1),(2,'CARTERA B',1),(3,'CARTERA C',1);
+insert  into `carteras`(`id`,`descripcion`) values (1,'CARTERA A'),(2,'CARTERA B'),(3,'CARTERA C'),(4,'CARTERA D'),(6,'CARTERA E'),(7,'CARTERA F'),(9,'CARTERA MINGO'),(10,'CARTERA MORA'),(5,'cartera x');
 
 /*Table structure for table `clientes` */
 
@@ -108,11 +108,11 @@ CREATE TABLE `configuraciones` (
 
 insert  into `configuraciones`(`id`,`interes`,`tipo_id`) values (1,'0.10',3);
 
-/*Table structure for table `corridas` */
+/*Table structure for table `corridas_tipo_a` */
 
-DROP TABLE IF EXISTS `corridas`;
+DROP TABLE IF EXISTS `corridas_tipo_a`;
 
-CREATE TABLE `corridas` (
+CREATE TABLE `corridas_tipo_a` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `desembolso_id` int(11) NOT NULL,
   `fecha_pago` date NOT NULL,
@@ -129,7 +129,23 @@ CREATE TABLE `corridas` (
   KEY `saldo` (`saldo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-/*Data for the table `corridas` */
+/*Data for the table `corridas_tipo_a` */
+
+/*Table structure for table `corridas_tipo_c` */
+
+DROP TABLE IF EXISTS `corridas_tipo_c`;
+
+CREATE TABLE `corridas_tipo_c` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `desembolso_id` int(11) NOT NULL,
+  `fecha_pago` date NOT NULL,
+  `pago_completo` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `capital` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `interes` decimal(10,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+/*Data for the table `corridas_tipo_c` */
 
 /*Table structure for table `desembolsos` */
 
@@ -143,6 +159,7 @@ CREATE TABLE `desembolsos` (
   `pago_completo` decimal(10,0) NOT NULL,
   `pago_capital` decimal(10,0) NOT NULL,
   `pago_seguro` decimal(10,0) NOT NULL DEFAULT '0',
+  `tipo_id` int(2) NOT NULL,
   `cliente_id` int(11) NOT NULL,
   `capturista_id` int(11) NOT NULL,
   `fecha_registro` date DEFAULT NULL,
@@ -178,9 +195,11 @@ CREATE TABLE `detalles_usuario_cartera` (
   `usuario_id` int(11) DEFAULT NULL,
   `cartera_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `detalles_usuario_cartera` */
+
+insert  into `detalles_usuario_cartera`(`id`,`usuario_id`,`cartera_id`) values (1,11,1),(2,1,3),(3,3,2),(4,4,4),(5,2,9);
 
 /*Table structure for table `dias_corte` */
 
@@ -227,9 +246,11 @@ CREATE TABLE `estatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `estatus` */
+
+insert  into `estatus`(`id`,`descripcion`) values (2,'FINALIZADO'),(5,'ACTIVO'),(6,'BAJA');
 
 /*Table structure for table `importes` */
 
@@ -359,7 +380,6 @@ CREATE TABLE `usuarios` (
   `apmaterno` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `nombre` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `usuario` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(80) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `estatus_id` int(11) NOT NULL,
   `autorizacion` enum('S','N') COLLATE utf8_unicode_ci DEFAULT 'N',
@@ -368,11 +388,11 @@ CREATE TABLE `usuarios` (
   `rol_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `User` (`usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `usuarios` */
 
-insert  into `usuarios`(`id`,`appaterno`,`apmaterno`,`nombre`,`usuario`,`email`,`password`,`estatus_id`,`autorizacion`,`admin`,`autorizacion_esp`,`rol_id`) values (1,'CORTEZ','RUIZ','AXEL ENRIQUE','AXEL','axel.cortez@bancaprepa.com','05b8caaf6ba6f4bdb68675ab8b893bda',5,'S','S','S',1);
+insert  into `usuarios`(`id`,`appaterno`,`apmaterno`,`nombre`,`usuario`,`password`,`estatus_id`,`autorizacion`,`admin`,`autorizacion_esp`,`rol_id`) values (1,'CORTEZ','CORTEZ','AXEL ENRIQUE','AXEL','05b8caaf6ba6f4bdb68675ab8b893bda',5,'S','S','S',1),(2,'JUAREZ','JUAREZ','DALIA ZULEMA','DALIAJUAREZ','25f9e794323b453885f5181f1b624d0b',5,'N','N','N',2),(3,'PONCE','PONCE','SERGIO','SERGIOPONCE','5e543256c480ac577d30f76f9120eb74',5,'N','N','N',2),(4,'ADSSADASD','ADSSADASD','SSASDASD','PERROAGUAYO','5e543256c480ac577d30f76f9120eb74',5,'N','N','N',2),(5,'ASDSDSDADSASAD','SASDADSAD','SDASSADSSDA','852365','25d55ad283aa400af464c76d713c07ad',5,'N','N','N',1),(6,'SDDSASDA','SSADSADSDA','SASDSASD','SADDASDADSA','25d55ad283aa400af464c76d713c07ad',5,'N','N','N',1),(7,'SDASDSDA','SDSADD','SASSDSA','SADSASADSAD','25d55ad283aa400af464c76d713c07ad',5,'N','N','N',2),(8,'CORTEZ RUIZ','DSSDAADSSD','AXEL ENRIQUE','AXEL ENRIQUE CORTEZ ','dd04049cf900f641ad64212a3fdeff6e',5,'N','N','N',2),(10,'CORTEZ RUIZ','DSSDAADSSD','AXEL ENRIQUE','DARKLESSSS','dd04049cf900f641ad64212a3fdeff6e',5,'N','N','N',2),(11,'PEREZ','PEREZ','EDUARDO','159236478','ba7a18f464e805a3073b93aea743e1b2',5,'N','N','N',2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
