@@ -42,10 +42,10 @@
 
       <div class="container-fluid"  >
         <div class="container mt-5"> 
-          <div class="text-cente"><h2> Registro de Clientes</h2></div>
+          <div class="text-center"><h2> Registro de Clientes</h2></div>
           <div class="form-row">
              <div class="col-md-4 col-12 ">
-              <label for="c_cartera">Seleccione su cartera</label>
+              <b><label for="c_cartera">Seleccione su cartera</label></b>
               <select class="custom-select" id="c_cartera">
                 <option selected value="0">Seleccione una opcion</option> 
               </select>

@@ -68,7 +68,7 @@ var resLogin = function(data){
                document.cookie = `micro_nombre=${data[1].nombre }; max-age=10600; path=/`;
                document.cookie = `micro_rol_id=${data[1].rol_id}; max-age=10600; path=/`; 
 
-               window.location = "/micro/clientes/cliente.php";
+               window.location = "/micro/";
 
             return;
  

@@ -35,9 +35,10 @@
            <button id="buttonR"  class="mr-1 ml-1 menu-toggle" data-toggle="tooltip" onclick="this.style.display='none',document.getElementById('buttonL').style.display='block'" data-placement="right" title="Ver Menu"><i class="fas fa-angle-double-right"></i></button>
         </nav>
 
-      <div class="container-fluid"  >
-
-        
+      <div class="container-fluid text-center"  >
+            <h1 class="mt-3">Bienvenido</h1>
+            <h2 class="mt-2"><?php echo $_COOKIE ['micro_nombre']?></h2>
+            <h2 class="mt-2"><?php echo date("Y-m-d")?></h2>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
