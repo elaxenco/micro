@@ -68,19 +68,42 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Historial</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Historial del Cliente</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="container"> 
-           
+          <div class="row mb-3"> 
+                 <div class="col-md-7">
+                    <button type="button" class="btn btn-primary mt-1 mb-1">Pagos  <i class="fas fa-dollar-sign"></i></button>
+                    <button type="button" class="btn btn-primary mt-1 mb-1">Desembolsos  <i class="fas fa-money-bill-alt"></i></button> 
+                    <button type="button" class="btn btn-primary mt-1 mb-1">Desembolso Act.  <i class="fas fa-money-bill-alt"></i></button>
+                 </div>
+                 <div class="col-md-5 col-12 mt-1"> 
+                    <input class="form-control" id="inputPassword2"  readonly>
+                 </div>  
+          </div>
+           <div class="row">
+                <table class="table table-sm table-hover  ">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Movimiento</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Capturista</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbHistorialCte"  >
+                      
+                    </tbody>
+                  </table>
+           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
       </div>
     </div>
   </div>

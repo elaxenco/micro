@@ -1,6 +1,6 @@
 var onRequestMant = function( prParams, callback,load=1) {	
  
-		//console.log(prParams);
+		console.log(prParams);
 
 		$.ajax({
 		    // la URL para la petición
@@ -51,7 +51,7 @@ var onRequestMant = function( prParams, callback,load=1) {
 
 var onRequestCte = function( prParams, callback,load=1) {	
  
-		//console.log(prParams);
+		console.log(prParams);
 
 		$.ajax({
 		    // la URL para la petición
@@ -102,7 +102,7 @@ var onRequestCte = function( prParams, callback,load=1) {
 
 	var onRequestBanco = function( prParams, callback,load=1) {	
  
-		//console.log(prParams);
+		console.log(prParams);
 
 		$.ajax({
 		    // la URL para la petición

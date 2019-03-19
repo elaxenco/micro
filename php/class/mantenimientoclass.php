@@ -261,7 +261,7 @@
 
 
 							if($rol_id==1){
-								$ql;
+								$ql="";
 							}else{
 								$ql="WHERE u.id=$usuario_id";
 							}
@@ -269,6 +269,7 @@
 							$sql="SELECT c.id,c.descripcion,IFNULL(u.id,0),IFNULL(CONCAT(u.nombre,' ',u.appaterno),'SIN ASIGNAR') encargado FROM carteras c
 									LEFT JOIN detalles_usuario_cartera duc ON duc.cartera_id=c.id
 									LEFT JOIN usuarios u ON u.id=duc.usuario_id $ql  ORDER BY c.id ";    
+ 
 							$resultado = mysqli_query($this->con(), $sql); 
 						    while ($res = mysqli_fetch_row($resultado)) {
 

@@ -57,6 +57,11 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
         let tipo_id = $( "#tipo_prestamo_id" ).val(); 
         // corremos la funcion para buscar los importes 
 
+        if(tipo_id>1)
+            primerDiaDePago(document.getElementById('tipo_prestamo_id').value)
+        else
+            primerDiaDePagoPagoSemnal()
+
         if(tipo_id==3){
           document.getElementById('divMontoNormal').style.display="none";
           document.getElementById('divMontoDiez').style.display="block";
@@ -177,13 +182,20 @@ var resClientesCartera = function(data){
             return   
   
           let contenido='' 
+          let deshabilitatBotton=''
 
           for(var i=0; i<data.length; i++){
+
+              if(data[i].desembolso>0){
+                deshabilitatBotton='disabled'
+              }else{
+                deshabilitatBotton=''
+              }
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
               contenido += `<tr><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
-                            <td><button onclick="buscarClientePorId(${data[i].cliente_id})" class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fas fa-edit "></i></button>
-                            <span data-toggle="modal" data-target="#modalDesembolso"><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>
-                            <span data-toggle="modal" data-target="#modalHistial"><button  class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Historial"><i class="fas fa-file-alt "></i></button>
+                            <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitatBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
+                            <span data-toggle="modal" data-target="#modalDesembolso"><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>
+                            <span data-toggle="modal" data-target="#modalHistial"><button  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span>
                             </td></tr>`
 
           }
@@ -255,6 +267,7 @@ var resBuscarImportePorTipoId = function(data){
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
             return;   
+          console.log(data)
 
      let contenido='<option selected value="0">Seleccione una cartera</option>' 
 
@@ -275,6 +288,26 @@ var resVerPrimerDiaDePago = function(data){
             return;   
 
   document.getElementById('fechaPrimerPago').value=data[0].fecha
+}
+
+//respuestas de guardar desembolsos
+var resGuardarDesembolso = function(data){
+
+  console.log(data)
+
+    switch(data[0].resultado){
+          case 1:
+                mensajeAlerta('El desembolso se aguardado exitosamente!.','success') 
+                $('#modalDesembolso').modal('hide');
+                onRequestCte({ opcion : 2 ,c_cartera:$( "#c_cartera" ).val()},resClientesCartera);
+            break;
+          case 2:
+                mensajeAlerta('Ocurrio un erro al intentar guardar el desembolso.','error')
+            break;
+          case 3:
+                mensajeAlerta('Este cliente ya cuenta con un prestamo activo.','error')
+            break;
+    }
 }
 ///FUNCIONES 
 
@@ -330,7 +363,7 @@ function buscarClientePorIdDesembolso(c_id){
 //
 function guardarDesembolso(){
   //console.log('se guardo el mensaje')
-  let cliente_id = document.getElementById('c_id_desembolso').value.split(' ', 1)
+  let cliente_id = document.getElementById('c_id_desembolso').value.split(' ', 1) 
   let tipo_id = document.getElementById('tipo_prestamo_id').value;
   let fecha   =document.getElementById('fechaPrimerPago').value;
   let cartera_id   =document.getElementById('c_cartera').value;
@@ -339,12 +372,19 @@ function guardarDesembolso(){
       let importe = document.getElementById('importeDiez').value;
       if(importe>499){
         // console.log('CLIENTE : '+cliente_id+' IMPORTE : '+importe+' TIPO : '+tipo_id+' USUARIO : '+USUARIO_ID+' FECHA PRIMER PAGO : '+fecha)
-         onRequestBanco({ opcion : 3,cliente_id:cliente_id,importe:importe,tipo_id:tipo_id,capturista_id:USUARIO_ID,fechaPrimerPago:fecha,cartera_id:cartera_id },resBuscarClientePorId);
+         onRequestBanco({ opcion : 3,cliente_id:cliente_id[0],importe:importe,tipo_id:tipo_id,capturista_id:USUARIO_ID,fechaPrimerPago:fecha,cartera_id:cartera_id },resGuardarDesembolso);
       }else{
         mensajeAlerta('El monto ingresado no es correcto.','error')
       }
-  }else{
+  }else{ 
+      //accedemos ala cantidad atraves del arreglo de importes generado por el change de quincenas o semanas.
+      //accedemos a los valores del arreglo NOMBREARREGLO[RENGLON ID SELECCIONADO EN MONTOS].POSICION 
+      console.log(document.getElementById('importe_id').value)
+      let importe =  importes[document.getElementById('importe_id').value][1];  
+      onRequestBanco({ opcion : 5,cliente_id:cliente_id[0],importe:importe,tipo_id:tipo_id,capturista_id:USUARIO_ID,fechaPrimerPago:fecha,cartera_id:cartera_id },resGuardarDesembolso);
+     
 
+         
   }
   // swal("Su prestamo esta siendo guardado", { icon: "success" })
  }
@@ -352,13 +392,17 @@ function guardarDesembolso(){
 function calcularPagoDiez(valor){ 
   if(valor>=100){
     document.getElementById('pagoSemanal').value=`${Math.round(valor*1.10)} para proxima quincena.`;
-    primerDiaDePago(document.getElementById('tipo_prestamo_id').value)
+    
   }
 
 
 }
 //vemos el primer dia de pago del prestamo validando los cortes  y el tipo de prestamo
-function primerDiaDePago(tipoDesembolso_id){
-
+function primerDiaDePago(tipoDesembolso_id){ 
    onRequestBanco({ opcion : 2 ,tipoDesembolso_id:tipoDesembolso_id},resVerPrimerDiaDePago);
+}
+
+//si el prestamo es semanal calculamos le proximo dia de pago
+function primerDiaDePagoPagoSemnal(){
+  onRequestBanco({ opcion : 4 },resVerPrimerDiaDePago);
 }

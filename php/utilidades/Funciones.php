@@ -33,8 +33,8 @@ class Funciones extends Conectar{
     function diaSemana($fecha)
     {       
         list($anio,$mes,$dia) = explode("-", $fecha);
-        if( empty($mes) || empty($anio) )
-            list($anio,$mes,$dia) = explode("/", $fecha);
+        /*if( empty($mes) || empty($anio) )
+            list($anio,$mes,$dia) = explode("/", $fecha);*/
         
         // 0->domingo    | 6->sabado
         $dia = date("w",mktime(0, 0, 0, $mes, $dia, $anio));
@@ -66,11 +66,11 @@ class Funciones extends Conectar{
     {
         $dia_corte1 = 0;
         $dia_corte2 = 0;
-        $x = 0;
+        $x = 0; 
 
-        list($anio, $mes, $dia) = explode('/', $fecha_corrida);
-        if (empty($anio) || empty($mes))
-            list($anio, $mes, $dia) = explode('-', $fecha_corrida);
+        //list($anio, $mes, $dia) = explode('/', $fecha_corrida);
+        //if (empty($anio) || empty($mes))
+        list($anio, $mes, $dia) = explode('-', $fecha_corrida);
 
         $sql = "SELECT dia_mes FROM dias_corte WHERE tipo_id=$tipoDesembolso_id"; 
         $resultado= mysqli_query($this->con(), $sql); 

@@ -6,6 +6,7 @@
       <div class="list-group list-group-flush">
         <a href="http://localhost/micro/index.php" class="list-group-item list-group-item-action bg-light">Inicio</a>
         <a href="http://localhost/micro/clientes/cliente.php" class="list-group-item list-group-item-action bg-light">Clientes</a>
+        <a href="http://localhost/micro/banco/banco.php" class="list-group-item list-group-item-action bg-light">Banco</a>
         <a href="http://localhost/micro/carteras/carteras.php" class="list-group-item list-group-item-action bg-light">Carteras</a> 
         <a href="#" class="list-group-item list-group-item-action bg-light">Reportes</a> 
 

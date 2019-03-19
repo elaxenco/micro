@@ -67,7 +67,7 @@
 				</div>
 				<div class="col-12 scroller-accesos" >
 					<table class="table  table-bordered table-sm">
-					  <thead  class="text-center" ">
+					  <thead  class="text-center ">
 					    <tr>
 					      <th scope="col">Cartera</th>
 					      <th scope="col">Acceso</th> 
@@ -96,7 +96,7 @@
 			</div>
 			<div class="col-12 scroller-accesos" >
 					<table class="table  table-bordered table-sm">
-					  <thead  class="text-center" ">
+					  <thead  class="text-center ">
 					    <tr class="">
 					      <th scope="col">Usuario</th>
 					      <th scope="col">Estatus</th>

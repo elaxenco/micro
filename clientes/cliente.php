@@ -23,7 +23,7 @@
   <link href="../css/simple-sidebar.css" rel="stylesheet">
 
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
+ 
 </head>
 
 <body onload="cargarControlesUsuario()">
@@ -124,7 +124,7 @@
 
       <div class="container ">
 
-        <div class="card-header bg-success text-white"> 
+        <div class="card-header bg-success text-white "> 
             <div class="row">
               <div class="col-md-6  mt-2">
                 Clientes 
@@ -137,12 +137,12 @@
         <div class="card scroller-monitor">
           
           <div class="card-body">
-              <table class="table table-sm">
+              <table class="table   table-sm table-striped table-hover">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Nombre</th>
-                      <th scope="col">Estatus</th> 
+                      <th scope="col">Desembolso</th> 
                       <th scope="col">Acciones</th> 
                     </tr>
                   </thead>
@@ -175,7 +175,7 @@
   <script type="text/javascript" src="../js/clientes.js"></script>   
   <script type="text/javascript" src="../js/popper.min.js"></script> 
 
-   
+  
 
 </body>
 

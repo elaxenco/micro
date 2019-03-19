@@ -68,7 +68,7 @@
 							$i=0;
 							 
  
-							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id),0) desembolso FROM clientes WHERE cartera_id=$c_cartera"; 
+							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id AND estatus_id=5),0) desembolso FROM clientes WHERE cartera_id=$c_cartera ORDER BY clientes.id DESC"; 
 							$resultado= mysqli_query($this->con(), $sql); 
 							while ($res = mysqli_fetch_row($resultado)){
 								$datos[$i]['cliente_id'] 	= $res[0]; 

@@ -18,6 +18,16 @@
 		 		break;
 		 	case 3: 
 
+		 	  echo (json_encode($banco->gurdarDesembolsoDeDiez($_REQUEST['cliente_id'],$_REQUEST['importe'],$_REQUEST['tipo_id'],$_REQUEST['capturista_id'],$_REQUEST['fechaPrimerPago'],$_REQUEST['cartera_id']))); 
+
+		 		break;
+		 	case 4: 
+
+		 	  echo (json_encode($banco->calcularPrimerDiaDePagoSemanal())); 
+
+		 		break;
+		 	case 5: 
+
 		 	  echo (json_encode($banco->gurdarDesembolso($_REQUEST['cliente_id'],$_REQUEST['importe'],$_REQUEST['tipo_id'],$_REQUEST['capturista_id'],$_REQUEST['fechaPrimerPago'],$_REQUEST['cartera_id']))); 
 
 		 		break;
