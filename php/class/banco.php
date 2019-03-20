@@ -67,8 +67,8 @@
 								while ($res = mysqli_fetch_row($resUltimoDesActivo)) 
 										$desembolso_id 	= $res[0];  
 
-									$sql3="INSERT INTO  corridas_tipo_c ( desembolso_id,fecha_pago,pago_completo,capital,interes)
-										VALUES ( $desembolso_id,'$fechaPrimerPago',$importe*1.1,$importe,$importe*0.1)"; 							
+									$sql3="INSERT INTO  corridas_tipo_c (cliente_id, desembolso_id,fecha_pago,pago_completo,capital,interes)
+										VALUES ( $cliente_id,$desembolso_id,'$fechaPrimerPago',$importe*1.1,$importe,$importe*0.1)"; 							
 									 	mysqli_query($this->con(), $sql3); 
 
 									 	$datos[0]['resultado'] 		=1; 
@@ -137,17 +137,11 @@
 							$i=0; 
 							$semanasquincenas=0;
 							$dias=0;
+							$x = 1;
   								
 
 
-							if($tipo_id==1){
-								$semanasquincenas=14;
-								$dias=7;
-							}
-							else{
-								$semanasquincenas=8;
-								$dias=15;
-							} 
+							
 
 							$desembolso_id=0;
 							// validamos que el cliente no tenga un desembolsos activo
@@ -185,15 +179,54 @@
 												$desembolso_id 	= $res[0];  
 
 
-										for($i=1;$i<=$semanasquincenas;$i++){
 
-											$sql3="INSERT INTO  corridas  ( desembolso_id,fecha_pago,np,pago_completo,capital,interes,seguro,saldo)
-													VALUES ( $desembolso_id, '$fechaPrimerPago', $i, $pago_capital+$pago_interes+$pago_seguro , $pago_capital, $pago_interes,$pago_seguro , $pago_capital+$pago_interes+$pago_seguro );"; 							
-											 
-											 mysqli_query($this->con(), $sql3); 
+										if($tipo_id==1){
+											$semanasquincenas=14;
+											$dias=7;
 
-											 $fechaPrimerPago = $this->DateAdd($fechaPrimerPago,$dias);
+											for($i=1;$i<=$semanasquincenas;$i++){
+
+												$sql3="INSERT INTO  corridas  ( desembolso_id,fecha_pago,np,pago_completo,capital,interes,seguro,saldo)
+														VALUES ( $desembolso_id, '$fechaPrimerPago', $i, $pago_capital+$pago_interes+$pago_seguro , $pago_capital, $pago_interes,$pago_seguro , $pago_capital+$pago_interes+$pago_seguro );"; 							
+												 
+												 mysqli_query($this->con(), $sql3); 
+
+												 $fechaPrimerPago = $this->DateAdd($fechaPrimerPago,$dias);
+											}
 										}
+										else{
+											$semanasquincenas=8;
+											$dias=15;
+
+											 while ($x <= $semanasquincenas){
+										       
+	 												$sql3="INSERT INTO  corridas  (cliente_id, desembolso_id,fecha_pago,np,pago_completo,capital,interes,seguro,saldo)
+														VALUES ($cliente_id, $desembolso_id, '$fechaPrimerPago', $x, $pago_capital+$pago_interes+$pago_seguro , $pago_capital, $pago_interes,$pago_seguro , $pago_capital+$pago_interes+$pago_seguro );"; 							
+												 
+													mysqli_query($this->con(), $sql3); 
+
+  													list($anio, $mes, $dia) = explode('-', $fechaPrimerPago);
+
+										            if ( $dia >= 1 && $dia <= 15 )
+										            {
+										                // OBTENER LOS DIAS QUE TIENE UN MES //
+										                $dias_mes = $this->diasMes($mes,$anio); 
+										                $fechaPrimerPago=$this->DateAdd($fechaPrimerPago,($dias_mes-15) );
+										            }
+										            else
+										            {
+										                $fechaPrimerPago=$this->DateAdd($fechaPrimerPago,15);
+										            }
+
+										            $x ++; 
+										     }
+										} 
+
+
+										/**/
+
+
+										
 									
 									$datos[0]['resultado'] 		=1; 
 		 
