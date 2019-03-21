@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Carteras</title>
+  <title>Micro Financiera</title>
 
   <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet"> 
@@ -43,7 +43,7 @@
 
   </div>
   <!-- /#wrapper -->
-
+  <?php   include('../modals/modalsbanco.php'); ?>
 
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
@@ -57,6 +57,7 @@
   <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>   
   <script type="text/javascript" src="../js/sweetalert.js"></script> 
   <script type="text/javascript" src="../js/banco.js"></script>  
+
 
 
    

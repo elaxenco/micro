@@ -68,12 +68,14 @@
 							$i=0;
 							 
  
-							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id AND estatus_id=5),0) desembolso FROM clientes WHERE cartera_id=$c_cartera ORDER BY clientes.id DESC"; 
+							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id AND estatus_id=5),0) desembolso ,IFNULL((SELECT SUM(pago_completo) FROM pagos WHERE cliente_id=clientes.id AND desembolso_id = (SELECT id FROM desembolsos WHERE cliente_id=clientes.id AND estatus_id=5)),0.00) pagos,IFNULL((SELECT SUM(saldo) FROM corridas WHERE cliente_id=clientes.id ),0) saldo FROM clientes WHERE cartera_id=$c_cartera ORDER BY clientes.id DESC"; 
 							$resultado= mysqli_query($this->con(), $sql); 
 							while ($res = mysqli_fetch_row($resultado)){
 								$datos[$i]['cliente_id'] 	= $res[0]; 
 								$datos[$i]['nombre'] 		= $res[1]; 
-								$datos[$i]['desembolso']	= $res[2]; 
+								$datos[$i]['desembolso']	= $res[2];
+								$datos[$i]['pagos']			= $res[3]; 
+								$datos[$i]['saldo']			= $res[4];  
 
 								$i++;
 							} 
@@ -88,12 +90,14 @@
 							$i=0;
 							 
  
-							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id),0) desembolso FROM clientes WHERE cartera_id=$c_cartera AND appaterno LIKE '%$nombre%' OR apmaterno LIKE'%$nombre%' OR nombre LIKE '%$nombre%' "; 
+							 $sql="SELECT id, CONCAT(nombre,' ',appaterno,' ',apmaterno) nombre,IFNULL((SELECT capital FROM desembolsos WHERE cliente_id=clientes.id),0) desembolso,IFNULL((SELECT SUM(pago_completo) FROM pagos WHERE cliente_id=clientes.id AND desembolso_id = (SELECT id FROM desembolsos WHERE cliente_id=clientes.id AND estatus_id=5)),0.00) pagos, IFNULL((SELECT SUM(saldo) FROM corridas WHERE cliente_id=clientes.id ),0) saldo FROM clientes WHERE cartera_id=$c_cartera AND appaterno LIKE '%$nombre%' OR apmaterno LIKE'%$nombre%' OR nombre LIKE '%$nombre%' OR CONCAT(nombre,' ',appaterno,' ',apmaterno) LIKE'%$nombre%' "; 
 							$resultado= mysqli_query($this->con(), $sql); 
 							while ($res = mysqli_fetch_row($resultado)){
 								$datos[$i]['cliente_id'] 	= $res[0]; 
 								$datos[$i]['nombre'] 		= $res[1]; 
-								$datos[$i]['desembolso']	= $res[2]; 
+								$datos[$i]['desembolso']	= $res[2];
+								$datos[$i]['pagos']			= $res[3];  
+								$datos[$i]['saldo']			= $res[4];  
 
 								$i++;
 							} 

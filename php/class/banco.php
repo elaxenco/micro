@@ -186,8 +186,8 @@
 
 											for($i=1;$i<=$semanasquincenas;$i++){
 
-												$sql3="INSERT INTO  corridas  ( desembolso_id,fecha_pago,np,pago_completo,capital,interes,seguro,saldo)
-														VALUES ( $desembolso_id, '$fechaPrimerPago', $i, $pago_capital+$pago_interes+$pago_seguro , $pago_capital, $pago_interes,$pago_seguro , $pago_capital+$pago_interes+$pago_seguro );"; 							
+												$sql3="INSERT INTO  corridas  (cliente_id,  desembolso_id,fecha_pago,np,pago_completo,capital,interes,seguro,saldo)
+														VALUES ( $cliente_id,$desembolso_id, '$fechaPrimerPago', $i, $pago_capital+$pago_interes+$pago_seguro , $pago_capital, $pago_interes,$pago_seguro , $pago_capital+$pago_interes+$pago_seguro );"; 							
 												 
 												 mysqli_query($this->con(), $sql3); 
 

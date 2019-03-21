@@ -1,5 +1,5 @@
   <div class="container mb-5 mt-5">
-          <div class="text-cente mb-5"><h2> Carteras</h2></div>
+          <div class="text-center mb-5"><h2> Carteras</h2></div>
           <div class="form-row"> 
             <div class="col-md-6 col-12 ">
               <label for="c_cartera ">Nombre de la cartera</label>

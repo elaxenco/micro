@@ -21,33 +21,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
 			onRequestMant({ opcion : 1 ,user:txtUser,pass: txtPass},resLogin);
  
 	});
-
-
-
-    $( "#txtPass" ).keydown(function() { 
-
-        var txtUser = $("#inputUsurio").val();
-        var txtPass = $("#inputPassword").val();
-
-        if ( event.which == 13 ) {     
-            if (txtUser=="" || txtPass=="")
-        {
-            $("#alertLogin").html(
-                                '<div class="alert alert-danger" role="alert">'+
-                                '<button type="button" class="close" data-dismiss="alert">&times;</button>'+
-                                'Los campos no pueden estar vacios.'+
-                                '</div>');
-            return;
-        }
-
-            //funcion ajax para comunicarnos con php (url,arreglo con datos,funcion de respuest, funcion loading)
-            onRequestMant({ opcion : 1 ,user:txtUser,pass: txtPass},resLogin);
-          } 
-
-
-    });
-
-	 
+ 
 	 
 	 
 });
@@ -82,4 +56,32 @@ var resLogin = function(data){
         }
         
 
+}
+
+//funciones
+
+function ingresarSistema(e){
+
+
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    if (tecla==13){
+
+        var txtUser = $("#inputUsurio").val().toUpperCase();
+        var txtPass = $("#inputPassword").val().toUpperCase();
+
+        if (txtUser=="" || txtPass=="")
+        {
+            //aler  
+            $("#alertLogin").html(
+                                '<div class="alert alert-danger" role="alert">'+
+                                '<button type="button" class="close" data-dismiss="alert">&times;</button>'+
+                                'Los campos no pueden estar vacios.'+
+                                '</div>');
+            return;
+        }
+
+            //funcion ajax para comunicarnos con php (url,arreglo con datos,funcion de respuest, funcion loading)
+            onRequestMant({ opcion : 1 ,user:txtUser,pass: txtPass},resLogin);
+    }
 }
