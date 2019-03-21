@@ -31,6 +31,11 @@
 		 	  echo (json_encode($banco->gurdarDesembolso($_REQUEST['cliente_id'],$_REQUEST['importe'],$_REQUEST['tipo_id'],$_REQUEST['capturista_id'],$_REQUEST['fechaPrimerPago'],$_REQUEST['cartera_id']))); 
 
 		 		break;
+		 	case 6: 
+
+		 	  echo (json_encode($banco->estadoDeCuentDeCliente($_REQUEST['cliente_id']))); 
+
+		 		break;
  	
  		 
  	}

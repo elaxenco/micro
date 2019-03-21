@@ -137,11 +137,7 @@
 							$i=0; 
 							$semanasquincenas=0;
 							$dias=0;
-							$x = 1;
-  								
-
-
-							
+							$x = 1; 
 
 							$desembolso_id=0;
 							// validamos que el cliente no tenga un desembolsos activo
@@ -240,7 +236,30 @@
 
 						return $datos;  
 
-				}
+		}
+
+				 	//buscar monstos dependiendo el tipo de cartera
+		public function estadoDeCuentDeCliente($cliente_id){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					 $sql="SELECT * FROM v_estadodecuentacliente WHERE cliente_id=$cliente_id"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$datos[$i]['desembolso_id'] 	= $res[0]; 
+						$datos[$i]['cliente_id'] 		= $res[1];  
+						$datos[$i]['capital'] 		= $res[2];
+						$datos[$i]['pagoNormal'] 	= $res[3];  
+						$datos[$i]['saldoVencido']	= $res[4];  
+						$datos[$i]['saldoExigible']	= $res[5];
+						$datos[$i]['saldoTotal']	= $res[6];
+
+						$i++;
+					} 
+
+					return $datos;
+				       		  
+		}	
 
 
 	}

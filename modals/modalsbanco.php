@@ -12,11 +12,63 @@
 
        
       <div class="row">
-        <div class="col-12"><b>Desembolso Actual : <b id="desembolsoActual"></b></b></div>
-        <div class="col-12"><b>Saldo Vencido :<b>0.00</b></b></div>
-        <div class="col-12"><b>Saldo Actual : <b>0.00</b></b></div>
-        <div class="col-12"><b>Saldo Exigible : <b>0.00</b></b></div>
-        <div class="col-12"><b>Saldo Total : <b id="saldoActual"></b></b></div>  
+        <div class="col-md-7 col-12 mostrar">
+          <div class="col-12 ">
+            <div class="row">
+              <div class="col-md-5 col-12 ">Desembolso Actual :</div>
+              <div class="col-md-7 col-12 text-left"><b  id="desembolsoActual">0.00</b></div>
+            </div> 
+          </div>
+          <div class="col-12 ">
+            <div class="row">
+              <div class="col-md-5 col-12 ">Pago Normal :</div>
+              <div class="col-md-7 col-12 text-left "><b   id="pagoNormal">0.00</b></div>
+            </div> 
+          </div>
+          <div class="col-12 ">
+            <div class="row">
+              <div class="col-md-5 col-12 ">Saldo Vencido :</div>
+              <div class="col-md-7 col-12 text-left "><b  id="saldoVencido">0.00</b></div>
+            </div> 
+          </div>
+          <div class="col-12 ">
+            <div class="row">
+              <div class="col-md-5 col-12 ">Saldo Exigible :</div>
+              <div class="col-md-7 col-12 text-left "><b  id="saldoExigible">0.00</b></div>
+            </div> 
+          </div>
+          <div class="col-12 ">
+            <div class="row">
+              <div class="col-md-5 col-12 ">Saldo Total :</div>
+              <div class="col-md-7 col-12 text-left "><b  id="saldoTotal">0.00</b></div>
+            </div> 
+          </div>  
+        </div>
+        <div class="col-md-5 col-12 ">
+          <div class="col-12">
+            <b><label for="b_tipo_pago">Tipo de Pago</label></b>
+            <select class="custom-select" id="b_tipo_pago" onchange="seleccionarTipoPago(this.value)">
+              <option selected value="0">Seleccione una opcion</option> 
+              <option  value="1">Pago Exigible</option> 
+              <option  value="2">Pago Normal</option> 
+              <option  value="3">Abono</option> 
+              <option  value="4">Liquidar Cuenta</option> 
+            </select>
+          </div> 
+          <div id="divMontoBanco" class="col-12" style="display: none">
+             <label for="b_monto ">Monto</label>
+              <input type="text" class="form-control" id="b_monto" placeholder="Ingrese Abono" onkeypress="return soloNumeros(event)"  required> 
+          </div> 
+        </div>
+         
+      </div>
+      <div class="row">
+        <div class="col-md-10 col-12">
+          
+        </div>
+        <div class="col-md-2 col-12 mt-2">
+          <button onclick="guardarPago()" type="button" class="btn btn-success">Aceptar</button>
+        </div>
       </div>
 
         

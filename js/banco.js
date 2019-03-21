@@ -31,11 +31,44 @@ function seleccionarCliente(cliente_id){
 
 	 /*let id = $("#c_id_desembolso").val().split(' ', 1) 
        console.log(id[0])*/ 
-     document.getElementById('desembolsoActual').innerHTML=`$ ${arregloClientes[cliente_id][2]}`;  
-     document.getElementById('saldoActual').innerHTML=`$ ${arregloClientes[cliente_id][4]}`;
+   document.getElementById('desembolsoActual').innerHTML=`$ ${arregloClientes[cliente_id][2]}`;  
+   document.getElementById('saldoTotal').innerHTML=`$ ${arregloClientes[cliente_id][4]}`;
+
+   
+   onRequestBanco({ opcion : 6 ,cliente_id:cliente_id},resEstadoCtaCliente);
  
 }
 
+//seleccionamos el tipo de pago
+function seleccionarTipoPago(tipo_id){
+    if(tipo_id==3){
+      document.getElementById('divMontoBanco').style.display="block"; 
+      document.getElementById('b_monto').value="";
+    }else{
+      document.getElementById('divMontoBanco').style.display="none"; 
+      document.getElementById('b_monto').value="";
+    }
+}
+//guardamos el pago
+function guardarPago(){
+
+         let pagoNormal = document.getElementById('pagoNormal').innerHTML;
+         let saldoVencido = document.getElementById('saldoVencido').innerHTML;
+         let saldoExigible= document.getElementById('saldoExigible').innerHTML;
+         let saldoTotal= document.getElementById('saldoTotal').innerHTML;
+
+         pagoNormal = pagoNormal.replace('$','')
+         pagoNormal = pagoNormal.replace(' ','') 
+         saldoVencido = saldoVencido.replace('$','')
+         saldoVencido = saldoVencido.replace(' ','')
+         saldoExigible = saldoExigible.replace('$','')
+         saldoExigible = saldoExigible.replace(' ','')
+         saldoTotal = saldoTotal.replace('$','')
+         saldoTotal = saldoTotal.replace(' ','')
+
+
+         console.log(`Pago normal : ${pagoNormal} - Saldo Vencido : ${saldoVencido} - Saldo Exigible ${saldoExigible} - Saldo Total ${saldoTotal}`)
+}
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
@@ -78,8 +111,19 @@ var resClientesCartera = function(data){
           //incrustamos el codigo html en la tabla
           $("#tb_clientes").html(contenido); 
           // inicializamos algunos valores para que funcionen correctamente
-          $('[data-toggle="tooltip"]').tooltip()
- 
+          $('[data-toggle="tooltip"]').tooltip() 
+}
+
+//respuesta de carteras por usuario
+var resEstadoCtaCliente = function(data){
+    if (!data && data == null) 
+            return;    
+
+          document.getElementById('desembolsoActual').innerHTML=`$ ${data[0].capital}`;
+          document.getElementById('pagoNormal').innerHTML=`$ ${data[0].pagoNormal}`;
+          document.getElementById('saldoVencido').innerHTML=`$ ${data[0].saldoVencido}`;
+          document.getElementById('saldoExigible').innerHTML=`$ ${data[0].saldoExigible}`;
+          document.getElementById('saldoTotal').innerHTML=`$ ${data[0].saldoTotal}`;
 
 }
 

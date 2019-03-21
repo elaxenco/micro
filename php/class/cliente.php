@@ -82,8 +82,7 @@
 
 							return $datos;
 						       		  
-				}	
-
+				}
 				public function clienteCartera($nombre,$c_cartera){
 							$res=array();
 							$datos=array();  

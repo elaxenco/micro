@@ -8,7 +8,17 @@
         <a href="http://localhost/micro/clientes/cliente.php" class="list-group-item list-group-item-action bg-light">Clientes</a>
         <a href="http://localhost/micro/banco/banco.php" class="list-group-item list-group-item-action bg-light">Banco</a>
         <a href="http://localhost/micro/carteras/carteras.php" class="list-group-item list-group-item-action bg-light">Carteras</a> 
-        <a href="#" class="list-group-item list-group-item-action bg-light">Reportes</a> 
+        <div class="btn-group dropright">
+          <a href="#" class="list-group-item list-group-item-action bg-light  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Reportes
+          </a> 
+          <div class="dropdown-menu"> 
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Desembolsos</a>  
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pagos</a> 
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pendientes de Pago</a> 
+                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Colocado</a> 
+          </div>
+        </div>
 
         
         <div class="btn-group dropright">
