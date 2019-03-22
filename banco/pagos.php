@@ -6,7 +6,7 @@
 	     <div class="col-md-4 col-12 ">
 	      <b><label for="c_cartera">Seleccione su cartera</label></b>
 	      <select class="custom-select" id="c_cartera" onchange="buscarClientesPorCartera(this.value)">
-	        <option selected value="0">Seleccione una opcion</option> 
+	        <option selected value="0">Seleccione una cartera</option> 
 	      </select>
 	    </div> 
 	</div>

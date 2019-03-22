@@ -12,7 +12,7 @@
 
        
       <div class="row">
-        <div class="col-md-7 col-12 mostrar">
+        <div class="col-md-7 col-12  ">
           <div class="col-12 ">
             <div class="row">
               <div class="col-md-5 col-12 ">Desembolso Actual :</div>
@@ -55,9 +55,9 @@
               <option  value="4">Liquidar Cuenta</option> 
             </select>
           </div> 
-          <div id="divMontoBanco" class="col-12" style="display: none">
-             <label for="b_monto ">Monto</label>
-              <input type="text" class="form-control" id="b_monto" placeholder="Ingrese Abono" onkeypress="return soloNumeros(event)"  required> 
+          <div id="divMontoBanco" class="col-12"  >
+             <b><label for="b_monto ">Monto</label></b>
+              <input  readonly type="text" class="form-control" id="b_monto" placeholder="Ingrese Abono" onkeypress="return soloNumeros(event)"  required> 
           </div> 
         </div>
          

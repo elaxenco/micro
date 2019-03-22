@@ -40,34 +40,75 @@ function seleccionarCliente(cliente_id){
 }
 
 //seleccionamos el tipo de pago
-function seleccionarTipoPago(tipo_id){
-    if(tipo_id==3){
-      document.getElementById('divMontoBanco').style.display="block"; 
-      document.getElementById('b_monto').value="";
-    }else{
-      document.getElementById('divMontoBanco').style.display="none"; 
-      document.getElementById('b_monto').value="";
-    }
+function seleccionarTipoPago(tipo_id){ 
+     let pagoNormal = document.getElementById('pagoNormal').innerHTML;
+     let saldoVencido = document.getElementById('saldoVencido').innerHTML;
+     let saldoExigible= document.getElementById('saldoExigible').innerHTML;
+     let saldoTotal= document.getElementById('saldoTotal').innerHTML;
+
+     pagoNormal = pagoNormal.replace('$','')
+     pagoNormal = pagoNormal.replace(' ','') 
+     saldoVencido = saldoVencido.replace('$','')
+     saldoVencido = saldoVencido.replace(' ','')
+     saldoExigible = saldoExigible.replace('$','')
+     saldoExigible = saldoExigible.replace(' ','')
+     saldoTotal = saldoTotal.replace('$','')
+     saldoTotal = saldoTotal.replace(' ','')
+ 
+  switch(tipo_id){
+
+      case '1':
+            document.getElementById('b_monto').value = saldoExigible;
+            document.getElementById('b_monto').readOnly =true
+        break;
+      case '2':
+            document.getElementById('b_monto').value = pagoNormal;
+            document.getElementById('b_monto').readOnly =true
+        break;
+      case '3':
+            document.getElementById('b_monto').value = '';
+            document.getElementById('b_monto').readOnly =false
+        break;
+      case '4':
+            document.getElementById('b_monto').value = saldoTotal;
+            document.getElementById('b_monto').readOnly =true
+        break;
+
+      default:
+          document.getElementById('b_monto').value = '';
+          document.getElementById('b_monto').readOnly =true
+        break;
+
+  }
+
 }
 //guardamos el pago
 function guardarPago(){
 
-         let pagoNormal = document.getElementById('pagoNormal').innerHTML;
-         let saldoVencido = document.getElementById('saldoVencido').innerHTML;
-         let saldoExigible= document.getElementById('saldoExigible').innerHTML;
-         let saldoTotal= document.getElementById('saldoTotal').innerHTML;
+  let b_cliente_id =  document.getElementById('b_cliente').innerHTML.split(' ',1); 
+  let monto =  document.getElementById('b_monto').value;
+   /*let id = $("#c_id_desembolso").val().split(' ', 1) 
+       console.log(id[0])*/ 
 
-         pagoNormal = pagoNormal.replace('$','')
-         pagoNormal = pagoNormal.replace(' ','') 
-         saldoVencido = saldoVencido.replace('$','')
-         saldoVencido = saldoVencido.replace(' ','')
-         saldoExigible = saldoExigible.replace('$','')
-         saldoExigible = saldoExigible.replace(' ','')
-         saldoTotal = saldoTotal.replace('$','')
-         saldoTotal = saldoTotal.replace(' ','')
+   if(monto<=0){
+      mensajeAlerta('¡El monto ingresado no es correcto.!','error')
+   }else{
+        swal({ 
+              title: `¿Seguro de realizar el siguiente movimiento? Pago de ${monto} al cliente ${document.getElementById('b_cliente').innerHTML}`,
+              icon: "warning",
+              buttons: true,  
+            })
+            .then((respuesta) => {
+               if(respuesta){
+                   // onRequestBanco({ opcion : 7 ,cliente_id:b_cliente_id,pago:monto,capturista_id:USUARIO_ID},resEstadoCtaCliente);
+               }else{
+                    mensajeAlerta('¡El movimiento fue cancelado.!','error')
+               }
+            });
+   }
+    
 
 
-         console.log(`Pago normal : ${pagoNormal} - Saldo Vencido : ${saldoVencido} - Saldo Exigible ${saldoExigible} - Saldo Total ${saldoTotal}`)
 }
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
@@ -92,7 +133,8 @@ var arregloClientes =[]
 var resClientesCartera = function(data){
     if (!data && data == null) 
             return   
-  
+    
+    console.log(data)
           let contenido=''  
 
           for(var i=0; i<data.length; i++){
@@ -100,7 +142,7 @@ var resClientesCartera = function(data){
           	
           	  
               if(data[i].desembolso>0){ 
-              	//generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->PAGOS  ACTUAL 4->SALDO
+              	//generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->PAGOS  ACTUAL 4->SALDO 5-> TIPO_ID
                 arregloClientes[data[i].cliente_id] = [ data[i].cliente_id ,data[i].nombre , data[i].desembolso ,data[i].pagos, data[i].saldo];
                 //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
               	contenido += `<tr data-toggle="modal" data-target="#modalBanco" class="subrallar-tabla" onclick="seleccionarCliente(${data[i].cliente_id})"><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>

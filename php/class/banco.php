@@ -238,7 +238,7 @@
 
 		}
 
-				 	//buscar monstos dependiendo el tipo de cartera
+		 //checamos el estado de cuenta del cliente
 		public function estadoDeCuentDeCliente($cliente_id){
 					$res=array();
 					$datos=array();  
@@ -253,6 +253,7 @@
 						$datos[$i]['saldoVencido']	= $res[4];  
 						$datos[$i]['saldoExigible']	= $res[5];
 						$datos[$i]['saldoTotal']	= $res[6];
+						$datos[$i]['tipo_prestamo_id']		= $res[7];
 
 						$i++;
 					} 
@@ -260,6 +261,79 @@
 					return $datos;
 				       		  
 		}	
+
+		//checamos el estado de cuenta del cliente
+		public function guardarPagoDeCliente($cliente_id,$pago,$capturista_id){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					$sql="SELECT id,tipo_id FROM desembolsos WHERE cliente_id=$cliente_id AND estatus_id=5"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$desembolso_id =$res[0];
+						$tipo_id =$res[1]; 
+					} 
+
+					if($tipo_id==3){
+						$respuesta = $this-> pagoDesembolsoDeDiez($cliente_id,$pago,$capturista_id,$desembolso_id);
+					}else{
+						$respuesta = $this-> pagoDesembolsoSemanalQuincenal($cliente_id,$pago,$capturista_id,$desembolso_id);
+					}
+
+					return $datos;
+				       		  
+		}
+
+
+		public function pagoDesembolsoDeDiez($cliente_id,$pago,$capturista_id,$desembolso_id){
+
+					$capital=0;
+					$interes=0;
+					$pago_completo=0;
+					//consultamos el saldo del cliente 
+					$sql="SELECT capital-pago_capital capital, interes-pago_interes interes FROM corridas_tipo_c WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$capital =$res[0];
+						$interes =$res[1]; 
+					} 
+					//calculamos el pago completo que el cliente tiene que dar
+					$pago_completo=$capital+$interes;
+					// si el pago del cliente es igual al pago completo liquidamos el prestamo
+					if($pago==$pago_completo){
+						//insertamos el pago del cliente
+						$sql="INSERT INTO pagos (fecha,pago_completo,pago_capital,pago_interes,cliente_id,desembolso_id,tipo_pago,capturista_id,fecha_registro,hora_registro)
+										VALUES(CURDATE(),$pago_completo,$capital,$interes,$cliente_id,$desembolso_id,'P',$capturista_id,CURDATE(),CURTIME())";
+						//validamos que la consulta se efectue para proseguir a actualizar la corrida	 
+						if($resultado= mysqli_query($this->con(), $sql)) 
+						{	//query para actualizar corrida de pago de diez
+							$sql="UPDATE corridas_tipo_c SET pago_capital=pago_capital+$capital, pago_interes=pago_interes+$interes, estatus_id=2 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
+							$resultado= mysqli_query($this->con(), $sql); 
+								return 2; //retornamos 2 indicamos que los movimientos se efectuaron correctamente 
+
+
+						}else{
+							return 1;//regresa 1 que indica error al guardar el pago
+						}
+
+					}else{
+						if($pago>$interes){
+							
+						}
+					}
+
+
+
+					$sql="INSERT INTO pagos (fecha,pago_completo,pago_capital,pago_interes,cliente_id,desembolso_id,tipo_pago,capturista_id,fecha_registro,hora_registro)
+										VALUES(CURDATE(),)"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+			return 1;
+
+		}
+		public function pagoDesembolsoSemanalQuincenal($cliente_id,$pago,$capturista_id,$desembolso_id){
+
+			return 1;
+		}
 
 
 	}

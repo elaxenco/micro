@@ -36,6 +36,11 @@
 		 	  echo (json_encode($banco->estadoDeCuentDeCliente($_REQUEST['cliente_id']))); 
 
 		 		break;
+		 	case 7: 
+
+		 	  echo (json_encode($banco->guardarPagoDeCliente($_REQUEST['cliente_id'],$_REQUEST['pago'],$_REQUEST['capturista_id']))); 
+
+		 		break;
  	
  		 
  	}
