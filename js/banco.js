@@ -100,7 +100,7 @@ function guardarPago(){
             })
             .then((respuesta) => {
                if(respuesta){
-                   // onRequestBanco({ opcion : 7 ,cliente_id:b_cliente_id,pago:monto,capturista_id:USUARIO_ID},resEstadoCtaCliente);
+                    onRequestBanco({ opcion : 7 ,cliente_id:b_cliente_id[0],pago:monto,capturista_id:USUARIO_ID},resEstadoCtaCliente);
                }else{
                     mensajeAlerta('¡El movimiento fue cancelado.!','error')
                }
@@ -160,6 +160,8 @@ var resClientesCartera = function(data){
 var resEstadoCtaCliente = function(data){
     if (!data && data == null) 
             return;    
+
+          console.log(data)
 
           document.getElementById('desembolsoActual').innerHTML=`$ ${data[0].capital}`;
           document.getElementById('pagoNormal').innerHTML=`$ ${data[0].pagoNormal}`;

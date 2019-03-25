@@ -32,8 +32,11 @@
 
 		 		break;
 		 	case 6: 
-
-		 	  echo (json_encode($banco->estadoDeCuentDeCliente($_REQUEST['cliente_id']))); 
+		 		//acceder aun arreglo
+		 		/*$total =  $banco->estadoDeCuentDeCliente($_REQUEST['cliente_id']);
+		 		echo $total[0]['saldoTotal'];*/
+		 		  
+		 	   echo (json_encode($banco->estadoDeCuentDeCliente($_REQUEST['cliente_id']))); 
 
 		 		break;
 		 	case 7: 
