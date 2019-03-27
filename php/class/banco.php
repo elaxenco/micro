@@ -376,22 +376,24 @@
 		}
 		public function pagoDesembolsoSemanalQuincenal($cliente_id,$pago,$capturista_id,$desembolso_id){
 
-			$fecha_actual=date('Y-m-d'); 
-	    	$capturista_id=$_COOKIE["presico_capturista_id"];
+			$fecha_actual=date('Y-m-d');  
 	    	$y=1;
+	    	$abono=$pago;
+	    	$res=array();
+	    	$res2=array();
 	    	//////////////////////////////////////////////CLIENTESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS/////////////////////////////////   
 	    	//OBTENEMOS LA INFORMACION DEL CLIENTE SU ESTADO DE CUENTA
  
-            $sqla = "SELECT saldo AS saldo,(capital-pago_capital) AS capital, (interes-pago_interes) AS interes, (seguro-pago_seguro) AS seguro ,np FROM corridas WHERE desembolso_id =$desembolso_id AND saldo>0";   
-            $resultado = mysqli_query($this->con(), $sqla);  
-		    while ($rega = mysqli_fetch_row($resultado))
+            $sqla = "SELECT saldo,(capital-pago_capital) AS capital, (interes-pago_interes) AS interes, (seguro-pago_seguro) AS seguro ,np FROM corridas WHERE desembolso_id =$desembolso_id AND saldo>0";   
+            $resultado= mysqli_query($this->con(), $sqla); 
+			while ($res = mysqli_fetch_row($resultado))
 		    { 
 
- 			 		 $nsaldo= $rega[0];
- 			 		 $ncapital= $rega[1];
- 			 		 $ninteres= $rega[2];
- 			 		 $nseguro = $rega[3];
- 			 		 $nnp = $rega[4]; 
+ 			 		 $nsaldo= $res[0];
+ 			 		 $ncapital= $res[1];
+ 			 		 $ninteres= $res[2];
+ 			 		 $nseguro = $res[3];
+ 			 		 $nnp = $res[4]; 
 
  			 		 	// SI EL ABONO ES  IGUAL A 0 SE TERMINA EL SICLO
                         if($abono<=0)break;
@@ -399,47 +401,47 @@
                         //CHECAMOS QUE EL ABONO SEA IGUAL AL SALDO Y NO MAYOR AL SALDO TOTAL
                             if($abono>=$nsaldo)
                             {	// GUARDAMOS EL PAGO
-                                $sqlk="INSERT INTO pagos(fecha,              fecha_pago     ,coordinadora_id,cliente_id,numPago,    pago_completo  ,pago_capital  ,pago_interes,pago_seguro   ,pago_multa,capturista_id,caja_id,ruta_id,desembolso_id,tipo,fecha_captura,hora_captura)
-                                                     VALUE(CURDATE(),'$fecha_actual',$coordinadora_id,$cliente_id,$nnp   ,$nsaldo ,$ncapital,$ninteres         ,$nseguro,        0         ,$capturista_id,1,$ruta_id,$desembolso_id,'$cobranza',CURDATE(),CURTIME())"; 
-                                    mysqli_query($this->con(), $sqlk);    
+                                $sqlk="INSERT INTO  pagos ( fecha, pago_completo, pago_capital, pago_interes, pago_seguro, cliente_id, desembolso_id, tipo_pago, capturista_id, fecha_registro, hora_registro,np)
+								VALUES (  CURDATE(), $nsaldo, $ncapital,  $ninteres, $nseguro,$cliente_id, $desembolso_id, 'N', $capturista_id, CURDATE(), CURTIME(),$nnp) "; 
+								                                    
+								    mysqli_query($this->con(), $sqlk);     
                                     //ACTUALIZAMOS LA CORRIDA
                                     $sqlq="UPDATE corridas SET pago_capital=capital,pago_interes=interes,pago_seguro=seguro,saldo=0 WHERE desembolso_id=$desembolso_id AND cliente_id=$cliente_id AND np=$nnp"; 
-                                    mysqli_query($this->con(), $sqlq);  
+                                    mysqli_query($this->con(), $sqlq);   
                                     
                                 $abono=$abono-$nsaldo;
                             }
                             else
                             { 
 
-
+                            	// comprobamos que el abono sea mayor al capital para realizar la siguiente operacion
                                 if($abono>$ncapital )
-                                {  
-                                             $abono=$abono-$ncapital;
-                                            
+                                {  			
+                                            //restamos el capital del pago actual al abono
+                                            $abono=$abono-$ncapital; 
+                                            // comparamos si el resto del abono es mayor al interes ya que el sobrante se abonara al seguro
                                             if($abono>$ninteres )
-                                            { 
+                                            { 		//RESTAMOS EL INTERES  AL ABANO YA QUE SERA EL CAPITAL INGRESADO 
                                                     $abono=$abono-$ninteres;
-
+                                                    // calculamos el pago total del cliente
                                                     $loquepago=$ncapital+$ninteres+$abono;
 
-                                                    $sqlk="INSERT INTO pagos(fecha,              fecha_pago     ,coordinadora_id,cliente_id,numPago,    pago_completo  ,pago_capital  ,pago_interes,pago_seguro   ,pago_multa,capturista_id,caja_id,ruta_id,desembolso_id,tipo,fecha_captura,hora_captura)
-                                                         VALUE(CURDATE(),'$fecha_actual',$coordinadora_id ,$cliente_id,$nnp   ,$loquepago ,$ncapital,$ninteres         ,$abono,        0         ,$capturista_id,1,$ruta_id,$desembolso_id,'$cobranza',CURDATE(),CURTIME())";  
+                                                    $sqlk="INSERT INTO  pagos ( fecha, pago_completo, pago_capital, pago_interes, pago_seguro, cliente_id, desembolso_id, tipo_pago, capturista_id, fecha_registro, hora_registro,np)
+														VALUES (  CURDATE(),$loquepago, $ncapital,  $ninteres,$abono,$cliente_id, $desembolso_id, 'A', $capturista_id, CURDATE(), CURTIME(),np)";  
                                                     mysqli_query($this->con(), $sqlk);  
-
+                                                    //ACTUALIZAMOS LA CORRIDA 
                                                     $sqlq="UPDATE corridas SET pago_capital=capital,pago_interes=interes,pago_seguro=pago_seguro+$abono,saldo=saldo-$loquepago WHERE desembolso_id=$desembolso_id AND cliente_id=$cliente_id AND np=$nnp"; 
+                                                     
                                                      mysqli_query($this->con(), $sqlq);  
-
-                                                    $abono=0;
-
+                                                     //el abono queda en 0
+                                                    $abono=0; 
                                             }
                                             else
-                                            {
-                                                   $loquepago=$ncapital+$abono;
-
-                                                    $sqlk="INSERT INTO pagos(fecha,              fecha_pago     ,coordinadora_id,cliente_id,numPago,    pago_completo  ,pago_capital  ,pago_interes,pago_seguro   ,pago_multa,capturista_id,caja_id,ruta_id,desembolso_id,tipo,fecha_captura,hora_captura)
-                                                         VALUE(CURDATE(),'$fecha_actual',$coordinadora_id ,$cliente_id,$nnp   ,$loquepago ,$ncapital,$abono        ,0,        0         ,$capturista_id,1,$ruta_id,$desembolso_id,'$cobranza',CURDATE(),CURTIME())"; 
+                                            {//calculamos el pago completo
+                                                   $loquepago=$ncapital+$abono; 
+                                                    $sqlk="INSERT INTO  pagos ( fecha, pago_completo, pago_capital, pago_interes, pago_seguro, cliente_id, desembolso_id, tipo_pago, capturista_id, fecha_registro, hora_registro,np)
+														VALUES (  CURDATE(),$loquepago, $ncapital,  $abono,0,$cliente_id, $desembolso_id, 'A', $capturista_id, CURDATE(), CURTIME(),$npp)";  
                                                     mysqli_query($this->con(), $sqlk);  
-
                                                     $sqlq="UPDATE corridas SET pago_capital=capital,pago_interes=pago_interes+$abono,pago_seguro=0,saldo=saldo-$loquepago WHERE desembolso_id=$desembolso_id AND cliente_id=$cliente_id AND np=$nnp"; 
                                                     mysqli_query($this->con(), $sqlq);  
 
@@ -448,42 +450,26 @@
 
                                 }
                                 else{
+                                	// SI EL ABONO ES CERO SE SALE DEL CICLO
+                                    if($abono<=0)break; 
 
-                                    if($abono<=0)break;
-                                    
-                                    $sqlk="INSERT INTO pagos(fecha,              fecha_pago     ,coordinadora_id,cliente_id,numPago,    pago_completo  ,pago_capital  ,pago_interes,pago_seguro   ,pago_multa,capturista_id,caja_id,ruta_id,desembolso_id,tipo,fecha_captura,hora_captura)
-                                         VALUE(CURDATE(),'$fecha_actual',$coordinadora_id ,$cliente_id,$nnp   ,$abono,$abono,0        ,0,        0         ,$capturista_id,1,$ruta_id,$desembolso_id,'$cobranza',CURDATE(),CURTIME())"; 
-                                   	 mysqli_query($this->con(), $sqlk);  
-
-                                    $sqlq="UPDATE corridas SET pago_capital=pago_capital+$abono,pago_interes=0,pago_seguro=0,saldo=saldo-$abono WHERE desembolso_id=$desembolso_id AND cliente_id=$cliente_id AND np=$nnp"; 
-                                    mysqli_query($this->con(), $sqlq);  
-
+                                   	  $sqlk="INSERT INTO  pagos ( fecha, pago_completo, pago_capital, pago_interes, pago_seguro, cliente_id, desembolso_id, tipo_pago, capturista_id, fecha_registro, hora_registro,np)
+											VALUES (  CURDATE(),$abono,$abono,  0,0,$cliente_id, $desembolso_id, 'A', $capturista_id, CURDATE(), CURTIME(),$nnp)";  
+                                       mysqli_query($this->con(), $sqlk);  
+                                       //SOLO AGREGAMOS AL CAPITAL 
+                                    $sqlq="UPDATE corridas SET pago_capital=pago_capital+$abono,saldo=saldo-$abono WHERE desembolso_id=$desembolso_id AND cliente_id=$cliente_id AND np=$nnp"; 
+                                    mysqli_query($this->con(), $sqlq);   
                                     $abono=0;
 
                                 }
-                            }
-                                
-
-
+                            } 
             }
  
-            // SACAR EL SALDO TOTAL DEL CLIENTE//
-            $sql = "SELECT SUM(saldo) AS saldo FROM corridas WHERE desembolso_id =$desembolso_id ";  
-            $resultado = mysqli_query($this->con(), $sql);  
-		    while ($res = mysqli_fetch_row($resultado)) { 
- 			 		 $saldoTotalCliente= $res[0]; 
- 			 }
-
-            if($saldoTotalCliente == 0  )
-            {   //actualizamos el desembolso del cliente
-                $sql = "UPDATE desembolsos SET estatus_id = 2 WHERE id =$desembolso_id"; 
-                mysqli_query($this->con(), $sql);   
-                
-            }  
   
-			return 1;
+			return $this -> estadoDeCuentDeCliente($cliente_id); 
 		} 
-		public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
+
+		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
 			/*	//consultamos el saldo del cliente 
 				$sql="SELECT capital-pago_capital capital, interes-pago_interes interes,fecha_pago FROM corridas_tipo_c WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 
 				$resultado= mysqli_query($this->con(), $sql); 
@@ -524,7 +510,7 @@
 						$resultado= mysqli_query($this->con(), $sql); 
 
 				}*/
-		}
+		//}
 
 
 	}

@@ -46,6 +46,7 @@ function seleccionarTipoPago(tipo_id){
      let saldoExigible= document.getElementById('saldoExigible').innerHTML;
      let saldoTotal= document.getElementById('saldoTotal').innerHTML;
 
+
      pagoNormal = pagoNormal.replace('$','')
      pagoNormal = pagoNormal.replace(' ','') 
      saldoVencido = saldoVencido.replace('$','')
@@ -85,14 +86,25 @@ function seleccionarTipoPago(tipo_id){
 //guardamos el pago
 function guardarPago(){
 
+  let saldo= document.getElementById('saldoTotal').innerHTML;
+  saldo = saldo.replace('$',''); 
+  saldo = saldo.replace(' ','');
+  //parseamos el numero  en entero
+  saldo = parseInt(saldo);
+
   let b_cliente_id =  document.getElementById('b_cliente').innerHTML.split(' ',1); 
   let monto =  document.getElementById('b_monto').value;
    /*let id = $("#c_id_desembolso").val().split(' ', 1) 
        console.log(id[0])*/ 
-
+  //verificamos que el saldo no sea menor al monto que el usuario desea abonar
+  if(saldo<monto){
+     mensajeAlerta('¡El monto ingresado no puede ser mayor al saldo total.!','error');
+     return;
+  }
+  //verificamos que el abono no sea 0
    if(monto<=0){
       mensajeAlerta('¡El monto ingresado no es correcto.!','error')
-   }else{
+   }else{ //preguntamos si esta seguro de realizar el mocimiento
         swal({ 
               title: `¿Seguro de realizar el siguiente movimiento? Pago de ${monto} al cliente ${document.getElementById('b_cliente').innerHTML}`,
               icon: "warning",
@@ -106,8 +118,6 @@ function guardarPago(){
                }
             });
    }
-    
-
 
 }
 //respuesta de carteras por usuario
@@ -161,13 +171,17 @@ var resEstadoCtaCliente = function(data){
     if (!data && data == null) 
             return;    
 
-          console.log(data)
+          //console.log(data)
 
           document.getElementById('desembolsoActual').innerHTML=`$ ${data[0].capital}`;
           document.getElementById('pagoNormal').innerHTML=`$ ${data[0].pagoNormal}`;
           document.getElementById('saldoVencido').innerHTML=`$ ${data[0].saldoVencido}`;
           document.getElementById('saldoExigible').innerHTML=`$ ${data[0].saldoExigible}`;
           document.getElementById('saldoTotal').innerHTML=`$ ${data[0].saldoTotal}`;
+          // si el saldo es 0 quiere decir que es respuesta de un abono por lo tanto refrescamos los clientes
+          if(data[0].saldoTotal<=0){
+            onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
+          }
 
 }
 
