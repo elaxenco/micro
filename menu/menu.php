@@ -13,10 +13,10 @@
          Reportes
           </a> 
           <div class="dropdown-menu"> 
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Desembolsos</a>  
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pagos</a> 
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pendientes de Pago</a> 
-                  <a href="#" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Colocado</a> 
+                  <a href="http://localhost/micro/reportes/desembolsos.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Desembolsos</a>  
+                  <a href="http://localhost/micro/reportes/pagos.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pagos</a> 
+                  <a href="http://localhost/micro/reportes/pendientes_pago.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pendientes de Pago</a> 
+                  <a href="http://localhost/micro/reportes/colocado.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Colocado</a> 
           </div>
         </div>
 

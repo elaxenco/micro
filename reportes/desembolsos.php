@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Micro Financiera</title>
+
+   <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+  <!-- Custom styles for this template -->
+  <link href="../css/simple-sidebar.css" rel="stylesheet">
+
+
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+</head>
+
+<body onload="cargarControlesReportes()">
+
+  <div class="d-flex" id="wrapper">
+
+   <?php   include('../menu/menu.php'); ?>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+    
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> 
+          <button id="buttonL"  class="mr-1 ml-1 menu-toggle" data-toggle="tooltip" onclick="this.style.display='none',document.getElementById('buttonR').style.display='block'" data-placement="right" title="Ocultar Menu"><i class="fas fa-angle-double-left"></i></button>
+           <button id="buttonR"  class="mr-1 ml-1 menu-toggle" data-toggle="tooltip" onclick="this.style.display='none',document.getElementById('buttonL').style.display='block'" data-placement="right" title="Ver Menu"><i class="fas fa-angle-double-right"></i></button>
+        </nav>
+
+      <div class="container-fluid "  > 
+        <div class="card mt-5">
+            <div class="card-header bg-primary text-black">
+              <h4>Filtros</h4>
+            </div>
+            <div class="card-body"> 
+
+        <div class="form-row col-md-6  col-12 mostrar float-left">
+          <div class="col-md-4 col-12 offset-md-2">
+              <b><label for="c_id">Fecha Inicial</label></b>
+              <input type="date" min="1" class="form-control" id="c_id" placeholder="Id"  > 
+          </div>
+          <div class="col-md-4 col-12 ">
+              <b><label for="c_nombre ">Fecha Final</label></b>
+              <input type="date" class="form-control" id="c_nombre"  > 
+          </div>  
+        </div> 
+        <div class="form-row col-md-6  col-12 mostrar">
+           <div class="col-md-6 col-12 offset-md-2">
+              <b><label for="r_cartera">Seleccione su cartera</label></b>
+              <select class="custom-select" id="r_cartera">
+                <option selected value="0">Seleccione una cartera</option> 
+              </select>
+            </div>     
+             <div class="col-md-6 col-12 offset-md-2">
+                <b><label for="r_cartera">Seleccione Tipo</label></b>
+                <select class="custom-select" id="r_cartera">
+                  <option selected value="0">Seleccione una opcion</option> 
+                </select>
+              </div>    
+                 
+        </div>
+
+            
+      </div> 
+                 
+              
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="../js/js.cookie.js"></script>
+  <script type="text/javascript" src="../js/ajax.js"></script>
+  <script type="text/javascript" src="../js/utileria.js"></script> 
+  <script type="text/javascript" src="../js/main.js"></script>  
+  <script type="text/javascript" src="../js/menu.js"></script>   
+  <script type="text/javascript" src="../js/reportes.js"></script>  
+  <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../js/popper.min.js"></script> 
+  <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>   
+  <script type="text/javascript" src="../js/sweetalert.js"></script>  
+
+   
+
+</body>
+
+</html>
