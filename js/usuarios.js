@@ -50,7 +50,7 @@ function limpiartCampos(){
     select.value=0
     accesos.style.display='none' 
     onRequestMant({ opcion : 6},respGenerica);
-    buscarCarteras()
+    cargarCarteras()
 
 }
 //guardamos usuarios pero primero verificamos que los campos esten llenos correctamente
@@ -100,7 +100,7 @@ function validarDatos(){
             return  mensajeAlerta('El usuario ingresado no es correcto.','error')
         }
 
-        if(usuario_pwd.value.length<8){
+        if(usuario_pwd.value.length<3){
             usuario_pwd.classList.add("is-invalid");
             return  mensajeAlerta('Es necesario ingresar una contraseña mayor o igual a 8 caracteres.','error')
         }

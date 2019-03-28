@@ -1,3 +1,10 @@
+ <?php 
+  require_once("../php/conexion/conexion.php"); 
+  $Conectar = new Conectar();  
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,17 +49,17 @@
             </div>
             <div class="card-body"> 
 
-        <div class="form-row col-md-6  col-12 mostrar float-left">
+        <div class="form-row col-md-6  col-12 float-left">
           <div class="col-md-4 col-12 offset-md-2">
-              <b><label for="c_id">Fecha Inicial</label></b>
-              <input type="date" min="1" class="form-control" id="c_id" placeholder="Id"  > 
+              <b><label for="fecha_inicial">Fecha Inicial</label></b>
+              <input type="date" min="1" class="form-control" id="fecha_inicial" placeholder="Id"  > 
           </div>
           <div class="col-md-4 col-12 ">
-              <b><label for="c_nombre ">Fecha Final</label></b>
-              <input type="date" class="form-control" id="c_nombre"  > 
+              <b><label for="fecha_final ">Fecha Final</label></b>
+              <input type="date" class="form-control" id="fecha_final"  > 
           </div>  
         </div> 
-        <div class="form-row col-md-6  col-12 mostrar">
+        <div class="form-row col-md-6  col-12">
            <div class="col-md-6 col-12 offset-md-2">
               <b><label for="r_cartera">Seleccione su cartera</label></b>
               <select class="custom-select" id="r_cartera">
@@ -60,14 +67,30 @@
               </select>
             </div>     
              <div class="col-md-6 col-12 offset-md-2">
-                <b><label for="r_cartera">Seleccione Tipo</label></b>
-                <select class="custom-select" id="r_cartera">
+                <b><label for="r_tipo">Seleccione Tipo</label></b>
+                <select class="custom-select" id="r_tipo">
                   <option selected value="0">Seleccione una opcion</option> 
+                  <?php
+                          $sql="SELECT  id, descripcion  FROM tipo_prestamo "; 
+                                $resultado = mysqli_query($Conectar->con(), $sql);  
+                                while ($res = mysqli_fetch_row($resultado)) {
+                                       
+                                      echo "<option value=".$res[0].">".$res[1]."</option>"; 
+                                    } 
+                      ?>
                 </select>
               </div>    
                  
         </div>
-
+         <div class="form-row col-md-12  col-12    mt-5">
+          <div class="col-md-12 col-12    ">
+               <center>
+                  <button type="button" onclick="generarReporteDesembolsos()" class="btn btn-secondary btn-lg">Limpiar</button> 
+                  <button type="button" onclick="limpiarCamposRepDesembolsos()" class="btn btn-primary  btn-lg">Buscar</button>
+               </center>
+               
+          </div>  
+        </div> 
             
       </div> 
                  
