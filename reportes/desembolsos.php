@@ -20,11 +20,11 @@
    <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet"> 
   <!-- Custom styles for this template -->
-  <link href="../css/simple-sidebar.css" rel="stylesheet">
+  <link href="../css/simple-sidebar.css" rel="stylesheet"> 
 
-
-
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+   <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
 
 </head>
 
@@ -43,60 +43,76 @@
         </nav>
 
       <div class="container-fluid "  > 
-        <div class="card mt-5">
-            <div class="card-header bg-primary text-black">
-              <h4>Filtros</h4>
-            </div>
-            <div class="card-body"> 
+            <div class="card mt-5">
+                <div class="card-header bg-primary text-black">
+                  <h4>Filtros</h4>
+                </div>
+                <div class="card-body"> 
 
-        <div class="form-row col-md-6  col-12 float-left">
-          <div class="col-md-4 col-12 offset-md-2">
-              <b><label for="fecha_inicial">Fecha Inicial</label></b>
-              <input type="date" min="1" class="form-control" id="fecha_inicial" placeholder="Id"  > 
-          </div>
-          <div class="col-md-4 col-12 ">
-              <b><label for="fecha_final ">Fecha Final</label></b>
-              <input type="date" class="form-control" id="fecha_final"  > 
-          </div>  
-        </div> 
-        <div class="form-row col-md-6  col-12">
-           <div class="col-md-6 col-12 offset-md-2">
-              <b><label for="r_cartera">Seleccione su cartera</label></b>
-              <select class="custom-select" id="r_cartera">
-                <option selected value="0">Seleccione una cartera</option> 
-              </select>
-            </div>     
-             <div class="col-md-6 col-12 offset-md-2">
-                <b><label for="r_tipo">Seleccione Tipo</label></b>
-                <select class="custom-select" id="r_tipo">
-                  <option selected value="0">Seleccione una opcion</option> 
-                  <?php
-                          $sql="SELECT  id, descripcion  FROM tipo_prestamo "; 
-                                $resultado = mysqli_query($Conectar->con(), $sql);  
-                                while ($res = mysqli_fetch_row($resultado)) {
-                                       
-                                      echo "<option value=".$res[0].">".$res[1]."</option>"; 
-                                    } 
-                      ?>
-                </select>
-              </div>    
-                 
-        </div>
-         <div class="form-row col-md-12  col-12    mt-5">
-          <div class="col-md-12 col-12    ">
-               <center>
-                  <button type="button" onclick="generarReporteDesembolsos()" class="btn btn-secondary btn-lg">Limpiar</button> 
-                  <button type="button" onclick="limpiarCamposRepDesembolsos()" class="btn btn-primary  btn-lg">Buscar</button>
-               </center>
-               
-          </div>  
-        </div> 
-            
-      </div> 
-                 
-              
+                            <div class="form-row col-md-6  col-12 float-left">
+                              <div class="col-md-4 col-12 offset-md-2">
+                                  <b><label for="fecha_inicial">Fecha Inicial</label></b>
+                                  <input type="date" min="1" class="form-control" id="fecha_inicial" placeholder="Id"  > 
+                              </div>
+                              <div class="col-md-4 col-12 ">
+                                  <b><label for="fecha_final ">Fecha Final</label></b>
+                                  <input type="date" class="form-control" id="fecha_final"  > 
+                              </div>  
+                            </div> 
+                            <div class="form-row col-md-6  col-12">
+                               <div class="col-md-6 col-12 offset-md-2">
+                                  <b><label for="r_cartera">Seleccione su cartera</label></b>
+                                  <select class="custom-select" id="r_cartera">
+                                    <option selected value="0">Seleccione una cartera</option> 
+                                  </select>
+                                </div>     
+                                 <div class="col-md-6 col-12 offset-md-2">
+                                    <b><label for="r_tipo">Seleccione Tipo</label></b>
+                                    <select class="custom-select" id="r_tipo">
+                                      <option selected value="0">Seleccione una opcion</option> 
+                                      <?php
+                                              $sql="SELECT  id, descripcion  FROM tipo_prestamo "; 
+                                                    $resultado = mysqli_query($Conectar->con(), $sql);  
+                                                    while ($res = mysqli_fetch_row($resultado)) {
+                                                           
+                                                          echo "<option value=".$res[0].">".$res[1]."</option>"; 
+                                                        } 
+                                          ?>
+                                    </select>
+                                  </div>    
+                                     
+                            </div>
+                             <div class="form-row col-md-12  col-12    mt-5">
+                              <div class="col-md-12 col-12    ">
+                                   <center>
+                                      <button type="button" onclick="limpiarCamposRepDesembolsos()" class="btn btn-secondary btn-lg">Limpiar</button> 
+                                      <button type="button" onclick="generarReporteDesembolsos()"  class="btn btn-primary  btn-lg">Buscar</button>
+                                   </center>
+                                   
+                              </div>  
+                            </div>  
+                </div>  
             </div>
-          </div>
+            <!--AGREGAMOS EL CONTENIDO-->
+            <div class="row">
+                <!--table class="table table-sm  mt-2 ">
+                    <thead>
+                      <tr> 
+                        <th scope="col">Id</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Cartera</th>
+                        <th scope="col">Desembolso</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Capturista</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tb_rep_desembolsos"> 
+                    </tbody>
+                  </table-->
+                     <div id="myGrid" style="height: 600px; " class="ag-theme-balham col-10 offset-1 mt-2"></div> 
+            </div>
+      </div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
