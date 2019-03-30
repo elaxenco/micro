@@ -144,7 +144,7 @@ var resClientesCartera = function(data){
     if (!data && data == null) 
             return   
     
-    console.log(data)
+    //console.log(data)
           let contenido=''  
 
           for(var i=0; i<data.length; i++){
@@ -180,7 +180,7 @@ var resEstadoCtaCliente = function(data){
           document.getElementById('saldoTotal').innerHTML=`$ ${data[0].saldoTotal}`;
           // si el saldo es 0 quiere decir que es respuesta de un abono por lo tanto refrescamos los clientes
           if(data[0].saldoTotal<=0){
-            onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
+            onRequestCte({ opcion : 2 ,c_cartera:document.getElementById('c_cartera').value},resClientesCartera);
           }
 
 }

@@ -7,16 +7,54 @@ function generarReporteDesembolsos(){
   let fechaInicial = document.getElementById('fecha_inicial').value;
   let fechaFinal = document.getElementById('fecha_final').value;
   let cartera_id = document.getElementById('r_cartera').value;
-  let tipo_id = document.getElementById('r_tipo').value; 
+  let tipo_id = document.getElementById('r_tipo').value;  
+  let rol_id = leerCookie('micro_rol_id');
+
+  if(fechaInicial=='' || fechaFinal=='' || fechaFinal<fechaInicial){
+      mensajeAlerta('EL rango de fechas no es valido.','error')
+      return;
+  }
+
+  if(rol_id>1){
+    if(cartera_id<=0){
+      mensajeAlerta('Es necesario seleccionar una cartera.','error')
+      return;
+    } 
+  }
+
+ // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
 
   onRequestReportes({ opcion :1,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReporteDesembolsos);
+}
+// BUSCAR PAGOS
+function generarReportePagos(){
+  let fechaInicial = document.getElementById('fecha_inicial').value;
+  let fechaFinal = document.getElementById('fecha_final').value;
+  let cartera_id = document.getElementById('r_cartera').value;
+  let tipo_id = document.getElementById('r_tipo').value;  
+  let rol_id = leerCookie('micro_rol_id');
+
+  if(fechaInicial=='' || fechaFinal=='' || fechaFinal<fechaInicial){
+      mensajeAlerta('EL rango de fechas no es valido.','error')
+      return;
+  }
+
+  if(rol_id>1){
+    if(cartera_id<=0){
+      mensajeAlerta('Es necesario seleccionar una cartera.','error')
+      return;
+    } 
+  }
+
+ // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
+
+  onRequestReportes({ opcion :2,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReportePagos);
 }
 
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
-            return;   
-          console.log(data)
+            return;    
 
      let contenido='<option selected value="0">Seleccione una cartera</option>' 
 
@@ -25,7 +63,7 @@ var resRegCarterasPorUsuario = function(data){
               contenido += `<option value="${data[i].cartera_id}">${data[i].nombre}</option>` 
 
           }
-          //incrustamos el codigo html en la tabla 
+          //incrustamos el codigo html 
           document.getElementById('r_cartera').innerHTML=contenido;
 
 }
@@ -33,49 +71,32 @@ var resRegCarterasPorUsuario = function(data){
 //respuesta de desembolsos
 var resReporteDesembolsos = function(data){
     if (!data && data == null) 
-            return;  
+            return;   
 
-          console.log(data) 
- 
-
+          console.log(data)
+        let contenido = ''
          for(var i=0; i<data.length; i++){
-            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-            //arreglo[posision]= [campo1,campo2.etc]     importes[data[i].importe_id] = [ data[i].importe_id,data[i].importe, data[i].semanas, data[i].quincenas,data[i].pago_completo]
-            //{make: "Toyota", model: "Celica", price: 35000} 
-
-            rowData.push({id : data[i].cliente_id,cliente : data[i].cliente,cartera :data[i].cartera,desembolso:data[i].desembolso,fecha:data[i].fecha,tipo:data[i].tipo,cartera:data[i].cartera})
-
-
+            
+             contenido +=`<tr><td>${data[i].cliente_id}</td><td>${data[i].cliente}</td><td>${data[i].cartera}</td><td>${data[i].desembolso}</td><td>${data[i].fecha}</td><td>${data[i].tipo}</td><td>${data[i].capturista}</td></tr>`
           } 
-
-        // let the grid know which columns and what data to use
-    var gridOptions = {
-      columnDefs: columnDefs,
-      rowData: rowData
-    };
-
-  // lookup the container we want the Grid to use
-  var eGridDiv = document.querySelector('#myGrid');
-
-  // create the grid passing in the div to use together with the columns & data we want to use
-  new agGrid.Grid(eGridDiv, gridOptions);
-
+        //incrustamos el codigo html en la tabla 
+        document.getElementById('tb_rep_desembolsos').innerHTML=contenido;
 }
-//////////////////////////////////////////////////INICIALIAZAMOS TABLAS
-// declaramos los campos  de la tabla
-var columnDefs = [
-  {headerName: "Id", field: "id" , sortable: true, filter: true },
-  {headerName: "Cliente", field: "cliente" , sortable: true, filter: true },
-  {headerName: "Cartera", field: "cartera" , sortable: true, filter: true },
-  {headerName: "Desembolso", field: "desembolso" , sortable: true, filter: true },
-  {headerName: "Fecha", field: "fecha", sortable: true, filter: true },
-  {headerName: "Tipo", field: "tipo" , sortable: true, filter: true },
-  {headerName: "Cartera", field: "cartera" , sortable: true, filter: true }
-];
 
-// specify the data
-var rowData = [
-   
-];
-  
+//respuesta de pagos
+var resReportePagos = function(data){
+    if (!data && data == null) 
+            return;   
+
+          console.log(data)
+        let contenido = ''
+         for(var i=0; i<data.length; i++){
+            
+              contenido +=`<tr><td>${data[i].cliente_id}</td><td>${data[i].cliente}</td><td>${data[i].fecha}</td><td>${data[i].pago_completo}</td><td>${data[i].pago_capital}</td><td>${data[i].pago_interes}</td><td>${data[i].pago_seguro}</td><td>${data[i].capturista}</td><td>${data[i].cartera}</td></tr>`
+         
+          } 
+        //incrustamos el codigo html en la tabla 
+        document.getElementById('tb_rep_pagos').innerHTML=contenido;
+}
+ 
     

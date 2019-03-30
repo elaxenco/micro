@@ -9,6 +9,9 @@
   				case 1: 
 			 			   echo (json_encode($reportes->listaDesembolsos($_REQUEST['fecha_inicial'],$_REQUEST['fecha_final'],$_REQUEST['cartera_id'],$_REQUEST['tipo_id'])));
 			 		break;  
+			 	case 2: 
+			 			   echo (json_encode($reportes->listaDePagos($_REQUEST['fecha_inicial'],$_REQUEST['fecha_final'],$_REQUEST['cartera_id'],$_REQUEST['tipo_id'])));
+			 		break;  
  
  		 
  	}

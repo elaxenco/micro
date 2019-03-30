@@ -21,10 +21,9 @@
   <link href="../css/bootstrap.min.css" rel="stylesheet"> 
   <!-- Custom styles for this template -->
   <link href="../css/simple-sidebar.css" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-   <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
-  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
+   
 
 </head>
 
@@ -45,7 +44,7 @@
       <div class="container-fluid "  > 
             <div class="card mt-5">
                 <div class="card-header bg-primary text-black">
-                  <h4>Filtros</h4>
+                  <h4>Filtros <b>Desembolsos</b></h4> 
                 </div>
                 <div class="card-body"> 
 
@@ -85,8 +84,9 @@
                              <div class="form-row col-md-12  col-12    mt-5">
                               <div class="col-md-12 col-12    ">
                                    <center>
-                                      <button type="button" onclick="limpiarCamposRepDesembolsos()" class="btn btn-secondary btn-lg">Limpiar</button> 
+                                      <button type="button" onclick="limpiarCamposRepDesembolsos()" class="btn btn-secondary btn-lg" disabled="">Limpiar</button> 
                                       <button type="button" onclick="generarReporteDesembolsos()"  class="btn btn-primary  btn-lg">Buscar</button>
+                                      <button type="button" onclick="exportarReporteDesembolsos()"  class="btn btn-success  btn-lg">Exportar <i class="fas fa-file-excel "></i></button>
                                    </center>
                                    
                               </div>  
@@ -95,7 +95,7 @@
             </div>
             <!--AGREGAMOS EL CONTENIDO-->
             <div class="row">
-                <!--table class="table table-sm  mt-2 ">
+                <table class="table table-sm  mt-2 table-hover">
                     <thead>
                       <tr> 
                         <th scope="col">Id</th>
@@ -109,8 +109,7 @@
                     </thead>
                     <tbody id="tb_rep_desembolsos"> 
                     </tbody>
-                  </table-->
-                     <div id="myGrid" style="height: 600px; " class="ag-theme-balham col-10 offset-1 mt-2"></div> 
+                  </table > 
             </div>
       </div>
       </div>
