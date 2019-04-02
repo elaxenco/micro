@@ -44,6 +44,11 @@
 		 	  echo (json_encode($banco->guardarPagoDeCliente($_REQUEST['cliente_id'],$_REQUEST['pago'],$_REQUEST['capturista_id']))); 
 
 		 		break;
+		 	case 8: 
+
+		 	  echo (json_encode($banco->cargarCajasYOficinas())); 
+
+		 		break;
  	
  		 
  	}

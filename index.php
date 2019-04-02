@@ -45,6 +45,11 @@
 
   </div>
   <!-- /#wrapper -->
+    <!-- /#wrapper -->
+  <script type="text/javascript">
+    document.getElementById('m_inicio').classList.remove('bg-light');
+    document.getElementById('m_inicio').classList.add('bg-blue-grey'); 
+  </script>
 
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="js/jquery-3.2.1.js"></script>

@@ -469,6 +469,29 @@
 			return $this -> estadoDeCuentDeCliente($cliente_id); 
 		} 
 
+		//buscar todas las carteras y oficinas
+		public function cargarCajasYOficinas(){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					 $sql="SELECT id,CONCAT('O','-',id) compuesto, descripcion caja,'2' tipo_caja FROM oficinas
+							UNION
+							SELECT id,CONCAT('C','-',id) compuesto,descripcion caja,'1' tipo_caja FROM carteras"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$datos[$i]['id_real'] 			= $res[0]; 
+						$datos[$i]['id_compuesto'] 		= $res[1];  
+						$datos[$i]['descripcion'] 		= $res[2]; 
+						$datos[$i]['tipo_caja'] 				= $res[3]; 
+						$datos[$i]['identificador_gen'] = $i+1;
+
+						$i++;
+					} 
+
+					return $datos;
+				       		  
+		}
+
 		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
 			/*	//consultamos el saldo del cliente 
 				$sql="SELECT capital-pago_capital capital, interes-pago_interes interes,fecha_pago FROM corridas_tipo_c WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 

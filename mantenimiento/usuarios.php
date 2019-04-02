@@ -48,7 +48,6 @@
     <!-- /#page-content-wrapper -->
 
   </div>
-  <!-- /#wrapper -->
 
 
   <!-- Bootstrap core JavaScript -->

@@ -21,7 +21,7 @@
 
 </head>
 
-<body onload="cargarControles()">
+<body onload="cargarControlesCajas()">
 
   <div class="d-flex" id="wrapper">
 
@@ -35,15 +35,58 @@
            <button id="buttonR"  class="mr-1 ml-1 menu-toggle" data-toggle="tooltip" onclick="this.style.display='none',document.getElementById('buttonL').style.display='block'" data-placement="right" title="Ver Menu"><i class="fas fa-angle-double-right"></i></button>
         </nav>
 
-      <div class="container-fluid"  >
-            <?php   include('pagos.php'); ?> 
+      <div class="container-fluid"  > 
+          <div class="container  "> 
+              <div class="text-center mt-5">
+                  <h2>Modulo de Entradas y Salidas</h2>
+              </div>  
+              <div class="form-row">
+                   <div class="col-md-4 col-12 ">
+                    <b><label for="c_caja_id">Seleccione una Caja</label></b>
+                    <select class="custom-select" id="c_caja_id"  >
+                      <option selected value="0">Seleccione una caja</option> 
+                    </select>
+                  </div> 
+              </div>
+              <div class="card-header bg-success text-white mt-2"> 
+                        <div class="row">
+                          <div class="col-md-6  mt-2">
+                            Filtro 
+                          </div>
+                          <div class="col-md-6 col-12"> 
+                            <input type="text" class="form-control col-md-12 col-12" id="b_clientes" onkeyup="buscarMovimiento(this.value)" placeholder="Buscar cliente"  required>  
+                          </div>
+                        </div> 
+              </div>
+              <div class="card scroller-pagos">
+                
+                <div class="card-body">
+                    <table class="table   table-sm table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Caja</th>  
+                            <th scope="col">Fecha</th>  
+                            <th scope="col">Importe</th>  
+                            <th scope="col">Tipo</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tb_clientes">
+                           
+                          
+                        </tbody>
+                      </table> 
+                  
+                </div>
+              </div>
+             
+          </div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
 
   </div>
-  <!-- /#wrapper -->
-  <?php   include('../modals/modalsbanco.php'); ?>
   <script type="text/javascript">
     document.getElementById('m_banco').classList.remove('bg-light');
     document.getElementById('m_banco').classList.add('bg-blue-grey'); 

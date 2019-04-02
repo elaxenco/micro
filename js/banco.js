@@ -5,7 +5,10 @@
 function cargarControles(){
   onRequestMant({ opcion :10,usuario_id:USUARIO_ID,rol_id:ROL_ID },resRegCarterasPorUsuario);
 }
-
+//funcion para inicializar controles de cajas
+function cargarControlesCajas(){
+  onRequestBanco({ opcion :8 },resRegCajas);
+}
 //
 function buscarClientesPorCartera(cartera_id){
 	onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
@@ -184,4 +187,25 @@ var resEstadoCtaCliente = function(data){
           }
 
 }
+var arregloCajas =[]
+//respuesta de cajas por usuario
+var resRegCajas = function(data){
+    if (!data && data == null) 
+            return;   
 
+          console.log(data)
+
+     let contenido='<option selected value="0">Seleccione una caja</option>' 
+
+          for(var i=0; i<data.length; i++){
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+             arregloCajas[data[i].identificador_gen] = [{ id_real: data[i].id_real , id_compuesto : data[i].id_compuesto  ,descripcion: data[i].descripcion ,tipo_caja:data[i].tipo_caja}];
+              contenido += `<option value="${data[i].id_compuesto}">${data[i].descripcion}</option>`
+
+
+          }
+          //incrustamos el codigo html en la tabla
+          document.getElementById('c_caja_id').innerHTML=contenido;
+ 
+
+}

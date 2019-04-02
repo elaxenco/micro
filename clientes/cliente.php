@@ -163,6 +163,12 @@
   </div>
   <!-- /#wrapper -->
 <?php   include('../modals/modals.php'); ?>
+
+ 
+  <script type="text/javascript">
+    document.getElementById('m_clientes').classList.remove('bg-light');
+    document.getElementById('m_clientes').classList.add('bg-blue-grey'); 
+  </script>
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="../js/js.cookie.js"></script>
