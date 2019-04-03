@@ -49,7 +49,16 @@
 		 	  echo (json_encode($banco->cargarCajasYOficinas())); 
 
 		 		break;
- 	
+ 			case 9: 
+
+		 	  echo (json_encode($banco->guardarMovimientoCaja($_REQUEST['caja_id'],$_REQUEST['movimiento_id'],$_REQUEST['descripcion'],$_REQUEST['tipo_id'],$_REQUEST['fecha'],$_REQUEST['importe'],$_REQUEST['tipo_caja']))); 
+
+		 		break;
+		 	case 10: 
+
+		 	  echo (json_encode($banco->buscarMovimientoPorCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja']))); 
+
+		 		break;
  		 
  	}
 

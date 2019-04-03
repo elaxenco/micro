@@ -27,6 +27,7 @@ function buscarClientes(clt){
 
 }
 
+
 //
 function seleccionarCliente(cliente_id){  
 	 
@@ -123,6 +124,75 @@ function guardarPago(){
    }
 
 }
+///////////////////////////////////////////////////////////apartado de cajas/////////////////////////////////////////
+//funcion para guardar movimiento e/s
+function guardarMovimiento(){
+  // inicializamos las variables
+  let caja_id = document.getElementById('c_caja_id').value;
+  let movimiento_id = document.getElementById('c_movimiento_id').value;
+  let descripcion = document.getElementById('c_descripcion_movimiento').value.toUpperCase();
+  let tipo_id = document.getElementById('c_tipo_id').value;
+  let fecha = document.getElementById('c_fecha').value;
+  let importe = document.getElementById('c_importe').value;
+  
+  //validamos que los campos esten correctamente llenados
+  if(caja_id<1)
+      return mensajeAlerta('Lacaja seleccionada no es valida','error')
+
+  if(descripcion.length<5)
+      return mensajeAlerta('La descripcion no es correcta','error')
+
+  if(tipo_id<1)
+      return mensajeAlerta('No se espesifico el tipo de movimiento', 'error')
+
+  if(fecha=='')
+      return mensajeAlerta('La fecha ingresada no es valida','error')
+
+  if(importe<1)
+      return mensajeAlerta('El importe ingresado no es valido','error')
+
+    //extraemos del arreglo de cajas el tipo de caja ya sea cartera o oficina
+  let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+
+  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja },resGuardarMovimiento);
+}
+
+// funcion para limpiar los campos
+function limpiarCamposCaja(){
+    document.getElementById('c_caja_id').value=0;
+    document.getElementById('c_movimiento_id').value=0;
+    document.getElementById('c_descripcion_movimiento').value="";
+    document.getElementById('c_tipo_id').value=0;
+    document.getElementById('c_fecha').value="";
+    document.getElementById('c_importe').value=0;
+}
+
+//buscar movimiento dependiendo de la cartera seleccionada
+function buscarMovimientosPorCaja(caja_id){
+
+    if(caja_id<1){
+      document.getElementById('tb_movimientos').innerHTML=''; 
+    }else{
+
+      let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+      onRequestBanco({ opcion :10,caja_id:caja_id,tipo_caja:tipo_caja},resMovimientosPorCaja);
+    }
+}
+//nos posicionamos en el movimiento seleccionado
+function seleccionarMovimiento(movimiento_id){
+  let tipo_movimiento= ''
+  if(arregloMovimientos[1][0].tipo=='ENTRADA')
+      tipo_movimiento='E'
+  else
+      tipo_movimiento='S'
+   
+  document.getElementById('c_movimiento_id').value=movimiento_id;
+  document.getElementById('c_descripcion_movimiento').value=arregloMovimientos[1][0].descripcion;
+  document.getElementById('c_tipo_id').value=tipo_movimiento;
+  document.getElementById('c_fecha').value=arregloMovimientos[1][0].fecha;
+  document.getElementById('c_importe').value=arregloMovimientos[1][0].importe;
+}
+/////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
@@ -133,14 +203,14 @@ var resRegCarterasPorUsuario = function(data){
 
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              contenido += `<option value="${data[i].cartera_id}">${data[i].nombre}</option>`
-
-
+              contenido += `<option value="${data[i].cartera_id}">${data[i].nombre}</option>` 
           }
           //incrustamos el codigo html en la tabla
-          $("#c_cartera").html(contenido);  
+          //$("#c_cartera").html(contenido);  
+          document.getElementById('c_cartera').innerHTML =contenido;
 
 }
+//inicializamos arreglo para los clientes que posterior mente llenaremos
 var arregloClientes =[]
 //respuesta con los clientes de cada cartera
 var resClientesCartera = function(data){
@@ -187,20 +257,20 @@ var resEstadoCtaCliente = function(data){
           }
 
 }
+/////////////////////////////////////////////////////////////////////////////respuestas de caja ////////////////////////////////////
+//inicializamos arreglo de cajas que necesitaremos posterior mente
 var arregloCajas =[]
 //respuesta de cajas por usuario
 var resRegCajas = function(data){
     if (!data && data == null) 
-            return;   
-
-          console.log(data)
+            return;    
 
      let contenido='<option selected value="0">Seleccione una caja</option>' 
 
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
              arregloCajas[data[i].identificador_gen] = [{ id_real: data[i].id_real , id_compuesto : data[i].id_compuesto  ,descripcion: data[i].descripcion ,tipo_caja:data[i].tipo_caja}];
-              contenido += `<option value="${data[i].id_compuesto}">${data[i].descripcion}</option>`
+              contenido += `<option value="${data[i].identificador_gen}">${data[i].descripcion}</option>`
 
 
           }
@@ -209,3 +279,56 @@ var resRegCajas = function(data){
  
 
 }
+
+///respuesta de guardar movimiento
+var resGuardarMovimiento = function(data){
+    if (!data && data == null) 
+            return;   
+
+         // console.log(data)
+        switch(data[0].respuesta){
+            case '2':
+                  mensajeAlerta('El movimiento se registro correctamente','success');
+                 //  cargarMovimientosPorCaja();
+                 limpiarCamposCaja();
+              break
+            case '3':
+                  mensajeAlerta('Ocurrio un error al intentar guardar el movimiento','error')
+              break
+        }
+}
+//arreglo de movimientos
+var arregloMovimientos =[]
+///respuesta de guardar movimiento
+var resMovimientosPorCaja = function(data){
+    if (!data && data == null) 
+            return;  
+
+     let contenido='' 
+
+          for(var i=0; i<data.length; i++){
+
+            arregloMovimientos[data[i].movimiento_id] = [{ movimiento_id: data[i].movimiento_id , descripcion : data[i].descripcion  ,fecha: data[i].fecha ,importe:data[i].importe,tipo :data[i].tipo}];
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+
+            contenido += `<tr class="subrallar-tabla" onclick="seleccionarMovimiento(${data[i].movimiento_id})"><td>${data[i].movimiento_id}</td><td>${data[i].descripcion}</td><td>${data[i].fecha}</td><td>${data[i].importe}</td><td>${data[i].tipo}</td><td>${data[i].capturista}</td></tr>`
+ 
+          }
+          //incrustamos el codigo html en la tabla
+          document.getElementById('tb_movimientos').innerHTML=contenido; 
+}
+
+   /*  let contenido='<option selected value="0">Seleccione una caja</option>' 
+
+          for(var i=0; i<data.length; i++){
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+             arregloCajas[data[i].identificador_gen] = [{ id_real: data[i].id_real , id_compuesto : data[i].id_compuesto  ,descripcion: data[i].descripcion ,tipo_caja:data[i].tipo_caja}];
+              contenido += `<option value="${data[i].identificador_gen}">${data[i].descripcion}</option>`
+
+
+          }
+          //incrustamos el codigo html en la tabla
+          document.getElementById('c_caja_id').innerHTML=contenido;
+ */
+
+ 

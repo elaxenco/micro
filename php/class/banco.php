@@ -492,6 +492,55 @@
 				       		  
 		}
 
+		// guardar o actualizar movimiento de caja ya sea entrada o salida
+		public function guardarMovimientoCaja($caja_id,$movimiento_id,$descripcion,$tipo,$fecha,$importe,$tipo_caja){
+				$datos=array(); 
+				$capturista_id=$_COOKIE["micro_id"]; 
+
+				if($movimiento_id>0){
+					$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
+	                $resp =  mysqli_query($this->con(), $sql); 
+				}
+				else{
+
+					$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
+						VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
+	                $resp =  mysqli_query($this->con(), $sql);  
+	            }
+
+                if($resp>0){
+					$datos[0]['respuesta'] 		='2'; 
+				}else{
+					$datos[0]['respuesta'] 		='3'; 
+				}
+
+				return $datos;
+		}
+
+		//buscar los movimientos de la caja seleccionada
+		public function buscarMovimientoPorCaja($caja_id,$tipo_caja){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					 $sql="SELECT caja.id,descripcion,fecha,importe,IF(tipo='E','ENTRADA','SALIDA') tipo,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) capturista FROM caja
+								JOIN usuarios ON usuarios.id=caja.capturista_id
+							WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$datos[$i]['movimiento_id'] = $res[0]; 
+						$datos[$i]['descripcion'] 	= $res[1];  
+						$datos[$i]['fecha'] 		= $res[2]; 
+						$datos[$i]['importe'] 		= $res[3]; 
+						$datos[$i]['tipo']			= $res[4];
+						$datos[$i]['capturista']	= $res[5];
+
+						$i++;
+					} 
+
+					return $datos;
+				       		  
+		}
+
 		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
 			/*	//consultamos el saldo del cliente 
 				$sql="SELECT capital-pago_capital capital, interes-pago_interes interes,fecha_pago FROM corridas_tipo_c WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 

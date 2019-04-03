@@ -26,6 +26,7 @@
                   <a id="m_reportes_pagos" href="http://localhost/micro/reportes/pagos.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pagos</a> 
                   <a id="m_reportes_pendientes" href="http://localhost/micro/reportes/pendientes_pago.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Pendientes de Pago</a> 
                   <a id="m_reportes_colocado" href="http://localhost/micro/reportes/colocado.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Colocado</a> 
+                  <a id="m_reportes_colocado" href="http://localhost/micro/reportes/caja.php" class="dropdown-item list-group-item list-group-item-action bg-blue-grey">Entradas y Salidas</a> 
           </div>
         </div>
 
