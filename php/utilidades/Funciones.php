@@ -126,14 +126,14 @@ class Funciones extends Conectar{
     function corte($caja_id,$tipo_caja,$fecha)
     {       
         $sql = "SELECT corte_procesado FROM cortes WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha ='$fecha'"; 
-             $resultado= mysqli_query($this->con(), $sql); 
-             while ($fila = mysqli_fetch_row($resultado)) 
+             $res= mysqli_query($this->con(), $sql); 
+             while ($fila = mysqli_fetch_row($res)) 
                 $corte = $fila[ 0 ];
         
         if(empty($corte))
             $corte='N'; 
         
-        return $corte;
+        return $corte; 
     }
 
 

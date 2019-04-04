@@ -61,7 +61,7 @@
 		 		break;
 		 	case 11: 
 
-		 	  echo (json_encode($banco->cancelarMovimientoDeCaja($_REQUEST['caja_id'] ))); 
+		 	  echo (json_encode($banco->cancelarMovimientoDeCaja($_REQUEST['movimiento_id'] ))); 
 
 		 		break;
  		 

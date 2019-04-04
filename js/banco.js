@@ -196,14 +196,13 @@ function seleccionarMovimiento(movimiento_id){
 //funcion para cancelar movimiento de caja
 function cancelarMovimiento(){
    // inicializamos las variables 
-  let movimiento_id = document.getElementById('c_movimiento_id').value; 
-  let caja_id = document.getElementById('c_caja_id').value;
+  let movimiento_id = document.getElementById('c_movimiento_id').value;  
   //validamos que los campos esten correctamente llenados
   if(movimiento_id<1)
       return mensajeAlerta('Es necesario seleccionar un movimiento para su cancelacion.','error')
  
 
-  onRequestBanco({ opcion :11,movimiento_id:movimiento_id},buscarMovimientosPorCaja(caja_id));
+  onRequestBanco({ opcion :11,movimiento_id:movimiento_id},resCancelarMovimiento);
 
 }
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
@@ -333,6 +332,23 @@ var resMovimientosPorCaja = function(data){
           }
           //incrustamos el codigo html en la tabla
           document.getElementById('tb_movimientos').innerHTML=contenido; 
+}
+///respuesta de cancelar movimientos
+var resCancelarMovimiento = function(data){
+    if (!data && data == null) 
+            return;  
+
+    switch(data[0].respuesta){
+        case '2':
+                let caja_id = document.getElementById('c_caja_id').value;
+                buscarMovimientosPorCaja(caja_id)
+          break
+        case '4' :
+                mensajeAlerta('El corte ya fue creado no es posible realizar el movimiento.','error')
+          break
+
+    }
+    
 }
 
    /*  let contenido='<option selected value="0">Seleccione una caja</option>' 

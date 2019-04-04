@@ -498,7 +498,7 @@
 				$datos=array(); 
 				$capturista_id=$_COOKIE["micro_id"]; 
 
-				$corte = $this->corte($caja_id,$tipo_caja,$fecha)
+				$corte = $this->corte($caja_id,$tipo_caja,$fecha);
 
 				if($corte=='S'){
 						$datos[0]['respuesta'] ='4';  
@@ -548,6 +548,37 @@
 					return $datos;
 				       		  
 		}
+
+		//buscar los movimientos de la caja seleccionada
+		public function cancelarMovimientoDeCaja($movimiento_id){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+
+					$sql="SELECT fecha,caja_id,tipo_caja FROM caja WHERE id=$movimiento_id"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$caja_id = $res[0]; 
+						$tipo_caja 	= $res[1];
+						$fecha 	= $res[2];      
+
+						$i++;
+					} 
+
+					$corte = $this->corte($caja_id,$tipo_caja,$fecha);
+
+					if($corte=='S'){
+						$datos[0]['respuesta'] ='4';  
+					}else{ 
+					$sql="DELETE FROM caja WHERE id=$movimiento_id";   
+							mysqli_query($this->con(), $sql);  
+							$datos[0]['respuesta'] 		='2';
+					} 
+
+					return $datos;
+				       		  
+		}
+
 
 		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
 			/*	//consultamos el saldo del cliente 
