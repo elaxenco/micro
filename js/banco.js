@@ -165,7 +165,8 @@ function limpiarCamposCaja(){
     document.getElementById('c_tipo_id').value=0;
     document.getElementById('c_fecha').value="";
     document.getElementById('c_importe').value=0;
-}
+    document.getElementById('tb_movimientos').innerHTML=''; 
+} 
 
 //buscar movimiento dependiendo de la cartera seleccionada
 function buscarMovimientosPorCaja(caja_id){
@@ -181,16 +182,29 @@ function buscarMovimientosPorCaja(caja_id){
 //nos posicionamos en el movimiento seleccionado
 function seleccionarMovimiento(movimiento_id){
   let tipo_movimiento= ''
-  if(arregloMovimientos[1][0].tipo=='ENTRADA')
+  if(arregloMovimientos[movimiento_id][0].tipo=='ENTRADA')
       tipo_movimiento='E'
   else
       tipo_movimiento='S'
    
   document.getElementById('c_movimiento_id').value=movimiento_id;
-  document.getElementById('c_descripcion_movimiento').value=arregloMovimientos[1][0].descripcion;
+  document.getElementById('c_descripcion_movimiento').value=arregloMovimientos[movimiento_id][0].descripcion;
   document.getElementById('c_tipo_id').value=tipo_movimiento;
-  document.getElementById('c_fecha').value=arregloMovimientos[1][0].fecha;
-  document.getElementById('c_importe').value=arregloMovimientos[1][0].importe;
+  document.getElementById('c_fecha').value=arregloMovimientos[movimiento_id][0].fecha;
+  document.getElementById('c_importe').value=arregloMovimientos[movimiento_id][0].importe;
+}
+//funcion para cancelar movimiento de caja
+function cancelarMovimiento(){
+   // inicializamos las variables 
+  let movimiento_id = document.getElementById('c_movimiento_id').value; 
+  let caja_id = document.getElementById('c_caja_id').value;
+  //validamos que los campos esten correctamente llenados
+  if(movimiento_id<1)
+      return mensajeAlerta('Es necesario seleccionar un movimiento para su cancelacion.','error')
+ 
+
+  onRequestBanco({ opcion :11,movimiento_id:movimiento_id},buscarMovimientosPorCaja(caja_id));
+
 }
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
 //respuesta de carteras por usuario
@@ -294,6 +308,9 @@ var resGuardarMovimiento = function(data){
               break
             case '3':
                   mensajeAlerta('Ocurrio un error al intentar guardar el movimiento','error')
+              break
+            case '4':
+                  mensajeAlerta('El corte ya fue creado no es posible realizar el movimiento.','error')
               break
         }
 }

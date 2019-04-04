@@ -45,6 +45,7 @@
 			 		$datos=array();  
 					$i=0; 
 					$desembolso_id=0;
+
 					// validamos que el cliente no tenga un desembolsos activo
 					$sqldesembolsosactivo="SELECT id FROM desembolsos WHERE cliente_id=$cliente_id AND estatus_id=5"; 
 						$resUltimoDesActivo= mysqli_query($this->con(), $sqldesembolsosactivo); 
@@ -497,21 +498,28 @@
 				$datos=array(); 
 				$capturista_id=$_COOKIE["micro_id"]; 
 
-				if($movimiento_id>0){
-					$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
-	                $resp =  mysqli_query($this->con(), $sql); 
-				}
-				else{
+				$corte = $this->corte($caja_id,$tipo_caja,$fecha)
 
-					$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
-						VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
-	                $resp =  mysqli_query($this->con(), $sql);  
-	            }
-
-                if($resp>0){
-					$datos[0]['respuesta'] 		='2'; 
+				if($corte=='S'){
+						$datos[0]['respuesta'] ='4';  
 				}else{
-					$datos[0]['respuesta'] 		='3'; 
+
+					if($movimiento_id>0){
+						$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
+		                $resp =  mysqli_query($this->con(), $sql); 
+					}
+					else{
+
+						$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
+							VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
+		                $resp =  mysqli_query($this->con(), $sql);  
+		            }
+
+	                if($resp>0){
+						$datos[0]['respuesta'] 		='2'; 
+					}else{
+						$datos[0]['respuesta'] 		='3'; 
+					}
 				}
 
 				return $datos;

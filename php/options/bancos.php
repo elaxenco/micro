@@ -59,6 +59,11 @@
 		 	  echo (json_encode($banco->buscarMovimientoPorCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja']))); 
 
 		 		break;
+		 	case 11: 
+
+		 	  echo (json_encode($banco->cancelarMovimientoDeCaja($_REQUEST['caja_id'] ))); 
+
+		 		break;
  		 
  	}
 
