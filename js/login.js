@@ -68,7 +68,7 @@ function ingresarSistema(e){
     if (tecla==13){
 
         var txtUser = $("#inputUsurio").val().toUpperCase();
-        var txtPass = $("#inputPassword").val().toUpperCase();
+        var txtPass = $("#inputPassword").val();
 
         if (txtUser=="" || txtPass=="")
         {

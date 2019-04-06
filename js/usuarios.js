@@ -102,7 +102,7 @@ function validarDatos(){
 
         if(usuario_pwd.value.length<3){
             usuario_pwd.classList.add("is-invalid");
-            return  mensajeAlerta('Es necesario ingresar una contraseña mayor o igual a 8 caracteres.','error')
+            return  mensajeAlerta('Es necesario ingresar una contraseña mayor o igual a 5 caracteres.','error')
         }
 
         if(usuario_pwd.value != usuario_pwdv.value){
@@ -194,7 +194,5 @@ var respEditarUsuario = function(data){
     document.getElementById("usuario_apm").value=data[0].apmaterno;
     document.getElementById("usuario_rol").value=data[0].rol_id;
     document.getElementById("nombre_usuario").value=data[0].usuario; 
-    document.getElementById("usuario_pwd").value=data[0].usuario_pwd; 
-    document.getElementById("usuario_pwdv").value=data[0].usuario_pwdv; 
 
 }
