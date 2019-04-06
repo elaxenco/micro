@@ -1,5 +1,4 @@
-var onRequestMant = function( prParams, callback,load=1) {	 
-
+var onRequestMant = function( prParams, callback,load=1) {	  
 		$.ajax({
 		    // la URL para la petición
 		    url :"/micro/php/options/mantenimiento.php", 
@@ -71,11 +70,9 @@ var onRequestCte = function( prParams, callback,load=1) {
 		 
 		    // código a ejecutar si la petición es satisfactoria;
 		    // la respuesta es pasada como argumento a la función
-		    success : function(json) {
-		      // console.log('success')
+		    success : function(json) { 
 		       if (callback && callback != null)
-		       		callback(json);
-
+		       		callback(json); 
 		       	
 		    },
 		 
@@ -146,9 +143,7 @@ var onRequestCte = function( prParams, callback,load=1) {
 	}
 
 var onRequestReportes = function( prParams, callback,load=1) {	
- 
-		console.log(prParams);
-
+  
 		$.ajax({
 		    // la URL para la petición
 		    url :"/micro/php/options/reportes.php", 

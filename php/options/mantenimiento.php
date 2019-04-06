@@ -35,6 +35,9 @@
 			 		break; 
 			 	case 10: 
 			 			   echo (json_encode($mantenimientoclass->buscarCarterasDeUsuario($_REQUEST['usuario_id'],$_REQUEST['rol_id'])));
+			 		break;  
+			 	case 11: 
+			 			   echo (json_encode($mantenimientoclass->menuPorRoles()));
 			 		break; 
  
  		 

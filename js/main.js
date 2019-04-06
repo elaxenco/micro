@@ -31,11 +31,8 @@ function cargarCarteras(){
  var resRegCartera = function(data){
     if (!data && data == null) 
             return;  
-
-            console.log(data)  
- 	 
- 
-                 var d = 'ddd';
+  
+      var d = '';
 
      for (var i = 0; i < data.length; i++) {
 		     d+= '<tr>'+

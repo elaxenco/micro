@@ -267,7 +267,7 @@ var resBuscarImportePorTipoId = function(data){
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
             return;   
-          console.log(data)
+       
 
      let contenido='<option selected value="0">Seleccione una cartera</option>' 
 

@@ -302,8 +302,9 @@ var resGuardarMovimiento = function(data){
         switch(data[0].respuesta){
             case '2':
                   mensajeAlerta('El movimiento se registro correctamente','success');
-                 //  cargarMovimientosPorCaja();
-                 limpiarCamposCaja();
+                  let caja_id = document.getElementById('c_caja_id').value;
+                   buscarMovimientosPorCaja(caja_id)
+                // limpiarCamposCaja();
               break
             case '3':
                   mensajeAlerta('Ocurrio un error al intentar guardar el movimiento','error')

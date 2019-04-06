@@ -26,7 +26,7 @@
 
 		 	  echo (json_encode($cliente->buscarClientePorId($_REQUEST['cliente_id']))); 
 
-		 		break;
+		 		break; 
  	
  		 
  	}

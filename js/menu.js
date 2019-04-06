@@ -3,7 +3,8 @@ const USUARIO_ID = leerCookie('micro_id')
 const NOMBRE 	 = leerCookie('micro_nombre')
 const ROL_ID 	 = leerCookie('micro_rol_id')
 
-validarEstatusUsuario() 
+validarEstatusUsuario();  
+
 
 $(document).ready(function(){
 	$(".menu-toggle").click(function(e) {
@@ -11,26 +12,14 @@ $(document).ready(function(){
       $("#wrapper").toggleClass("toggled");
  	});
  	
- 	$('.dropdown-toggle').dropdown();
-
+ 	$('.dropdown-toggle').dropdown(); 
+ 
+ 		onRequestMant({ opcion :11},resMenuPorRoles); 
 });
 
-function cargarMenu(menu){
-
-
-	switch(menu){
-		case 1:
-			//$('#divContenido').load('clientes/clientes.html');
-			break
-		case 2:
-
-			break
-	 
-	}
-}
+ 
 //eliminamos cookies
-function cerrarSesion(){
-	console.log(leerCookie('micro_id')+'saasd')
+function cerrarSesion(){ 
 			   document.cookie = `micro_id=; max-age=10600; path=/`;
                document.cookie = `micro_nombre=; max-age=10600; path=/`;
                document.cookie = `micro_rol_id=; max-age=10600; path=/`; 
@@ -40,5 +29,26 @@ function cerrarSesion(){
 function validarEstatusUsuario(){
 	if(leerCookie('micro_id')==null || leerCookie('micro_id')==''){
 		window.location = "/micro/login.html";
-	}
+	} 
+	
+
+}
+ 
+ /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
+//respuesta de carteras por usuario
+var resMenuPorRoles = function(data){
+  	if (!data && data == null) 
+  			return
+
+  		console.log(data)
+  	let i =0 ;
+
+  	while(data[i]){ 
+  		document.getElementById(`${data[i].m_html_id}`).classList.remove('menudisplay'); 
+  		i++
+  	}
+   
+
+      
+
 }

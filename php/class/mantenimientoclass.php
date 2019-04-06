@@ -284,6 +284,35 @@
 							return $datos; 
 				}
 
+				// buscamos las carteras por usuarios
+				public function menuPorRoles(){
+							$res=array();
+							$datos=array();
+							$i=0;
+							$respuesta=0;  
+							$rol_id = $_COOKIE['micro_rol_id'];
+
+							if($rol_id>1){
+								$sql="SELECT m.id,m.html_id FROM detalle_menu_roles mr
+ 										JOIN menu m ON m.id=mr.menu_id
+ 								  WHERE mr.rol_id=$rol_id";  
+ 							}else{
+ 								$sql="SELECT m.id,m.html_id FROM menu m ORDER BY id asc ";
+ 							} 
+
+							$resultado = mysqli_query($this->con(), $sql); 
+						    while ($res = mysqli_fetch_row($resultado)) {
+
+						       $datos[$i]['m_id'] 		= $res[0];
+						       $datos[$i]['m_html_id'] 			= $res[1]; 
+
+						       $i++;
+						    } 
+							 
+							return $datos; 
+				}
+ 
+
 
 
 	}
