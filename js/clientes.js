@@ -57,7 +57,7 @@ $(document).ready(function(){ //FUNCION PRINCIPAL DE JQUERY PARA MONITORIAR LA W
         let tipo_id = $( "#tipo_prestamo_id" ).val(); 
         // corremos la funcion para buscar los importes 
 
-        if(tipo_id>1)
+        if(tipo_id>1 && tipo_id<4)
             primerDiaDePago(document.getElementById('tipo_prestamo_id').value)
         else
             primerDiaDePagoPagoSemnal()

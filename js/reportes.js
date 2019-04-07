@@ -44,11 +44,37 @@ function generarReportePagos(){
       mensajeAlerta('Es necesario seleccionar una cartera.','error')
       return;
     } 
+  } 
+ // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
+
+  onRequestReportes({ opcion :2,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReportePagos);
+}
+
+
+  //reportes colocado
+ 
+function generarReporteColocado(){
+  let fechaInicial = document.getElementById('fecha_inicial').value;
+  let fechaFinal = document.getElementById('fecha_final').value;
+  let cartera_id = document.getElementById('r_cartera').value;
+  let tipo_id = document.getElementById('r_tipo').value;  
+  let rol_id = leerCookie('micro_rol_id');
+
+  if(fechaInicial=='' || fechaFinal=='' || fechaFinal<fechaInicial){
+      mensajeAlerta('EL rango de fechas no es valido.','error')
+      return;
+  }
+
+  if(rol_id>1){
+    if(cartera_id<=0){
+      mensajeAlerta('Es necesario seleccionar una cartera.','error')
+      return;
+    } 
   }
 
  // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
 
-  onRequestReportes({ opcion :2,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReportePagos);
+  onRequestReportes({ opcion :3,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReporteColocado);
 }
 
 //respuesta de carteras por usuario
@@ -97,6 +123,22 @@ var resReportePagos = function(data){
           } 
         //incrustamos el codigo html en la tabla 
         document.getElementById('tb_rep_pagos').innerHTML=contenido;
+}
+
+//respuesta de colocado
+var resReporteColocado = function(data){
+    if (!data && data == null) 
+            return;   
+
+          console.log(data)
+        let contenido = ''
+         for(var i=0; i<data.length; i++){
+            
+              contenido +=`<tr><td>${data[i].cartera}</td><td>${data[i].prestamos}</td><td>${data[i].pagos}</td><td>${data[i].colocado}</td><td>${data[i].nc}</td></tr>`
+         
+          } 
+        //incrustamos el codigo html en la tabla 
+        document.getElementById('tb_rep_colocado').innerHTML=contenido;
 }
  
     

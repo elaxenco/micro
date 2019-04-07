@@ -126,6 +126,86 @@
 							return $datos;    
 				} 
 
+				// funcion para buscar pagos
+				public function calcularColocado($fecha_inicial,$fecha_final,$cartera_id,$tipo_id){
+							$res=array();
+							$datos=array();
+							$i=0;
+							$respuesta=0;
+							$rol_id = $_COOKIE["micro_rol_id"];
+							$qc =" ";
+							$qt=" ";
+
+							if($rol_id==1){
+
+								if($cartera_id>0)
+									$qc=" AND clientes.cartera_id=$cartera_id";
+								else
+									$qc=" ";
+
+								if($tipo_id>0)
+									$qt=" AND desembolsos.tipo_id=$tipo_id";
+								else
+									$qt=" ";
+
+								$sql="SELECT carteras.descripcion,SUM(capital) capital,
+										(
+										--
+										SELECT COUNT(d.id) FROM desembolsos  d
+										 JOIN clientes  c ON c.id=d.cliente_id
+										 WHERE d.estatus_id=5 AND c.cartera_id = clientes.cartera_id
+										 --
+										 ) nc ,
+											 (SELECT IFNULL(SUM(pago_capital),0) pagos FROM pagos
+												 JOIN clientes cte ON cte.id=pagos.cliente_id
+												 WHERE cte.cartera_id=clientes.cartera_id
+												 )pagos
+										  
+										FROM desembolsos 
+										JOIN clientes ON clientes.id=desembolsos.cliente_id
+										JOIN carteras ON carteras.id=clientes.cartera_id
+										".$qc.$qt." GROUP BY clientes.cartera_id";
+																									
+							}else{
+
+								if($tipo_id>0)
+									$qt=" AND desembolsos.tipo_id=$tipo_id";
+
+								$sql="SELECT carteras.descripcion,SUM(capital) capital,
+											(
+											--
+											SELECT COUNT(d.id) FROM desembolsos  d
+											 JOIN clientes  c ON c.id=d.cliente_id
+											 WHERE d.estatus_id=5 AND c.cartera_id = clientes.cartera_id
+											 --
+											 ) nc ,
+											 (SELECT IFNULL(SUM(pago_capital),0) pagos FROM pagos
+												 JOIN clientes cte ON cte.id=pagos.cliente_id
+												 WHERE cte.cartera_id=clientes.cartera_id
+												 )pagos
+																							  
+											FROM desembolsos 
+											JOIN clientes ON clientes.id=desembolsos.cliente_id
+											JOIN carteras ON carteras.id=clientes.cartera_id
+											WHERE clientes.cartera_id=$cartera_id ".$qt." GROUP BY clientes.cartera_id";
+							} 
+
+							 
+							    
+							$resultado = mysqli_query($this->con(), $sql); 
+						    while ($res = mysqli_fetch_row($resultado)) {
+
+						       $datos[$i]['cartera'] 	= $res[0];
+						       $datos[$i]['prestamos'] 		= '$ '.$res[1];
+						       $datos[$i]['pagos'] 			= '$ '.$res[3]; 
+						       $datos[$i]['colocado'] 	= '$ '.number_format($res[1]-$res[3],2); 
+						       $datos[$i]['nc'] 	= $res[2]; 
+
+						       $i++;
+						    }   
+							return $datos;    
+				} 
+
 
 
 	}

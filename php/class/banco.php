@@ -177,7 +177,7 @@
 
 
 
-										if($tipo_id==1){
+										if($tipo_id==1 || $tipo_id==4){
 											$semanasquincenas=14;
 											$dias=7;
 
