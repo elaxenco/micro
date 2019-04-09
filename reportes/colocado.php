@@ -48,17 +48,8 @@
                 </div>
                 <div class="card-body"> 
 
-                            <div class="form-row col-md-6  col-12 float-left">
-                              <div class="col-md-4 col-12 offset-md-2">
-                                  <b><label for="fecha_inicial">Fecha Inicial</label></b>
-                                  <input type="date" min="1" class="form-control" id="fecha_inicial" placeholder="Id"  > 
-                              </div>
-                              <div class="col-md-4 col-12 ">
-                                  <b><label for="fecha_final ">Fecha Final</label></b>
-                                  <input type="date" class="form-control" id="fecha_final"  > 
-                              </div>  
-                            </div> 
-                            <div class="form-row col-md-6  col-12">
+                            
+                            <div class="row col-md-6 col-12  offset-md-3">
                                <div class="col-md-6 col-12 offset-md-2">
                                   <b><label for="r_cartera">Seleccione su cartera</label></b>
                                   <select class="custom-select" id="r_cartera">

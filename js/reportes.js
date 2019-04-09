@@ -53,17 +53,11 @@ function generarReportePagos(){
 
   //reportes colocado
  
-function generarReporteColocado(){
-  let fechaInicial = document.getElementById('fecha_inicial').value;
-  let fechaFinal = document.getElementById('fecha_final').value;
+function generarReporteColocado(){ 
   let cartera_id = document.getElementById('r_cartera').value;
   let tipo_id = document.getElementById('r_tipo').value;  
   let rol_id = leerCookie('micro_rol_id');
 
-  if(fechaInicial=='' || fechaFinal=='' || fechaFinal<fechaInicial){
-      mensajeAlerta('EL rango de fechas no es valido.','error')
-      return;
-  }
 
   if(rol_id>1){
     if(cartera_id<=0){
@@ -74,7 +68,7 @@ function generarReporteColocado(){
 
  // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
 
-  onRequestReportes({ opcion :3,fecha_inicial:fechaInicial,fecha_final:fechaFinal,cartera_id:cartera_id,tipo_id:tipo_id },resReporteColocado);
+  onRequestReportes({ opcion :3,fecha_inicial:'2019-04-01',fecha_final:'2019-04-01',cartera_id:cartera_id,tipo_id:tipo_id },resReporteColocado);
 }
 
 //respuesta de carteras por usuario

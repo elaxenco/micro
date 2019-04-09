@@ -136,6 +136,7 @@
 							$qc =" ";
 							$qt=" ";
 
+
 							if($rol_id==1){
 
 								if($cartera_id>0)
@@ -162,9 +163,9 @@
 												 )pagos
 										  
 										FROM desembolsos 
-										JOIN clientes ON clientes.id=desembolsos.cliente_id
+										JOIN clientes ON clientes.id=desembolsos.cliente_id $qc
 										JOIN carteras ON carteras.id=clientes.cartera_id
-										".$qc.$qt." GROUP BY clientes.cartera_id";
+										 GROUP BY clientes.cartera_id";
 																									
 							}else{
 
