@@ -566,6 +566,24 @@
 				       		  
 		}
 
+		//buscar los movimientos de la caja seleccionada
+		public function verCorteDeCaja($caja_id,$tipo_caja,$fecha){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+
+					if($tipo_caja==1){
+							
+					}else{
+
+					}
+
+					 
+
+					return $datos;
+				       		  
+		}
+
 
 		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
 			/*	//consultamos el saldo del cliente 

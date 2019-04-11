@@ -32,6 +32,7 @@
 								JOIN  carteras ct ON ct.id=cte.cartera_id
 								JOIN tipo_prestamo t ON t.id=d.tipo_id
 								JOIN usuarios u ON u.id=d.capturista_id WHERE d.fecha BETWEEN '$fecha_inicial' AND '$fecha_final' ".$qc.$qt;
+								
 							}else{
 
 								if($tipo_id>0)

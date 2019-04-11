@@ -2,14 +2,14 @@
 //http://localhost/index-debug/php/procesos/seguro_credito.php
 //require_once( '../utilidades/Funciones.php' );
 
-set_include_path('/home/axenco/xn--miinversin-obb.com/php/utilidades/');
+set_include_path('/home/axenco/MIINVERSI/php/utilidades/');
 require 'Funciones.php';
 date_default_timezone_set('America/Chihuahua');
 $con = new Funciones();
 
 //$fecha_actual= date('Y-m-d');
 $fecha_actual='2019-04-16';
-$fecha_actual = DateAdd($fecha_actual,-1);
+$fecha_actual   =$con-> DateAdd($fecha_actual,-1);
 
 list($anio, $mes, $dia) = explode('-', $fecha_actual);
 
@@ -81,6 +81,15 @@ while ($fila = mysqli_fetch_row($resultado)){
  
              $resultado2= mysqli_query($con->con(), $sql3); 
 
+             if( $resultado2 < 0 )
+                { 
+                    echo "Error al Insertar <br>$sql3";
+                }
+                else
+                { 
+                    echo "Proceso   Finalizado";
+                }
+
 
             $capital        = 0;
             $pago_capital   = 0;
@@ -93,6 +102,8 @@ while ($fila = mysqli_fetch_row($resultado)){
     }
 
 }
+
+
 }
 
 ?>

@@ -1,5 +1,5 @@
  <?php 
-  require_once("../php/conexion/conexion.php"); 
+  require_once("../php/utilidades/conexion.php"); 
   $Conectar = new Conectar();  
 
 

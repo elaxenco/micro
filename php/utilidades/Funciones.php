@@ -1,5 +1,5 @@
 <?php
-require_once("../conexion/conexion.php");
+include("conexion.php");
 
 class Funciones extends Conectar{
 

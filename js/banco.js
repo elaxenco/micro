@@ -205,6 +205,25 @@ function cancelarMovimiento(){
   onRequestBanco({ opcion :11,movimiento_id:movimiento_id},resCancelarMovimiento);
 
 }
+
+//funcion para previsualizar el corte
+//funcion para cancelar movimiento de caja
+function verCorteDeCaja(){
+   // inicializamos las variables 
+  let caja_id = document.getElementById('c_caja_id').value;  
+  //validamos que los campos esten correctamente llenados
+  if(caja_id<1)
+      return mensajeAlerta('Es necesario seleccionar una caja.','error')
+ 
+  let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+  let fecha =document.getElementById('c_fecha').value;  
+
+  if(fecha=='')
+      return mensajeAlerta('La fecha seleccionada no es valida.','error')
+
+  onRequestBanco({ opcion :12,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha},resVerCorteCaja);
+
+}
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
