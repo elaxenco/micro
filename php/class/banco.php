@@ -560,7 +560,7 @@
 					$sql="DELETE FROM caja WHERE id=$movimiento_id";   
 							mysqli_query($this->con(), $sql);  
 							$datos[0]['respuesta'] 		='2';
-					} 
+					}  
 
 					return $datos;
 				       		  
