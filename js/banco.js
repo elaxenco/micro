@@ -128,7 +128,11 @@ function guardarPago(){
 //funcion para guardar movimiento e/s
 function guardarMovimiento(){
   // inicializamos las variables
-  let caja_id = document.getElementById('c_caja_id').value;
+
+
+  let caja_id_gen = document.getElementById('c_caja_id').value;
+  
+  let caja_id =arregloCajas[caja_id_gen][0].id_real;
   let movimiento_id = document.getElementById('c_movimiento_id').value;
   let descripcion = document.getElementById('c_descripcion_movimiento').value.toUpperCase();
   let tipo_id = document.getElementById('c_tipo_id').value;
@@ -158,8 +162,7 @@ function guardarMovimiento(){
 }
 
 // funcion para limpiar los campos
-function limpiarCamposCaja(){
-    document.getElementById('c_caja_id').value=0;
+function limpiarCamposCaja(){ 
     document.getElementById('c_movimiento_id').value=0;
     document.getElementById('c_descripcion_movimiento').value="";
     document.getElementById('c_tipo_id').value=0;
@@ -169,12 +172,15 @@ function limpiarCamposCaja(){
 } 
 
 //buscar movimiento dependiendo de la cartera seleccionada
-function buscarMovimientosPorCaja(caja_id){
+function buscarMovimientosPorCaja(caja_id_gen){
+    limpiarCamposCaja()
 
-    if(caja_id<1){
+    if(caja_id_gen<1){
       document.getElementById('tb_movimientos').innerHTML=''; 
     }else{
 
+
+      let caja_id =arregloCajas[caja_id_gen][0].id_real;
       let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
       onRequestBanco({ opcion :10,caja_id:caja_id,tipo_caja:tipo_caja},resMovimientosPorCaja);
     }
@@ -209,8 +215,11 @@ function cancelarMovimiento(){
 //funcion para previsualizar el corte
 //funcion para cancelar movimiento de caja
 function verCorteDeCaja(){
-   // inicializamos las variables 
-  let caja_id = document.getElementById('c_caja_id').value;  
+   //obtenemos el id generico del combo
+  let caja_id_gen = document.getElementById('c_caja_id').value;  
+  //sacamos el id real desde el combo
+  let caja_id =arregloCajas[caja_id_gen][0].id_real;
+
   //validamos que los campos esten correctamente llenados
   if(caja_id<1)
       return mensajeAlerta('Es necesario seleccionar una caja.','error')
@@ -222,6 +231,35 @@ function verCorteDeCaja(){
       return mensajeAlerta('La fecha seleccionada no es valida.','error')
 
   onRequestBanco({ opcion :12,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha},resVerCorteCaja);
+
+}
+
+// funcion para buscar corte por caja
+function buscarCortesPorCaja(caja_id_gen){
+   
+  let caja_id =arregloCajas[caja_id_gen][0].id_real; 
+  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja; 
+
+  onRequestBanco({ opcion :13,caja_id:caja_id,tipo_caja:tipo_caja},resVerCortesPorCaja); 
+
+}
+
+function guardarCorteDecaja(){
+
+  let caja_id_gen   = document.getElementById('c_caja_id').value;  
+  let caja_id       = arregloCajas[caja_id_gen][0].id_real;
+  let tipo_caja     = arregloCajas[caja_id_gen][0].tipo_caja;  
+  let fecha         = document.getElementById('c_fecha').value;  
+  let entradas      = document.getElementById('entradas').value;
+  let capital       = document.getElementById('capital').value;
+  let interes       = document.getElementById('interes').value;
+  let seguro        = document.getElementById('seguro').value;
+  let salidas       = document.getElementById('salidas').value;
+  let desembolsos   = document.getElementById('desembolsos').value;
+  let saldoFinal    = document.getElementById('saldoFinal').value; 
+
+  onRequestBanco({ opcion :14,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha,entradas:entradas,capital:capital,interes:interes,seguro:seguro,salidas:salidas,desembolsos:desembolsos,saldo_final:saldoFinal},resGuardarCorteDeCaja); 
+
 
 }
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
@@ -370,6 +408,69 @@ var resCancelarMovimiento = function(data){
     }
     
 }
+
+///respuesta de cancelar movimientos
+var resVerCorteCaja = function(data){
+    if (!data && data == null) 
+            return;  
+      /* Para obtener el valor */
+      var cod = document.getElementById("c_caja_id").value;  
+      /* Para obtener el texto */
+      var combo = document.getElementById("c_caja_id");
+      var selected = combo.options[combo.selectedIndex].text; 
+
+      document.getElementById('tituloModalCorteCaja').innerHTML=`${document.getElementById('c_fecha').value} - ${selected}`
+
+      document.getElementById('saldoInicial').value=data[0].saldo_inicial;
+      document.getElementById('entradas').value=data[0].entradas;
+      document.getElementById('capital').value=data[0].capital;
+      document.getElementById('interes').value=data[0].interes;
+      document.getElementById('seguro').value=data[0].seguro;
+      document.getElementById('salidas').value=data[0].salidas;
+      document.getElementById('desembolsos').value=data[0].desembolsos;
+      document.getElementById('saldoFinal').value= data[0].saldoFinal;
+
+    
+}
+
+/////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
+//respuesta de carteras por usuario
+var resVerCortesPorCaja = function(data){
+    if (!data && data == null) 
+            return;   
+           
+
+     let contenido='' 
+
+          for(var i=0; i<data.length; i++){
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+              contenido += `<tr><td>${data[i].corte_id}</td><td>${data[i].fecha}</td><td>${data[i].saldo_inicial}</td><td>${data[i].entradas}</td><td>${data[i].capital}</td><td>${data[i].interes}</td><td>${data[i].seguro}</td><td>${data[i].salidas}</td><td>${data[i].desembolsos}</td><td>${data[i].saldoFinal}</td><td>${data[i].procesado}</td></tr>` 
+          }
+          //incrustamos el codigo html en la tabla
+          //$("#c_cartera").html(contenido);  
+          document.getElementById('tb_cortes').innerHTML =contenido;
+
+}
+
+var resGuardarCorteDeCaja = function (data){
+      if (!data && data == null) 
+            return;   
+
+          switch(data[0].respuesta){
+              case 1:
+                    mensajeAlerta('El corte fue realizado correctamente','success')
+                break;
+              case 2:
+                    mensajeAlerta('Este corte ya fue generado','error')
+                break;
+               case 3:
+                    mensajeAlerta('Ocurrio un error al intentar guardar el corte','error')
+                break;
+
+          }
+
+}
+
 
    /*  let contenido='<option selected value="0">Seleccione una caja</option>' 
 

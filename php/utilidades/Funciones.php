@@ -125,7 +125,7 @@ class Funciones extends Conectar{
        // VERIFICAMOS EL ESTATUS DEL CORTE DE CAJA. //
     function corte($caja_id,$tipo_caja,$fecha)
     {       
-        $sql = "SELECT corte_procesado FROM cortes WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha ='$fecha'"; 
+        $sql = "SELECT corte_procesado FROM cortes WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha ='$fecha'";  
              $res= mysqli_query($this->con(), $sql); 
              while ($fila = mysqli_fetch_row($res)) 
                 $corte = $fila[ 0 ];

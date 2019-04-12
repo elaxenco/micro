@@ -112,7 +112,7 @@ var resReportePagos = function(data){
         let contenido = ''
          for(var i=0; i<data.length; i++){
             
-              contenido +=`<tr><td>${data[i].cliente_id}</td><td>${data[i].cliente}</td><td>${data[i].fecha}</td><td>${data[i].pago_completo}</td><td>${data[i].pago_capital}</td><td>${data[i].pago_interes}</td><td>${data[i].pago_seguro}</td><td>${data[i].capturista}</td><td>${data[i].cartera}</td></tr>`
+              contenido +=`<tr><td>${data[i].cliente_id}</td><td>${data[i].cliente}</td><td>${data[i].fecha}</td><td>${data[i].pago_completo}</td><td>${data[i].pago_capital}</td><td>${data[i].pago_interes}</td><td>${data[i].pago_seguro}</td><td>${data[i].cartera}</td><td>${data[i].capturista}</td></tr>`
          
           } 
         //incrustamos el codigo html en la tabla 

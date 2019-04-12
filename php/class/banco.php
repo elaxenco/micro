@@ -571,12 +571,61 @@
 					$res=array();
 					$datos=array();  
 					$i=0; 
+					$Caja=1; 
 
-					if($tipo_caja==1){
+				$corte = $this->corte($caja_id,$tipo_caja,$fecha);
+
+				if($corte=='S'){ 
+						$sql="SELECT * FROM v_tb_corte WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja";
+						$resultado= mysqli_query($this->con(), $sql); 
+						while ($res = mysqli_fetch_row($resultado)){
+
+							$datos[$i]['caja_id'] 		= $res[1]; 
+							$datos[$i]['fecha']			= $res[2];
+							$datos[$i]['tipo_caja']		= $res[3];   
+							$datos[$i]['saldo_inicial'] = number_format($res[4],2); 
+							$datos[$i]['entradas'] 		= number_format($res[5],2);
+							$datos[$i]['capital'] 		= number_format($res[6],2);   
+							$datos[$i]['interes'] 		= number_format($res[7],2); 
+							$datos[$i]['seguro'] 		= number_format($res[8],2);
+							$datos[$i]['salidas'] 		= number_format($res[9],2);  
+							$datos[$i]['desembolsos'] 	= number_format($res[10],2);
+							$datos[$i]['saldoFinal'] 	= number_format($res[12],2);        
+
+							$i++;
+						} 
 							
-					}else{
+				 }
+				 else{
+				 		$sql="SELECT 
+							(SELECT  saldo_inicial FROM cortes WHERE fecha='$fecha' AND caja_id=$caja_id AND tipo_caja=$tipo_caja) saldo_inicial,
+							IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja AND tipo='E' ),0) entradas,
+							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_capital) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) capital,
+							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) interes,
+							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) seguro,
+							IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja AND tipo='S' ),0) salidas,
+							IFNULL((SELECT  SUM(capital) FROM desembolsos WHERE cliente_id IN(SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha'),0) desembolsos
 
-					}
+								"; 
+						$resultado= mysqli_query($this->con(), $sql); 
+						while ($res = mysqli_fetch_row($resultado)){
+							 
+							$datos[$i]['caja_id'] 		= $caja_id; 
+							$datos[$i]['fecha']			= $fecha;
+							$datos[$i]['tipo_caja']		= $tipo_caja;  
+							$datos[$i]['saldo_inicial'] = number_format($res[0],2); 
+							$datos[$i]['entradas'] 		= number_format($res[1],2); 
+							$datos[$i]['capital'] 		= number_format($res[2],2);    
+							$datos[$i]['interes'] 		= number_format($res[3],2);  
+							$datos[$i]['seguro'] 		= number_format($res[4],2); 
+							$datos[$i]['salidas'] 		= number_format($res[5],2);   
+							$datos[$i]['desembolsos'] 	= number_format($res[6],2);  
+							$datos[$i]['saldoFinal'] 	= number_format($res[1]+$res[2]+$res[3]+$res[4]-$res[5]-$res[6],2);    
+
+
+							$i++;
+						} 
+				 }
 
 					 
 
@@ -584,50 +633,70 @@
 				       		  
 		}
 
+		//buscar los movimientos de la caja seleccionada
+		public function verCortesPorCaja($caja_id,$tipo_caja){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					 $sql="SELECT * FROM v_tb_corte WHERE caja_id=$caja_id  AND tipo_caja=$tipo_caja ORDER BY fecha DESC"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$datos[$i]['corte_id'] 		= $res[0]; 
+						$datos[$i]['caja_id'] 		= $res[1]; 
+						$datos[$i]['fecha'] 		= $res[2];  
+						$datos[$i]['tipo_caja'] 	= $res[3]; 
+						$datos[$i]['saldo_inicial'] = $res[4]; 
+						$datos[$i]['entradas']		= $res[5];
+						$datos[$i]['capital']		= $res[6];
+						$datos[$i]['interes'] 		= $res[7];  
+						$datos[$i]['seguro'] 		= $res[8]; 
+						$datos[$i]['salidas'] 		= $res[9]; 
+						$datos[$i]['desembolsos']	= $res[10];
+						$datos[$i]['procesado']		= $res[11];
+						$datos[$i]['saldoFinal']	= $res[12];
 
-		//public function verificarEstatusCorridaDiez($desembols_id,$cliente_id){
-			/*	//consultamos el saldo del cliente 
-				$sql="SELECT capital-pago_capital capital, interes-pago_interes interes,fecha_pago FROM corridas_tipo_c WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 
-				$resultado= mysqli_query($this->con(), $sql); 
-				while ($res = mysqli_fetch_row($resultado)){
-					$capital =$res[0];
-					$interes =$res[1]; 
-					$fecha_pago =$res[2]; 
-				} 
+						$i++;
+					} 
 
-				list($anio, $mes, $dia) = explode('-', $fecha_pago);
+					return $datos;
+				       		  
+		}
+		//buscar los movimientos de la caja seleccionada
+		public function guardarCorteDeCaja($caja_id,$tipo_caja,$fecha,$entradas,$capital,$interes,$seguro,$salidas,$desembolsos,$saldo_final){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+					$capturista_id=$_COOKIE["micro_id"]; 
+					$fechaposcorte= DateAdd($fecha,1)
 
-	            if ( $dia >= 1 && $dia <= 15 )
-	            {
-	                // OBTENER LOS DIAS QUE TIENE UN MES //
-	                $dias_mes = $this->diasMes($mes,$anio); 
-	                $fecha_pago=$this->DateAdd($fecha_pago,($dias_mes-15) );
-	            }
-	            else
-	            {
-	                $fecha_pago=$this->DateAdd($fecha_pago,15);
-	            }
+					$corte = $this->corte($caja_id,$tipo_caja,$fecha);
 
-				if($interes>0){
-						//query para actualizar corrida de pago de diez
-						$sql="UPDATE corridas_tipo_c SET  estatus_id=2 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
-						$resultado= mysqli_query($this->con(), $sql);  
-
-						$sql="INSERT INTO corridas_tipo_c(cliente_id,desembolso_id,fecha_pago,pago_completo,capital,interes,pago_capital,pago_interes,estatus_id,saldo)
-								VALUES ($cliente_id,$desembols_id,'fecha_pago',($capital*1.1)+$interes,$capital,($capital*0.1)+$interes,0,0,5,($capital*1.1)+$interes);"; 
+					if($corte=='S'){
+						$datos[0]['respuesta'] 		='2';
+					}
+					else{
+						
+						$sql="UPDATE  cortes SET entradas = $entradas,capital = $capital,interes = $interes,seguro = $seguro,salidas = $salidas,desembolsos = $desembolsos,saldo_final = $saldo_final, capturista_id = $capturista_id,fecha_captura = CURDATE(),hora_captura = CURTIME(),corte_procesado = 'S'
+									WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha='$fecha'"; 
 						$resultado= mysqli_query($this->con(), $sql); 
-				}else{
-						//query para actualizar corrida de pago de diez
-						$sql="UPDATE corridas_tipo_c SET  estatus_id=2 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
-						$resultado= mysqli_query($this->con(), $sql);  
 
-						$sql="INSERT INTO corridas_tipo_c(cliente_id,desembolso_id,fecha_pago,pago_completo,capital,interes,pago_capital,pago_interes,estatus_id,saldo)
-								VALUES ($cliente_id,$desembols_id,'fecha_pago',($capital*1.1),$capital,($capital*0.1),0,0,5,($capital*1.1));"; 
-						$resultado= mysqli_query($this->con(), $sql); 
+						if($resultado<=0){
+							$datos[0]['respuesta'] 		='3';
+						}else{
+							$sql="INSERT INTO  cortes (caja_id,fecha,saldo_inicial,tipo_caja,capturista_id,fecha_captura,hora_captura,corte_procesado)
+								VALUES ($caja_id,'$fechaposcorte',$saldo_final,$tipo_caja,$capturista_id,CURDATE(),CURTIME(),'N');"; 
+							$resultado= mysqli_query($this->con(), $sql); 
 
-				}*/
-		//}
+							$datos[0]['respuesta'] 		='1';
+						}
+					}   
+					  
+					return $datos;
+				       		  
+		}
 
+
+		 
 
 	}
 
