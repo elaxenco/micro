@@ -194,7 +194,7 @@ var resClientesCartera = function(data){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
               contenido += `<tr><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitatBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
-                            <span data-toggle="modal" data-target="#modalDesembolso"><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Desembolsar"><i class="fas fa-hand-holding-usd "></i></button></span>
+                            <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
                             <span data-toggle="modal" data-target="#modalHistial"><button  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span>
                             </td></tr>`
 

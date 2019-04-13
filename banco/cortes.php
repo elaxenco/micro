@@ -53,8 +53,7 @@
                   </div>  
                   
               </div>
-              <div class="col-12 mt-2  offset-md-6"> 
-                      <button type="button" class="btn btn-danger col-md-2 col-12 mr-1"  >Cancelar</button>
+              <div class="col-12 mt-2  offset-md-8">  
                       <button type="button" class="btn btn-outline-secondary col-md-2 col-12" onclick="verCorteDeCaja()"data-toggle="modal" data-target="#modalCorte" >Ver</button> 
               </div> 
               <div class="card scroller-pagos mt-2">
@@ -76,7 +75,7 @@
                             <th scope="col">Corte</th> 
                           </tr>
                         </thead>
-                        <tbody id="tb_cortes">
+                        <tbody id="tb_cortes" class="">
                            
                           
                         </tbody>
@@ -157,6 +156,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger" onclick="eliminarCorteDeCaja()">Cancelar</button>
             <button type="button" class="btn btn-primary" onclick="guardarCorteDecaja()">Guardar</button>
           </div>
         </div>

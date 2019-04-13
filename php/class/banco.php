@@ -600,9 +600,9 @@
 				 		$sql="SELECT 
 							(SELECT  saldo_inicial FROM cortes WHERE fecha='$fecha' AND caja_id=$caja_id AND tipo_caja=$tipo_caja) saldo_inicial,
 							IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja AND tipo='E' ),0) entradas,
-							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_capital) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) capital,
-							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) interes,
-							IFNULL(IF($caja_id=$Caja,(SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) seguro,
+							IFNULL(IF($tipo_caja=$Caja,(SELECT SUM(pago_capital) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) capital,
+							IFNULL(IF($tipo_caja=$Caja,(SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) interes,
+							IFNULL(IF($tipo_caja=$Caja,(SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) seguro,
 							IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja AND tipo='S' ),0) salidas,
 							IFNULL((SELECT  SUM(capital) FROM desembolsos WHERE cliente_id IN(SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha'),0) desembolsos
 
@@ -620,7 +620,7 @@
 							$datos[$i]['seguro'] 		= number_format($res[4],2); 
 							$datos[$i]['salidas'] 		= number_format($res[5],2);   
 							$datos[$i]['desembolsos'] 	= number_format($res[6],2);  
-							$datos[$i]['saldoFinal'] 	= number_format($res[1]+$res[2]+$res[3]+$res[4]-$res[5]-$res[6],2);    
+							$datos[$i]['saldoFinal'] 	= number_format($res[0]+$res[1]+$res[2]+$res[3]+$res[4]-$res[5]-$res[6],2);    
 
 
 							$i++;
@@ -666,31 +666,85 @@
 					$res=array();
 					$datos=array();  
 					$i=0; 
-					$capturista_id=$_COOKIE["micro_id"]; 
-					$fechaposcorte= DateAdd($fecha,1)
 
-					$corte = $this->corte($caja_id,$tipo_caja,$fecha);
+					$entradas =str_replace(",", "", $entradas);
+					$capital =str_replace(",", "", $capital);
+					$interes =str_replace(",", "", $interes);
+					$seguro =str_replace(",", "", $seguro);
+					$salidas =str_replace(",", "", $salidas);
+					$desembolsos =str_replace(",", "", $desembolsos);
+					$saldo_final =str_replace(",", "", $saldo_final);
+
+					$capturista_id=$_COOKIE["micro_id"];  
+					$fechaposcorte= $this->DateAdd($fecha,1);   
+					$precorte= $this->DateAdd($fecha,-1); 
+					$corte = $this->corte($caja_id,$tipo_caja,$fecha); 
 
 					if($corte=='S'){
 						$datos[0]['respuesta'] 		='2';
 					}
 					else{
+
+						$corte = $this->corte($caja_id,$tipo_caja,$precorte); 
+
+						if($corte=='S'){ 
 						
-						$sql="UPDATE  cortes SET entradas = $entradas,capital = $capital,interes = $interes,seguro = $seguro,salidas = $salidas,desembolsos = $desembolsos,saldo_final = $saldo_final, capturista_id = $capturista_id,fecha_captura = CURDATE(),hora_captura = CURTIME(),corte_procesado = 'S'
-									WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha='$fecha'"; 
-						$resultado= mysqli_query($this->con(), $sql); 
+								$sql="UPDATE  cortes SET entradas = $entradas,capital = $capital,interes = $interes,seguro = $seguro,salidas = $salidas,desembolsos = $desembolsos,saldo_final = $saldo_final, capturista_id = $capturista_id,fecha_captura = CURDATE(),hora_captura = CURTIME(),corte_procesado = 'S'
+											WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha='$fecha'";   
+								$resultado= mysqli_query($this->con(), $sql); 
 
-						if($resultado<=0){
-							$datos[0]['respuesta'] 		='3';
-						}else{
-							$sql="INSERT INTO  cortes (caja_id,fecha,saldo_inicial,tipo_caja,capturista_id,fecha_captura,hora_captura,corte_procesado)
-								VALUES ($caja_id,'$fechaposcorte',$saldo_final,$tipo_caja,$capturista_id,CURDATE(),CURTIME(),'N');"; 
-							$resultado= mysqli_query($this->con(), $sql); 
 
-							$datos[0]['respuesta'] 		='1';
+								if($resultado<=0){
+									$datos[0]['respuesta'] 		='3';
+								}else{
+									$sql="INSERT INTO  cortes (caja_id,fecha,saldo_inicial,tipo_caja,capturista_id,fecha_captura,hora_captura,corte_procesado)
+										VALUES ($caja_id,'$fechaposcorte',$saldo_final,$tipo_caja,$capturista_id,CURDATE(),CURTIME(),'N');"; 
+									$resultado= mysqli_query($this->con(), $sql); 
+
+									$datos[0]['respuesta'] 		='1';
+								}
+						}
+						else{
+							$datos[0]['respuesta'] 		='4';
 						}
 					}   
 					  
+					return $datos;
+				       		  
+		}
+
+		//cancelamos el corte anterior
+		public function eliminarCorteDeCaja($caja_id,$tipo_caja,$fecha){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+
+					$fechaposcorte= $this->DateAdd($fecha,1);   
+					$precorte= $this->DateAdd($fecha,-1); 
+					$corte = $this->corte($caja_id,$tipo_caja,$fechaposcorte); 
+
+					if($corte=='S'){
+						$datos[0]['respuesta'] 		='2';
+					}else{
+
+						$corte = $this->corte($caja_id,$tipo_caja,$fecha); 
+						if($corte=='S'){ 
+							$sql="UPDATE  cortes SET entradas = 0,capital = 0,interes = 0,seguro = 0,salidas = 0,desembolsos = 0,saldo_final = 0, corte_procesado = 'N' WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha='$fecha'";   
+								$resultado= mysqli_query($this->con(), $sql);  
+								if($resultado<=0){
+									$datos[0]['respuesta'] 		='3';
+								}else{
+									$sql="DELETE FROM cortes WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja AND fecha='$fechaposcorte'"; 
+									$resultado= mysqli_query($this->con(), $sql); 
+
+									$datos[0]['respuesta'] 		='1';
+								}
+						}else{
+							$datos[0]['respuesta'] 		='4';
+						}
+					}
+
+
 					return $datos;
 				       		  
 		}

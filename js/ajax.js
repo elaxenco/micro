@@ -94,6 +94,7 @@ var onRequestCte = function( prParams, callback,load=1) {
 	}
 
 	var onRequestBanco = function( prParams, callback,load=1) {	 
+ 
 
 		$.ajax({
 		    // la URL para la petición

@@ -246,20 +246,61 @@ function buscarCortesPorCaja(caja_id_gen){
 
 function guardarCorteDecaja(){
 
-  let caja_id_gen   = document.getElementById('c_caja_id').value;  
-  let caja_id       = arregloCajas[caja_id_gen][0].id_real;
-  let tipo_caja     = arregloCajas[caja_id_gen][0].tipo_caja;  
-  let fecha         = document.getElementById('c_fecha').value;  
-  let entradas      = document.getElementById('entradas').value;
-  let capital       = document.getElementById('capital').value;
-  let interes       = document.getElementById('interes').value;
-  let seguro        = document.getElementById('seguro').value;
-  let salidas       = document.getElementById('salidas').value;
-  let desembolsos   = document.getElementById('desembolsos').value;
-  let saldoFinal    = document.getElementById('saldoFinal').value; 
 
-  onRequestBanco({ opcion :14,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha,entradas:entradas,capital:capital,interes:interes,seguro:seguro,salidas:salidas,desembolsos:desembolsos,saldo_final:saldoFinal},resGuardarCorteDeCaja); 
+   swal({ 
+      title: `¿Seguro de realizar el corte de caja? Ya no podra realizar mas movimientos con esa fecha`,
+      icon: "warning",
+      buttons: true,  
+    })
+    .then((respuesta) => {
+       if(respuesta){
 
+              let caja_id_gen   = document.getElementById('c_caja_id').value;  
+              let caja_id       = arregloCajas[caja_id_gen][0].id_real;
+              let tipo_caja     = arregloCajas[caja_id_gen][0].tipo_caja;  
+              let fecha         = document.getElementById('c_fecha').value;  
+              let entradas      = document.getElementById('entradas').value;
+              let capital       = document.getElementById('capital').value;
+              let interes       = document.getElementById('interes').value;
+              let seguro        = document.getElementById('seguro').value;
+              let salidas       = document.getElementById('salidas').value;
+              let desembolsos   = document.getElementById('desembolsos').value;
+              let saldoFinal    = document.getElementById('saldoFinal').value; 
+
+              onRequestBanco({ opcion :14,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha,entradas:entradas,capital:capital,interes:interes,seguro:seguro,salidas:salidas,desembolsos:desembolsos,saldo_final:saldoFinal},resGuardarCorteDeCaja); 
+
+       }else{
+            mensajeAlerta('¡El movimiento fue cancelado.!','error')
+       }
+    }); 
+}
+
+//FUNCION PARA ELIMINAR CORTES
+function eliminarCorteDeCaja(){
+    let caja_id_gen = document.getElementById('c_caja_id').value;
+    let caja_id =arregloCajas[caja_id_gen][0].id_real; 
+    let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja; 
+    let fecha = document.getElementById('c_fecha').value;
+
+    swal({ 
+          title: `¿Seguro de eliminar el corte?`,
+          icon: "warning",
+          buttons: true,  
+        })
+        .then((respuesta) => {
+           if(respuesta){
+                onRequestBanco({ opcion :15,caja_id:caja_id,tipo_caja:tipo_caja,fecha:fecha},resEliminarCorte);
+           }else{
+                mensajeAlerta('¡El movimiento fue cancelado.!','error')
+           }
+        });
+}
+
+//funcion para poner la fecha del corte seleccionado
+function seleccionarFechaCorte(fecha){
+      document.getElementById('c_fecha').value=fecha;
+      $('#modalCorte').modal(); 
+      verCorteDeCaja()
 
 }
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
@@ -444,7 +485,7 @@ var resVerCortesPorCaja = function(data){
 
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              contenido += `<tr><td>${data[i].corte_id}</td><td>${data[i].fecha}</td><td>${data[i].saldo_inicial}</td><td>${data[i].entradas}</td><td>${data[i].capital}</td><td>${data[i].interes}</td><td>${data[i].seguro}</td><td>${data[i].salidas}</td><td>${data[i].desembolsos}</td><td>${data[i].saldoFinal}</td><td>${data[i].procesado}</td></tr>` 
+              contenido += `<tr onclick="seleccionarFechaCorte('${data[i].fecha}')" class='subrallar-tabla'><td>${data[i].corte_id}</td><td>${data[i].fecha}</td><td>${data[i].saldo_inicial}</td><td>${data[i].entradas}</td><td>${data[i].capital}</td><td>${data[i].interes}</td><td>${data[i].seguro}</td><td>${data[i].salidas}</td><td>${data[i].desembolsos}</td><td>${data[i].saldoFinal}</td><td>${data[i].procesado}</td></tr>` 
           }
           //incrustamos el codigo html en la tabla
           //$("#c_cartera").html(contenido);  
@@ -454,22 +495,48 @@ var resVerCortesPorCaja = function(data){
 
 var resGuardarCorteDeCaja = function (data){
       if (!data && data == null) 
-            return;   
+            return;    
 
           switch(data[0].respuesta){
-              case 1:
-                    mensajeAlerta('El corte fue realizado correctamente','success')
+              case '1':
+                    mensajeAlerta('El corte fue realizado correctamente','success');
+                    buscarCortesPorCaja(document.getElementById('c_caja_id').value);
+                    $('#modalCorte').modal('hide'); 
                 break;
-              case 2:
+              case '2':
                     mensajeAlerta('Este corte ya fue generado','error')
                 break;
-               case 3:
+               case '3':
                     mensajeAlerta('Ocurrio un error al intentar guardar el corte','error')
+                break;
+                case '4':
+                    mensajeAlerta('El corte del dia anterior aun no se a realizado','error')
                 break;
 
           }
 
 }
+
+var resEliminarCorte = function(data){
+      if (!data && data == null) 
+              return; 
+
+          switch(data[0].respuesta){
+              case '1':
+                    mensajeAlerta('El corte fue eliminado correctamente.','success');
+                    buscarCortesPorCaja(document.getElementById('c_caja_id').value);
+                    $('#modalCorte').modal('hide'); 
+                break;
+              case '2':
+                    mensajeAlerta('El corte no puede ser eliminado ya que aun ay un corte realizado despues de la fecha seleccionada.','error')
+                break;
+               case '3':
+                    mensajeAlerta('Ocurrio un error al intentar guardar el corte.','error')
+                break; 
+
+          }
+}
+
 
 
    /*  let contenido='<option selected value="0">Seleccione una caja</option>' 

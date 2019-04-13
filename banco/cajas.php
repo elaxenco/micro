@@ -73,21 +73,11 @@
                   </div> 
                   
               </div>
-              <div class="col-12 mt-2  offset-md-6">
+              <div class="col-12 mt-2  offset-md-6 mb-2">
                       <button type="button" class="btn btn-outline-secondary col-md-2 col-12 mr-1" onclick="limpiarCamposCaja()">Nuevo</button>
                       <button type="button" class="btn btn-danger col-md-2 col-12 mr-1" onclick="cancelarMovimiento()">Cancelar</button>
                       <button type="button" class="btn btn-primary col-md-2 col-12" onclick="guardarMovimiento()">Guardar</button>
-              </div>
-              <div class="card-header bg-success text-white mt-2"> 
-                        <div class="row">
-                          <div class="col-md-6  mt-2">
-                            Filtro 
-                          </div>
-                          <div class="col-md-6 col-12"> 
-                            <input type="text" class="form-control col-md-12 col-12" id="b_clientes" onkeyup="buscarMovimiento(this.value)" placeholder="Buscar cliente"  required>  
-                          </div>
-                        </div> 
-              </div>
+              </div> 
               <div class="card scroller-pagos">
                 
                 <div class="card-body">

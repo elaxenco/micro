@@ -74,8 +74,15 @@
 
 		 		break;
 		 	case 14: 
+ 
 
-		 	  echo (json_encode($banco->guardarCorteDeCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja'],$_REQUEST['fecha'],$_REQUEST['entradas'],$_REQUEST['capital'],$_REQUEST['interes'],$_REQUEST['seguro'],$_REQUEST['salidas'],$_REQUEST['desembolsos'],$_REQUEST['saldo_final']))); 
+		 	   echo (json_encode($banco->guardarCorteDeCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja'],$_REQUEST['fecha'],$_REQUEST['entradas'],$_REQUEST['capital'],$_REQUEST['interes'],$_REQUEST['seguro'],$_REQUEST['salidas'],$_REQUEST['desembolsos'],$_REQUEST['saldo_final'])));  
+
+		 		break;
+		 	case 15: 
+ 
+
+		 	   echo (json_encode($banco->eliminarCorteDeCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja'],$_REQUEST['fecha'])));  
 
 		 		break;
  		 
