@@ -89,10 +89,10 @@
                     <thead>
                       <tr>  
                         <th scope="col">Cartera</th>
-                        <th scope="col">Prestamos</th>
-                        <th scope="col">Pagos Capital</th>
-                        <th scope="col">Colocado</th> 
-                        <th scope="col">NC</th>
+                        <th scope="col" class='texto-derecha'>Prestamos</th>
+                        <th scope="col" class='texto-derecha'>Pagos Capital</th>
+                        <th scope="col" class='texto-derecha'>Colocado</th> 
+                        <th scope="col" class='texto-derecha'>NC</th>
                       </tr>
                     </thead>
                     <tbody id="tb_rep_colocado"> 

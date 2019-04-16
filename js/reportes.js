@@ -128,7 +128,7 @@ var resReporteColocado = function(data){
         let contenido = ''
          for(var i=0; i<data.length; i++){
             
-              contenido +=`<tr><td>${data[i].cartera}</td><td>${data[i].prestamos}</td><td>${data[i].pagos}</td><td>${data[i].colocado}</td><td>${data[i].nc}</td></tr>`
+              contenido +=`<tr><td>${data[i].cartera}</td><td class='texto-derecha'>${data[i].prestamos}</td><td class='texto-derecha'>${data[i].pagos}</td><td class='texto-derecha'>${data[i].colocado}</td><td class='texto-derecha'>${data[i].nc}</td></tr>`
          
           } 
         //incrustamos el codigo html en la tabla 

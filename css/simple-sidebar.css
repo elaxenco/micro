@@ -122,3 +122,7 @@ body {
   border: 1px  solid grey;
   overflow-y: scroll;
 }
+
+.texto-derecha{
+  text-align: right;;
+}

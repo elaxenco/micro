@@ -136,6 +136,10 @@
 							$rol_id = $_COOKIE["micro_rol_id"];
 							$qc =" ";
 							$qt=" ";
+							$total_prestamos=0;
+							$total_pcapital=0;
+							$total_colocado=0;
+							$total_cte=0;
 
 
 							if($rol_id==1){
@@ -198,13 +202,24 @@
 						    while ($res = mysqli_fetch_row($resultado)) {
 
 						       $datos[$i]['cartera'] 	= $res[0];
-						       $datos[$i]['prestamos'] 		= '$ '.$res[1];
-						       $datos[$i]['pagos'] 			= '$ '.$res[3]; 
+						       $datos[$i]['prestamos'] 		= '$ '.number_format($res[1],2); 
+						       $datos[$i]['pagos'] 			= '$ '.number_format($res[3],2);  
 						       $datos[$i]['colocado'] 	= '$ '.number_format($res[1]-$res[3],2); 
 						       $datos[$i]['nc'] 	= $res[2]; 
 
+						       $total_prestamos+=$res[1];
+						       $total_pcapital+=$res[3];
+						       $total_colocado+=$res[1]-$res[3];
+						       $total_cte+=$res[2];
+
 						       $i++;
-						    }   
+						    }
+						       $datos[$i]['cartera'] 	= "";
+						       $datos[$i]['prestamos'] 		= '<b>$ '.number_format($total_prestamos,2)."</b>"; 
+						       $datos[$i]['pagos'] 			= '<b>$ '.number_format($total_pcapital,2)."</b>";  
+						       $datos[$i]['colocado'] 	= '<b>$ '.number_format($total_colocado,2)."</b>"; 
+						       $datos[$i]['nc'] 	= "<b>".$total_cte."</b>";  
+   
 							return $datos;    
 				} 
 
