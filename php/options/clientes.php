@@ -27,6 +27,11 @@
 		 	  echo (json_encode($cliente->buscarClientePorId($_REQUEST['cliente_id']))); 
 
 		 		break; 
+		 	case 5: 
+
+		 	  echo (json_encode($cliente->buscarHistoricoCte($_REQUEST['cliente_id']))); 
+
+		 		break; 
  	
  		 
  	}

@@ -101,10 +101,10 @@
                         <th scope="col">Id</th>
                         <th scope="col">Cliente</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Pago Completo</th>
-                        <th scope="col">Pago Capital</th>
-                        <th scope="col">Pago Interes</th>
-                        <th scope="col">Pago Seguro</th>
+                        <th scope="col" class='texto-derecha'>Pago Completo</th>
+                        <th scope="col" class='texto-derecha'>Pago Capital</th>
+                        <th scope="col" class='texto-derecha'>Pago Interes</th>
+                        <th scope="col" class='texto-derecha'>Pago Seguro</th>
                         <th scope="col">Cartera</th>
                         <th scope="col">Capturista</th>
                       </tr>

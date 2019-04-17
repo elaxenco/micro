@@ -134,6 +134,18 @@
 						       		  
 				}
 
+				public function buscarHistoricoCte($cliente_id){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 
+							  
+
+							return $datos;
+						       		  
+				}
+
  
 
 

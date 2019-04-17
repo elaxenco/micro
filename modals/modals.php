@@ -64,7 +64,7 @@
 </div>
 
 <!-- MODAL DE HISTORIAL -->
-<div class="modal fade" id="modalHistial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalHistial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -75,6 +75,14 @@
       </div>
       <div class="modal-body">
         <div class="container"> 
+          <div class="row mb-3">  
+                 <div class="col-md-3 col-4 mt-1"> 
+                    <input class="form-control" id="inputPassword2"  readonly>
+                 </div> 
+                 <div class="col-md-9 col-8 mt-1"> 
+                    <input class="form-control" id="inputPassword2"  readonly>
+                 </div>   
+          </div>
           <div class="row mb-3"> 
                  <div class="col-md-7">
                     <button type="button" class="btn btn-primary mt-1 mb-1">Pagos  <i class="fas fa-dollar-sign"></i></button>

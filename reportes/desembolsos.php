@@ -101,8 +101,8 @@
                         <th scope="col">Id</th>
                         <th scope="col">Cliente</th>
                         <th scope="col">Cartera</th>
-                        <th scope="col">Desembolso</th>
-                        <th scope="col">Fecha</th>
+                        <th scope="col" class='texto-derecha'>Desembolso</th>
+                        <th scope="col" class='texto-derecha'>Fecha</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Capturista</th>
                       </tr>
