@@ -32,6 +32,16 @@
 		 	  echo (json_encode($cliente->buscarHistoricoCte($_REQUEST['cliente_id']))); 
 
 		 		break; 
+		 	case 6: 
+
+		 	  echo (json_encode($cliente->buscarPagosDesmbolsoActual($_REQUEST['cliente_id']))); 
+
+		 		break; 
+		 	case 7: 
+
+		 	  echo (json_encode($cliente->buscarCorridaActual($_REQUEST['cliente_id']))); 
+
+		 		break; 
  	
  		 
  	}

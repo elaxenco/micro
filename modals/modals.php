@@ -77,20 +77,20 @@
         <div class="container"> 
           <div class="row mb-3">  
                  <div class="col-md-3 col-4 mt-1"> 
-                    <input class="form-control" id="inputPassword2"  readonly>
+                    <input class="form-control" id="idCteHistorico"  readonly>
                  </div> 
                  <div class="col-md-9 col-8 mt-1"> 
-                    <input class="form-control" id="inputPassword2"  readonly>
+                    <input class="form-control" id="cteHistorico"  readonly>
                  </div>   
           </div>
           <div class="row mb-3"> 
                  <div class="col-md-7">
                     <button type="button" class="btn btn-primary mt-1 mb-1">Pagos  <i class="fas fa-dollar-sign"></i></button>
                     <button type="button" class="btn btn-primary mt-1 mb-1">Desembolsos  <i class="fas fa-money-bill-alt"></i></button> 
-                    <button type="button" class="btn btn-primary mt-1 mb-1">Desembolso Act.  <i class="fas fa-money-bill-alt"></i></button>
+                    <button type="button" onclick="buscarPagosDesembolsoActual()" class="btn btn-primary mt-1 mb-1">Desembolso Act.  <i class="fas fa-money-bill-alt"></i></button>
                  </div>
                  <div class="col-md-5 col-12 mt-1"> 
-                    <input class="form-control" id="inputPassword2"  readonly>
+                    <input class="form-control" id="desembolsoActualHistorico"  readonly>
                  </div>  
           </div>
            <div class="row">

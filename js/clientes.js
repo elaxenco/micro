@@ -309,6 +309,39 @@ var resGuardarDesembolso = function(data){
             break;
     }
 }
+
+//respuestas de guardar desembolsos
+var resHistoricoCte= function(data){
+    if (!data && data == null) 
+            return;   
+
+    document.getElementById('idCteHistorico').value=data[0].cliente_id;
+    document.getElementById('cteHistorico').value=data[0].cliente;
+    document.getElementById('desembolsoActualHistorico').value=data[0].desembolso;
+
+    onRequestCte({ opcion :7,cliente_id:data[0].cliente_id },respCorridaActual);
+   
+}
+
+var respCorridaActual= function(data){
+    if (!data && data == null) 
+            return;   
+
+          console.log(data)
+           let contenido='' 
+
+          for(var i=0; i<data.length; i++){
+            //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
+              contenido += `<tr><td>${data[i].id}</td><td>${data[i].pago}/${data[i].saldo}</td><td>${data[i].fecha}</td><td></td></tr>`
+
+
+          }
+          //incrustamos el codigo html en la tabla
+          document.getElementById('tbHistorialCte').innerHTML=contenido;
+
+
+   
+}
 ///FUNCIONES 
 
 // cargamos controles iniciales
@@ -410,4 +443,10 @@ function primerDiaDePagoPagoSemnal(){
 //historico cliente
 function buscarClienteHistorico(cliente_id){
     onRequestCte({ opcion : 5 ,cliente_id:cliente_id},resHistoricoCte);
+}
+
+//pagos desembolso actual
+function buscarPagosDesembolsoActual(){
+    let cliente_id = document.getElementById('idCteHistorico').value;
+    onRequestCte({ opcion : 6 ,cliente_id:cliente_id},resHistoricoCte);
 }

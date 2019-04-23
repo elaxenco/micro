@@ -139,11 +139,65 @@
 							$datos=array();  
 							$i=0;
 							 
- 
+ 							$sql="SELECT * FROM estatusActualCliente WHERE  id=$cliente_id";  
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$datos[$i]['cliente_id']= $res[0]; 
+								$datos[$i]['cliente']= $res[1]; 
+								$datos[$i]['desembolso']= $res[2]; 
+							}
 							  
 
 							return $datos;
 						       		  
+				}
+
+				public function buscarPagosDesmbolsoActual($cliente_id){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 							$sql="SELECT * FROM estatusActualCliente WHERE  id=$cliente_id";  
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$datos[$i]['cliente_id']= $res[0]; 
+								$datos[$i]['cliente']= $res[1]; 
+								$datos[$i]['desembolso']= $res[2]; 
+							}
+							  
+
+							return $datos;
+				}
+				public function buscarCorridaActual($cliente_id){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 							$sql="SELECT id,tipo_id  FROM desembolsos d WHERE d.estatus_id=5 AND d.cliente_id=$cliente_id";  
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$desembolso_id= $res[0]; 
+								$tipo_id= $res[1];  
+							} 
+
+							if($tipo_id==3){
+								$query = "SELECT id ,fecha_pago,pago_completo,saldo FROM corridas_tipo_c WHERE desembolso_id=$desembolso_id";
+							}else{
+								$query = "SELECT id ,fecha_pago,pago_completo,saldo FROM corridas WHERE desembolso_id=$desembolso_id";
+							}
+								 
+							$resultado= mysqli_query($this->con(), $query); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$datos[$i]['id']= $res[0]; 
+								$datos[$i]['fecha']= $res[1]; 
+								$datos[$i]['pago']= $res[2]; 
+								$datos[$i]['saldo']= $res[3]; 
+
+								$i++;
+							}
+							  
+
+							return $datos;
 				}
 
  
