@@ -95,6 +95,7 @@
             </div>
             <!--AGREGAMOS EL CONTENIDO-->
             <div class="row">
+              <div class="table-responsive-sm">
                 <table class="table table-sm  mt-2 table-hover">
                     <thead>
                       <tr> 
@@ -112,6 +113,7 @@
                     <tbody id="tb_rep_pagos"> 
                     </tbody>
                   </table > 
+                </div>
             </div>
       </div>
       </div>

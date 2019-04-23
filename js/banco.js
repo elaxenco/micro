@@ -11,7 +11,7 @@ function cargarControlesCajas(){
 }
 //
 function buscarClientesPorCartera(cartera_id){
-	onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
+  onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
 }
 
 //Buscar clientes por nombre
@@ -30,10 +30,10 @@ function buscarClientes(clt){
 
 //
 function seleccionarCliente(cliente_id){  
-	 
-	document.getElementById('b_cliente').innerHTML=`${arregloClientes[cliente_id][0]} - ${arregloClientes[cliente_id][1]} `; 
+   
+  document.getElementById('b_cliente').innerHTML=`${arregloClientes[cliente_id][0]} - ${arregloClientes[cliente_id][1]} `; 
 
-	 /*let id = $("#c_id_desembolso").val().split(' ', 1) 
+   /*let id = $("#c_id_desembolso").val().split(' ', 1) 
        console.log(id[0])*/ 
    document.getElementById('desembolsoActual').innerHTML=`$ ${arregloClientes[cliente_id][2]}`;  
    document.getElementById('saldoTotal').innerHTML=`$ ${arregloClientes[cliente_id][4]}`;
@@ -156,7 +156,7 @@ function guardarMovimiento(){
       return mensajeAlerta('El importe ingresado no es valido','error')
 
     //extraemos del arreglo de cajas el tipo de caja ya sea cartera o oficina
-  let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;
 
   onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja },resGuardarMovimiento);
 }
@@ -181,7 +181,7 @@ function buscarMovimientosPorCaja(caja_id_gen){
 
 
       let caja_id =arregloCajas[caja_id_gen][0].id_real;
-      let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+      let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;
       onRequestBanco({ opcion :10,caja_id:caja_id,tipo_caja:tipo_caja},resMovimientosPorCaja);
     }
 }
@@ -224,7 +224,7 @@ function verCorteDeCaja(){
   if(caja_id<1)
       return mensajeAlerta('Es necesario seleccionar una caja.','error')
  
-  let tipo_caja =arregloCajas[caja_id][0].tipo_caja;
+  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;
   let fecha =document.getElementById('c_fecha').value;  
 
   if(fecha=='')
@@ -333,13 +333,13 @@ var resClientesCartera = function(data){
 
           for(var i=0; i<data.length; i++){
 
-          	
-          	  
+            
+              
               if(data[i].desembolso>0){ 
-              	//generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->PAGOS  ACTUAL 4->SALDO 5-> TIPO_ID
+                //generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->PAGOS  ACTUAL 4->SALDO 5-> TIPO_ID
                 arregloClientes[data[i].cliente_id] = [ data[i].cliente_id ,data[i].nombre , data[i].desembolso ,data[i].pagos, data[i].saldo];
                 //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              	contenido += `<tr data-toggle="modal" data-target="#modalBanco" class="subrallar-tabla" onclick="seleccionarCliente(${data[i].cliente_id})"><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
+                contenido += `<tr data-toggle="modal" data-target="#modalBanco" class="subrallar-tabla" onclick="seleccionarCliente(${data[i].cliente_id})"><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
                               </tr> `
               }  
 
@@ -454,7 +454,9 @@ var resCancelarMovimiento = function(data){
 var resVerCorteCaja = function(data){
     if (!data && data == null) 
             return;  
+      
       /* Para obtener el valor */
+
       var cod = document.getElementById("c_caja_id").value;  
       /* Para obtener el texto */
       var combo = document.getElementById("c_caja_id");
