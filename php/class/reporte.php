@@ -285,7 +285,8 @@
 							 	IFNULL((SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) interes,
 							 	IFNULL((SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) seguro,
 							 	IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=1 AND tipo='S' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) salidas,
-							 	IFNULL((SELECT SUM(capital) FROM desembolsos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) desembolsos 
+							 	IFNULL((SELECT SUM(capital) FROM desembolsos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) desembolsos ,
+							 	IFNULL((SELECT saldo_final FROM cortes WHERE caja_id=c.id AND tipo_caja=1 AND fecha='$fecha_final'),0) saldo_final
 							FROM carteras c  
 							UNION 
 							SELECT c.id,
@@ -296,7 +297,8 @@
 							 	'0' interes,
 							 	'0' seguro,
 							 	IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=2 AND tipo='S' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) salidas,
-							 	'0' desembolsos 
+							 	'0' desembolsos ,
+							 	IFNULL((SELECT saldo_final FROM cortes WHERE caja_id=c.id AND tipo_caja=2 AND fecha='$fecha_final'),0) saldo_final
 							FROM oficinas c   ";
 											
 						    
@@ -310,9 +312,8 @@
 					    	$datos[$i]['pagos_interes'] = "$ ".number_format($res[5],2);
 					    	$datos[$i]['pagos_seguro'] 	= "$ ".number_format($res[6],2);
 					    	$datos[$i]['salidas'] 		= "$ ".number_format($res[7],2);
-					    	$datos[$i]['desembolsos'] 	= "$ ".number_format($res[8],2);
-					    	$saldo_final=$res[2]+$res[3]+$res[4]+$res[5]+$res[6]-$res[7]-$res[8];
-					    	$datos[$i]['saldo_final'] 	= "$ ".number_format($saldo_final,2);
+					    	$datos[$i]['desembolsos'] 	= "$ ".number_format($res[8],2); 
+					    	$datos[$i]['saldo_final'] 	= "$ ".number_format($res[9],2);
 					       	
 
 					       	$total_saldo_inicial+=$res[2];
@@ -322,7 +323,7 @@
 							$total_pago_seguro+=$res[6];
 							$total_salidas+=$res[7];
 							$total_desembolsos+=$res[8];
-							$total_saldo_final+=$saldo_final;
+							$total_saldo_final+=$res[9];
 
 					       $i++;
 					    } 
