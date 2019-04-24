@@ -71,6 +71,23 @@ function generarReporteColocado(){
   onRequestReportes({ opcion :3,fecha_inicial:'2019-04-01',fecha_final:'2019-04-01',cartera_id:cartera_id,tipo_id:tipo_id },resReporteColocado);
 }
 
+//reportes movimeintos
+ 
+function generarReporteMovimientos(){ 
+  let fecha_inicial = document.getElementById('m_fecha_inicial').value;
+  let fecha_final = document.getElementById('m_fecha_final').value;   
+
+ 
+    if(fecha_inicial>fecha_final || fecha_inicial=='' || fecha_final =='' ){
+      mensajeAlerta('El rango de fechas no es valido.','error')
+      return;
+    }  
+
+ // console.log(fechaInicial+' '+fechaFinal+' '+cartera_id+' '+tipo_id)
+
+  onRequestReportes({ opcion :4,fecha_inicial:fecha_inicial,fecha_final:fecha_final },resReporteMovimientos);
+}
+
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
@@ -92,8 +109,7 @@ var resRegCarterasPorUsuario = function(data){
 var resReporteDesembolsos = function(data){
     if (!data && data == null) 
             return;   
-
-          console.log(data)
+ 
         let contenido = ''
          for(var i=0; i<data.length; i++){
             
@@ -123,8 +139,7 @@ var resReportePagos = function(data){
 var resReporteColocado = function(data){
     if (!data && data == null) 
             return;   
-
-          console.log(data)
+ 
         let contenido = ''
          for(var i=0; i<data.length; i++){
             
@@ -135,4 +150,19 @@ var resReporteColocado = function(data){
         document.getElementById('tb_rep_colocado').innerHTML=contenido;
 }
  
+
+//respuesta de movimientos
+
+var resReporteMovimientos =function(data){
+
+    console.log(data)
+    let contenido = ''
+         for(var i=0; i<data.length; i++){
+            
+              contenido +=`<tr><td>${data[i].caja}</td><td class='texto-derecha'>${data[i].saldo_inicial}</td><td class='texto-derecha'>${data[i].entradas}</td><td class='texto-derecha'>${data[i].pagos_capital}</td><td class='texto-derecha'>${data[i].pagos_interes}</td><td class='texto-derecha'>${data[i].pagos_seguro}</td><td class='texto-derecha'>${data[i].salidas}</td><td class='texto-derecha'>${data[i].desembolsos}</td><td class='texto-derecha'>${data[i].saldo_final}</td></tr>`
+         
+          } 
+        //incrustamos el codigo html en la tabla 
+        document.getElementById('tb_rep_movimientos').innerHTML=contenido;
+}
     

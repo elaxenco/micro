@@ -259,6 +259,90 @@
    
 							return $datos;    
 				} 
+				// funcion para buscar movimientos
+				public function calcularMovimientos($fecha_inicial,$fecha_final){
+						$res=array();
+						$datos=array();
+						$i=0;
+						$respuesta=0;
+						$rol_id = $_COOKIE["micro_rol_id"];
+						$total_saldo_inicial=0;
+						$total_entradas=0;
+						$total_pago_capital=0;
+						$total_pago_interes=0;
+						$total_pago_seguro=0;
+						$total_salidas=0;
+						$total_desembolsos=0;
+						$total_saldo_final=0;
+						
+
+
+						 $sql=" SELECT c.id,
+								c.descripcion caja,
+								IFNULL((SELECT saldo_inicial FROM cortes WHERE caja_id=c.id AND tipo_caja=1 AND fecha='$fecha_inicial'),0) saldo_incial,
+								IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=1 AND tipo='E' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) entradas ,
+								IFNULL((SELECT SUM(pago_capital) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) capital,
+							 	IFNULL((SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) interes,
+							 	IFNULL((SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) seguro,
+							 	IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=1 AND tipo='S' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) salidas,
+							 	IFNULL((SELECT SUM(capital) FROM desembolsos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=c.id) AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) desembolsos 
+							FROM carteras c  
+							UNION 
+							SELECT c.id,
+								c.descripcion caja,
+								IFNULL((SELECT saldo_inicial FROM cortes WHERE caja_id=c.id AND tipo_caja=2 AND fecha='$fecha_inicial'),0) saldo_incial,
+								IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=2 AND tipo='E' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) entradas ,
+								'0' capital,
+							 	'0' interes,
+							 	'0' seguro,
+							 	IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=c.id AND tipo_caja=2 AND tipo='S' AND fecha BETWEEN '$fecha_inicial' AND '$fecha_final'),0) salidas,
+							 	'0' desembolsos 
+							FROM oficinas c   ";
+											
+						    
+						$resultado = mysqli_query($this->con(), $sql); 
+					    while ($res = mysqli_fetch_row($resultado)) {
+					    	$datos[$i]['id'] 			= $res[0];
+					    	$datos[$i]['caja'] 			= $res[1];
+					    	$datos[$i]['saldo_inicial'] = "$ ".number_format($res[2],2);
+					    	$datos[$i]['entradas'] 		= "$ ".number_format($res[3],2);
+					    	$datos[$i]['pagos_capital'] = "$ ".number_format($res[4],2);
+					    	$datos[$i]['pagos_interes'] = "$ ".number_format($res[5],2);
+					    	$datos[$i]['pagos_seguro'] 	= "$ ".number_format($res[6],2);
+					    	$datos[$i]['salidas'] 		= "$ ".number_format($res[7],2);
+					    	$datos[$i]['desembolsos'] 	= "$ ".number_format($res[8],2);
+					    	$saldo_final=$res[2]+$res[3]+$res[4]+$res[5]+$res[6]-$res[7]-$res[8];
+					    	$datos[$i]['saldo_final'] 	= "$ ".number_format($saldo_final,2);
+					       	
+
+					       	$total_saldo_inicial+=$res[2];
+							$total_entradas+=$res[3];
+							$total_pago_capital+=$res[4];
+							$total_pago_interes+=$res[5];
+							$total_pago_seguro+=$res[6];
+							$total_salidas+=$res[7];
+							$total_desembolsos+=$res[8];
+							$total_saldo_final+=$saldo_final;
+
+					       $i++;
+					    } 
+
+					    	$datos[$i]['id'] 			= "";
+					    	$datos[$i]['caja'] 			= "";
+					    	$datos[$i]['saldo_inicial'] = '<b>$ '.number_format($total_saldo_inicial,2)."</b>"; 
+					    	$datos[$i]['entradas'] 		= '<b>$ '.number_format($total_entradas,2)."</b>"; 
+					    	$datos[$i]['pagos_capital'] = '<b>$ '.number_format($total_pago_capital,2)."</b>"; 
+					    	$datos[$i]['pagos_interes'] = '<b>$ '.number_format($total_pago_interes,2)."</b>"; 
+					    	$datos[$i]['pagos_seguro'] 	= '<b>$ '.number_format($total_pago_seguro,2)."</b>"; 
+					    	$datos[$i]['salidas'] 		= '<b>$ '.number_format($total_salidas,2)."</b>"; 
+					    	$datos[$i]['desembolsos'] 	= '<b>$ '.number_format($total_desembolsos,2)."</b>"; 
+					    	$datos[$i]['saldo_final'] 	= '<b>$ '.number_format($total_saldo_final,2)."</b>"; 
+
+					     
+					       
+
+						return $datos;    
+				} 
 
 
 

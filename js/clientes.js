@@ -332,7 +332,7 @@ var respCorridaActual= function(data){
 
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              contenido += `<tr><td>${data[i].id}</td><td>${data[i].pago}/${data[i].saldo}</td><td>${data[i].fecha}</td><td></td></tr>`
+              contenido += `<tr><td>${data[i].id}</td><td>${i+1} - ${data[i].pago}/${data[i].saldo}</td><td>${data[i].fecha}</td><td></td></tr>`
 
 
           }

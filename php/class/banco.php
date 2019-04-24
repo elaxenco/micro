@@ -604,7 +604,7 @@
 							IFNULL(IF($tipo_caja=$Caja,(SELECT SUM(pago_interes) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) interes,
 							IFNULL(IF($tipo_caja=$Caja,(SELECT SUM(pago_seguro) FROM pagos WHERE cliente_id IN (SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha') ,0),0) seguro,
 							IFNULL((SELECT SUM(importe) FROM caja WHERE caja_id=$caja_id AND fecha='$fecha' AND tipo_caja=$tipo_caja AND tipo='S' ),0) salidas,
-							IFNULL((SELECT  SUM(capital) FROM desembolsos WHERE cliente_id IN(SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha'),0) desembolsos
+							IFNULL(IF($tipo_caja=$Caja,(SELECT  SUM(capital) FROM desembolsos WHERE cliente_id IN(SELECT id FROM clientes WHERE cartera_id=$caja_id) AND fecha='$fecha'),0),0) desembolsos
 
 								"; 
 						$resultado= mysqli_query($this->con(), $sql); 

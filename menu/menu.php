@@ -1,9 +1,12 @@
  
 
  <!-- Sidebar -->
-    <div class="  border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">FinancieraLeal</div>
+ 
+    <div class="  border-right" id="sidebar-wrapper"> 
+      <div class="sidebar-heading" style="display: none">
+       </div>
       <div class="list-group list-group-flush">
+       <a  class=" list-group-item list-group-item-action bg-light" style="width: 100%;padding: 0;margin: 0;" ><img style="width: 100%;padding: 0;margin: 0;"   src="http://localhost/micro/img/logo2.png" /></a> 
         <a   id="m_inicio" href="http://localhost/micro/index.php" class=" list-group-item list-group-item-action bg-light">Inicio</a>
         <a  id="m_clientes" href="http://localhost/micro/clientes/cliente.php" class=" menudisplay list-group-item list-group-item-action bg-light">Clientes</a>
         <div class="btn-group dropright">
@@ -27,6 +30,7 @@
                   <a  id="m_reportes_pendientes" href="http://localhost/micro/reportes/pendientes_pago.php" class="menudisplay dropdown-item list-group-item list-group-item-action bg-blue-grey">Pendientes de Pago</a> 
                   <a  id="m_reportes_colocado" href="http://localhost/micro/reportes/colocado.php" class="menudisplay dropdown-item list-group-item list-group-item-action bg-blue-grey">Colocado</a> 
                   <a  id="m_reportes_colocado" href="http://localhost/micro/reportes/caja.php" class="menudisplay dropdown-item list-group-item list-group-item-action bg-blue-grey">Entradas y Salidas</a> 
+                  <a  id="m_reportes_movimientos" href="http://localhost/micro/reportes/movimientos.php" class="menudisplay dropdown-item list-group-item list-group-item-action bg-blue-grey">Movimientos</a> 
           </div>
         </div>
 

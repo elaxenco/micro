@@ -8,14 +8,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-
+<head> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="author" content=""> 
+  <link rel="icon" type="image/png" href="http://localhost/micro/img/icono.png" />  
 
-  <title>Micro Financiera</title>
+  <title>Financiera Leal</title>
 
    <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet"> 
@@ -95,7 +95,7 @@
             </div>
             <!--AGREGAMOS EL CONTENIDO-->
             <div class="row">
-              <div class="table-responsive-sm">
+              <div class="table-responsive">
                 <table class="table table-sm  mt-2 table-hover">
                     <thead>
                       <tr> 

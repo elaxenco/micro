@@ -15,6 +15,9 @@
 			 	case 3: 
 			 			   echo (json_encode($reportes->calcularColocado($_REQUEST['fecha_inicial'],$_REQUEST['fecha_final'],$_REQUEST['cartera_id'],$_REQUEST['tipo_id'])));
 			 		break;  
+			 	case 4: 
+			 			   echo (json_encode($reportes->calcularMovimientos($_REQUEST['fecha_inicial'],$_REQUEST['fecha_final'])));
+			 		break;
  
  		 
  	}
