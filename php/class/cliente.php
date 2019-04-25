@@ -200,6 +200,59 @@
 							return $datos;
 				}
 
+				public function cancelarDesembolsoCliente($cliente_id){
+							$res=array();
+							$datos=array();  
+							$i=0;
+							 
+ 							$sql="SELECT desembolsos.id,desembolsos.tipo_id,desembolsos.fecha,clientes.cartera_id FROM desembolsos
+									JOIN clientes ON clientes.id=desembolsos.cliente_id
+									 WHERE desembolsos.cliente_id=$cliente_id AND desembolsos.estatus_id=5 LIMIT 1";   
+							$resultado= mysqli_query($this->con(), $sql); 
+							while ($res = mysqli_fetch_row($resultado)){
+								$desembolso_id	= $res[0]; 
+								$tipo_id		= $res[1]; 
+								$fecha 			= $res[2]; 
+								$cartera_id 	= $res[3]; 
+							}
+
+							$sql2="SELECT COUNT(*) FROM pagos WHERE desembolso_id=$desembolso_id";   
+							$resultado2= mysqli_query($this->con(), $sql2); 
+							while ($res2 = mysqli_fetch_row($resultado2)){
+								$pagos	= $res2[0];  
+							}
+							  
+							if($pagos>0){
+								$datos[0]['respuesta'] ='4'; 
+							}else{
+
+								$corte = $this->corte($cartera_id,1,$fecha); 
+
+								if($corte=='S'){
+										$datos[0]['respuesta'] ='2';  
+								}else{
+
+									if($tipo_id==3){
+										$sql="DELETE FROM corridas_tipo_c WHERE desembolso_id=$desembolso_id";  
+									}else{
+										$sql="DELETE FROM corridas WHERE desembolso_id=$desembolso_id";   
+									}
+										$resp =  mysqli_query($this->con(), $sql); 
+
+									if($resp<=0){
+										$datos[0]['respuesta'] 		='3'; 
+										return $datos;
+									}else{
+										$sql="DELETE FROM desembolsos WHERE id=$desembolso_id"; 
+										$resp =  mysqli_query($this->con(), $sql);  
+										$datos[0]['respuesta'] 		='1';
+									} 
+								}
+							}
+
+							return $datos;
+				}
+
  
 
 

@@ -291,9 +291,7 @@ var resVerPrimerDiaDePago = function(data){
 }
 
 //respuestas de guardar desembolsos
-var resGuardarDesembolso = function(data){
-
-  console.log(data)
+var resGuardarDesembolso = function(data){ 
 
     switch(data[0].resultado){
           case 1:
@@ -340,6 +338,30 @@ var respCorridaActual= function(data){
           document.getElementById('tbHistorialCte').innerHTML=contenido;
 
 
+   
+}
+
+//respuestas de cancelar desembolso
+var resCancelarDesembolso= function(data){
+    if (!data && data == null) 
+            return;   
+
+    console.log(data)
+    switch(data[0].respuesta){
+             case '1':
+                    mensajeAlerta('El desembolso fue cancelado correctamente.','success');
+                    onRequestCte({ opcion : 2 ,c_cartera:document.getElementById('c_cartera').value},resClientesCartera);
+                break;
+             case '2':
+                    mensajeAlerta('El corte del dia ya fue realizado, imposible cancelar el desembolso.','error')
+               break;
+             case '3':
+                    mensajeAlerta('Ocurrio un error al intentar realizar la operacion.','error')
+                 break;
+              case '4':
+                  mensajeAlerta('El desembolso cuenta con pagos, es necesario eliminar primero los pagos.','error')
+               break;
+    }
    
 }
 ///FUNCIONES 
@@ -453,5 +475,16 @@ function buscarPagosDesembolsoActual(){
 
 //funcion para cancelar desembolso activo
 function cancelarDesembolsoDeCliente(cliente_id){
-
+     swal({ 
+              title: `¿Seguro que desea cancelar el desembolso?`,
+              icon: "warning",
+              buttons: true,  
+            })
+            .then((respuesta) => {
+               if(respuesta){
+                    onRequestCte({ opcion : 8,cliente_id:cliente_id },resCancelarDesembolso);
+               }else{
+                    mensajeAlerta('¡La operacion fue cancelada.!','error')
+               }
+            });
 }

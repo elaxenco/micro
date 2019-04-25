@@ -42,6 +42,11 @@
 		 	  echo (json_encode($cliente->buscarCorridaActual($_REQUEST['cliente_id']))); 
 
 		 		break; 
+		 	case 8: 
+
+		 	  echo (json_encode($cliente->cancelarDesembolsoCliente($_REQUEST['cliente_id']))); 
+
+		 		break; 
  	
  		 
  	}
