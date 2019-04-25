@@ -88,6 +88,26 @@ function generarReporteMovimientos(){
   onRequestReportes({ opcion :4,fecha_inicial:fecha_inicial,fecha_final:fecha_final },resReporteMovimientos);
 }
 
+//funcion de pendiente de pagos
+function generarReportePendientesPago(){
+    let rol_id = leerCookie('micro_rol_id');
+    let fecha_inicial = document.getElementById('p_fecha_inicial').value;
+    let cartera_id = document.getElementById('r_cartera').value;
+
+    if(rol_id>1){
+        if(cartera_id<=0){
+          mensajeAlerta('Es necesario seleccionar una cartera.','error')
+          return;
+        } 
+    }
+
+    if (fecha_inicial==''){
+         mensajeAlerta('Es necesario seleccionar una fecha correcta.','error')
+          return;
+    }
+    onRequestReportes({ opcion :5,cartera_id:cartera_id,fecha:fecha_inicial },resReportePendientesPago);
+}
+
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
     if (!data && data == null) 
@@ -123,8 +143,7 @@ var resReporteDesembolsos = function(data){
 var resReportePagos = function(data){
     if (!data && data == null) 
             return;   
-
-          console.log(data)
+ 
         let contenido = ''
          for(var i=0; i<data.length; i++){
             
@@ -153,9 +172,7 @@ var resReporteColocado = function(data){
 
 //respuesta de movimientos
 
-var resReporteMovimientos =function(data){
-
-    console.log(data)
+var resReporteMovimientos =function(data){ 
     let contenido = ''
          for(var i=0; i<data.length; i++){
             
@@ -165,4 +182,14 @@ var resReporteMovimientos =function(data){
         //incrustamos el codigo html en la tabla 
         document.getElementById('tb_rep_movimientos').innerHTML=contenido;
 }
-    
+  
+var resReportePendientesPago = function(data){  
+
+    let contenido = ''
+         for(var i=0; i<data.length; i++){
+            
+              contenido +=`<tr><td>${data[i].cliente_id}</td><td>${data[i].cliente}</td><td>${data[i].fecha_mora}</td><td>${data[i].pagos_vencidos}</td><td>${data[i].dias_mora}</td><td class='texto-derecha'>${data[i].saldo_vencido}</td><td class='texto-derecha'>${data[i].saldo_total}</td><td>${data[i].cartera}</td></tr>`;
+          } 
+        //incrustamos el codigo html en la tabla 
+        document.getElementById('tb_rep_vencidos').innerHTML=contenido;
+}

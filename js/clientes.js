@@ -195,8 +195,8 @@ var resClientesCartera = function(data){
               contenido += `<tr><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitatBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
                             <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
-                            <span data-toggle="modal" data-target="#modalHistial"><button  onclick="buscarClienteHistorico(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span>
-                            </td></tr>`
+                            <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
+                            <span data-toggle="modal" data-target="#modalHistial"><button  onclick="buscarClienteHistorico(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span></td></tr>`
 
           }
           //incrustamos el codigo html en la tabla
@@ -449,4 +449,9 @@ function buscarClienteHistorico(cliente_id){
 function buscarPagosDesembolsoActual(){
     let cliente_id = document.getElementById('idCteHistorico').value;
     onRequestCte({ opcion : 6 ,cliente_id:cliente_id},resHistoricoCte);
+}
+
+//funcion para cancelar desembolso activo
+function cancelarDesembolsoDeCliente(cliente_id){
+
 }

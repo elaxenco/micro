@@ -345,6 +345,82 @@
 						return $datos;    
 				} 
 
+				// funcion para buscar movimientos
+				public function clientesPendienteDePago($cartera_id,$fecha){
+					 	$res=array();
+						$datos=array();
+						$i=0;
+						$respuesta=0;  
+						$total_vencido=0;
+						$total_saldo=0;
+
+						if($cartera_id>0){
+							$ql=' AND carteras.id='.$cartera_id;
+						}else{
+							$ql='';
+						}
+
+						 $sql="SELECT cliente_id,
+									CONCAT(clientes.nombre,' ',clientes.appaterno,' ',clientes.apmaterno) cliente,
+									MIN(fecha_pago) fecha_mora,
+									COUNT(corridas.id) pagos_vencidos,
+									DATEDIFF(CURDATE(),MIN(fecha_pago)) dias_mora, 
+									SUM(saldo) saldo_vencido,
+									(SELECT SUM(c.saldo) FROM corridas  c WHERE c.cliente_id=corridas.cliente_id AND saldo>0) saldo_total,
+									carteras.descripcion cartera
+									FROM corridas
+								JOIN clientes ON clientes.id=corridas.cliente_id
+								JOIN carteras ON carteras.id=clientes.cartera_id 
+								 WHERE saldo>0 AND fecha_pago<='$fecha' $ql GROUP BY cliente_id 
+								UNION
+								 SELECT cliente_id,
+									CONCAT(clientes.nombre,' ',clientes.appaterno,' ',clientes.apmaterno) cliente,
+									MIN(fecha_pago) fecha_mora,
+									COUNT(corridas_tipo_c.id) pagos_vencidos,
+									DATEDIFF(CURDATE(),MIN(corridas_tipo_c.fecha_pago)) dias_mora, 
+									SUM(interes-pago_interes) saldo_vencido,
+									(SELECT SUM(c.saldo) FROM corridas_tipo_c  c WHERE c.cliente_id=corridas_tipo_c.cliente_id AND c.saldo>0 AND c.estatus_id=5) saldo_total,
+									carteras.descripcion
+									
+									FROM corridas_tipo_c
+								JOIN clientes ON clientes.id=corridas_tipo_c.cliente_id
+								JOIN carteras ON carteras.id=clientes.cartera_id 
+								 
+								 WHERE interes>pago_interes AND fecha_pago<='$fecha' AND corridas_tipo_c.estatus_id=5 $ql  GROUP BY cliente_id
+								 ";
+											 
+						    
+						$resultado = mysqli_query($this->con(), $sql); 
+					    while ($res = mysqli_fetch_row($resultado)) {
+					    	$datos[$i]['cliente_id'] 		= $res[0];
+					    	$datos[$i]['cliente'] 			= $res[1];
+					    	$datos[$i]['fecha_mora'] 		= $res[2]; 
+					    	$datos[$i]['pagos_vencidos'] 	= $res[3];
+					    	$datos[$i]['dias_mora'] 		= $res[4];
+					    	$datos[$i]['saldo_vencido'] 	= "$ ".number_format($res[5],2);
+					    	$datos[$i]['saldo_total'] 		= "$ ".number_format($res[6],2);
+					    	$datos[$i]['cartera'] 			= $res[7]; 
+					       	
+					       	$total_vencido+=$res[5];
+							$total_saldo+=$res[6];
+ 							$i++;
+					    } 
+
+					    	$datos[$i]['cliente_id'] 		= "";
+					    	$datos[$i]['cliente'] 			= "";
+					    	$datos[$i]['fecha_mora'] 		= ""; 
+					    	$datos[$i]['pagos_vencidos'] 	= "";
+					    	$datos[$i]['dias_mora'] 		= "";
+					    	$datos[$i]['saldo_vencido'] 	= '<b>$ '.number_format($total_vencido,2)."</b>"; 
+					    	$datos[$i]['saldo_total'] 		= '<b>$ '.number_format($total_saldo,2)."</b>"; 
+					    	$datos[$i]['cartera'] 			= ""; 
+
+					     
+					       
+
+						return $datos;     
+				} 
+
 
 
 	}

@@ -18,6 +18,9 @@
 			 	case 4: 
 			 			   echo (json_encode($reportes->calcularMovimientos($_REQUEST['fecha_inicial'],$_REQUEST['fecha_final'])));
 			 		break;
+			 	case 5: 
+			 			   echo (json_encode($reportes->clientesPendienteDePago($_REQUEST['cartera_id'],$_REQUEST['fecha'] )));
+			 		break;
  
  		 
  	}
