@@ -216,6 +216,11 @@
 								$cartera_id 	= $res[3]; 
 							}
 
+							if($desembolso_id<=0){
+								$datos[0]['respuesta'] 		='5'; 
+								return $datos;
+							}
+
 							$sql2="SELECT COUNT(*) FROM pagos WHERE desembolso_id=$desembolso_id";   
 							$resultado2= mysqli_query($this->con(), $sql2); 
 							while ($res2 = mysqli_fetch_row($resultado2)){

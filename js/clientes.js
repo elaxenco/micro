@@ -361,6 +361,9 @@ var resCancelarDesembolso= function(data){
               case '4':
                   mensajeAlerta('El desembolso cuenta con pagos, es necesario eliminar primero los pagos.','error')
                break;
+              case '5':
+                  mensajeAlerta('El cliente no cuenta con desembolsos activos.','error')
+               break;
     }
    
 }
