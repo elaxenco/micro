@@ -126,3 +126,12 @@ body {
 .texto-derecha{
   text-align: right;;
 }
+
+.color-financiera{
+  background: #F5EEF8 ;
+}
+
+.cteDisponible{
+  background: #E8DAEF;
+  border: 1px black solid;
+}

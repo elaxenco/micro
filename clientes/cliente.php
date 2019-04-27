@@ -68,16 +68,16 @@
                             </div>
                             <div class="col-md-10 col-9 ">
                                 <label for="c_nombre ">Nombre</label>
-                                <input type="text" class="form-control" id="c_nombre" placeholder="Ingrese su nombre" onkeypress="return soloLetras(event)"  required> 
+                                <input type="text" class="form-control" id="c_nombre" placeholder="Ingrese su nombre" onkeyup="buscarClientesReg();" onkeypress="return soloLetras(event)"  required> 
                               </div> 
                               <div class="col-md-4 col-12">
                                 <label for="c_appaterno">Apellido Paterno</label>
-                                <input type="text" class="form-control" id="c_appaterno" placeholder="Ingrese su apellido paterno" onkeypress="return soloLetras(event)" required>
+                                <input type="text" class="form-control" id="c_appaterno" placeholder="Ingrese su apellido paterno" onkeyup="buscarClientesReg();" onkeypress="return soloLetras(event)" required>
                                 
                               </div> 
                               <div class="col-md-4 col-12 ">
                                 <label for="c_apmaterno">Apellido Materno</label>
-                                <input type="text" class="form-control" id="c_apmaterno" placeholder="Ingrese su apellido materno" onkeypress="return soloLetras(event)" required>
+                                <input type="text" class="form-control" id="c_apmaterno" placeholder="Ingrese su apellido materno" onkeyup="buscarClientesReg();" onkeypress="return soloLetras(event)" required>
                          
                               </div> 
                               <div class="col-md-4 col-12 ">
@@ -142,7 +142,7 @@
 
       <div class="container ">
 
-        <div class="card-header bg-primary text-white "> 
+        <div class="card-header bg-success text-white "> 
             <div class="row">
               <div class="col-md-2 mt-2">
                 <button  type="button" class="btn btn-secondary col-12"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >Ocultar</button>

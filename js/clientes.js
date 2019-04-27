@@ -179,20 +179,22 @@ var resRegClientes = function(data){
 //respuesta con los clientes de cada cartera
 var resClientesCartera = function(data){
     if (!data && data == null) 
-            return   
-  
+            return    
+          
           let contenido='' 
           let deshabilitatBotton=''
 
           for(var i=0; i<data.length; i++){
 
               if(data[i].desembolso>0){
-                deshabilitatBotton='disabled'
+                deshabilitatBotton='disabled';
+                disponible=''
               }else{
                 deshabilitatBotton=''
+                disponible=''
               }
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              contenido += `<tr><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
+              contenido += `<tr  style="${disponible}"><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitatBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
                             <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
                             <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
@@ -406,6 +408,27 @@ function buscarClientes(){
   var cliente = $("#b_cliente").val();
   var c_cartera = $("#c_cartera").val();
 // buscamos clientes despues de que el usuario agrege almenos 3 caracteres
+  if(cliente.length>3){
+      onRequestCte({ opcion : 3 ,nombre:cliente,c_cartera:c_cartera},resClientesCartera);
+  }else{
+
+     onRequestCte({ opcion : 2 ,c_cartera:c_cartera},resClientesCartera);
+  }
+
+}
+//Buscar clientes por nombre al querer registrar
+function buscarClientesReg(){
+  var cliente = `${document.getElementById('c_nombre').value}`
+  var appaterno = `${document.getElementById('c_appaterno').value}`
+
+  if(appaterno.length>0){
+      cliente +=' '+appaterno;
+  }
+
+  var c_cartera = $("#c_cartera").val();
+// buscamos clientes despues de que el usuario agrege almenos 3 caracteres
+
+console.log(cliente)
   if(cliente.length>3){
       onRequestCte({ opcion : 3 ,nombre:cliente,c_cartera:c_cartera},resClientesCartera);
   }else{
