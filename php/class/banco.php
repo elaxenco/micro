@@ -749,6 +749,31 @@
 				       		  
 		}
 
+		//cancelamos el corte anterior
+		public function verClientesPorCarteraEnPagos($cartera_id){
+					$res=array();
+					$datos=array();  
+					$i=0; 
+
+			  	$sql="SELECT * FROM v_saldos_cte WHERE cartera_id=$cartera_id"; 
+					$resultado= mysqli_query($this->con(), $sql); 
+					while ($res = mysqli_fetch_row($resultado)){
+						$datos[$i]['cliente_id'] 	= $res[0]; 
+						$datos[$i]['nombre'] 		= $res[1]; 
+						$datos[$i]['capital']	= $res[2];
+						$datos[$i]['saldo']			= $res[3]; 
+						$datos[$i]['saldo_capital']			= $res[4];  
+						$datos[$i]['saldo_interes']			= $res[5];  
+						$datos[$i]['saldo_seguro']			= $res[6];  
+
+						$i++;
+					} 
+
+
+					return $datos;
+				       		  
+		}
+
 
 		 
 

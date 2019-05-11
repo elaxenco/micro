@@ -11,7 +11,7 @@ function cargarControlesCajas(){
 }
 //
 function buscarClientesPorCartera(cartera_id){
-  onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
+  onRequestBanco({ opcion : 16 ,c_cartera:cartera_id},resClientesCartera);
 }
 
 //Buscar clientes por nombre
@@ -22,7 +22,7 @@ function buscarClientes(clt){
       onRequestCte({ opcion : 3 ,nombre:clt,c_cartera:c_cartera},resClientesCartera);
   }else{
 
-     onRequestCte({ opcion : 2 ,c_cartera:c_cartera},resClientesCartera);
+     //onRequestBanco({ opcion : 16 ,c_cartera:c_cartera},resClientesCartera);
   }
 
 }
@@ -327,27 +327,24 @@ var arregloClientes =[]
 var resClientesCartera = function(data){
     if (!data && data == null) 
             return   
-    
-    //console.log(data)
+     
           let contenido=''  
 
           for(var i=0; i<data.length; i++){
-
-            
-              
-              if(data[i].desembolso>0){ 
-                //generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->PAGOS  ACTUAL 4->SALDO 5-> TIPO_ID
-                arregloClientes[data[i].cliente_id] = [ data[i].cliente_id ,data[i].nombre , data[i].desembolso ,data[i].pagos, data[i].saldo];
-                //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-                contenido += `<tr data-toggle="modal" data-target="#modalBanco" class="subrallar-tabla" onclick="seleccionarCliente(${data[i].cliente_id})"><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
-                              </tr> `
-              }  
+  
+                //generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->SALDO ACTUAL 4->SALDO CAPITAL 5-> SALDO INTERES 6->SALDO SEGURO
+                arregloClientes[data[i].cliente_id] = [ data[i].cliente_id ,data[i].nombre , data[i].capital ,data[i].saldo, data[i].saldo_capital, data[i].saldo_interes, data[i].saldo_seguro];
+                //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios  data-toggle="modal" data-target="#modalBanco" onclick="seleccionarCliente(${data[i].cliente_id})<- en el row
+                contenido += `<tr  class="subrallar-tabla" "><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td class="text-right">${data[i].capital}</td><td class="text-right">${data[i].saldo}</td><td class="text-right">${data[i].saldo_capital}</td><td class="text-right">${data[i].saldo_interes}</td><td class="text-right">${data[i].saldo_seguro}</td><td class="text-right">${data[i].saldo_interes}</td>
+                              </tr> ` 
 
           }
           //incrustamos el codigo html en la tabla
           $("#tb_clientes").html(contenido); 
           // inicializamos algunos valores para que funcionen correctamente
           $('[data-toggle="tooltip"]').tooltip() 
+
+          $('.heavyTable').heavyTable();
 }
 
 //respuesta de carteras por usuario

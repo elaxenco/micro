@@ -49,6 +49,8 @@
   <script type="text/javascript">
     document.getElementById('m_banco').classList.remove('bg-light');
     document.getElementById('m_banco').classList.add('bg-blue-grey'); 
+    
+
   </script>
 
   <!-- Bootstrap core JavaScript -->
@@ -63,6 +65,9 @@
   <script type="text/javascript" src="../js/bootstrap.bundle.min.js"></script>   
   <script type="text/javascript" src="../js/sweetalert.js"></script> 
   <script type="text/javascript" src="../js/banco.js"></script>  
+  <script type="text/javascript" src="../js/jquery.tablesorter.js"></script>  
+  <script type="text/javascript" src="../js/jquery.heavyTableE.js"></script>  
+  <script type="text/javascript" src="../js/parseTable.js"></script>  
 
 
 

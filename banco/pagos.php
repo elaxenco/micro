@@ -16,19 +16,24 @@
                 Clientes 
               </div>
               <div class="col-md-6 col-12"> 
-                <input type="text" class="form-control col-md-12 col-12" id="b_clientes" onkeyup="buscarClientes(this.value)" placeholder="Buscar cliente"  required>  
+                <!--input type="text" class="form-control col-md-12 col-12" id="b_clientes" onkeyup="buscarClientes(this.value)" placeholder="Buscar cliente"  required-->  
               </div>
             </div> 
           </div>
         <div class="card scroller-pagos">
           
           <div class="card-body">
-              <table class="table   table-sm table-striped table-hover">
+              <table class="table   table-sm table-striped table-hover heavyTable">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Desembolso</th>  
+                      <th scope="col" class="text-center">#</th>
+                      <th scope="col" class="text-center">Nombre</th>
+                      <th scope="col" class="text-center">Capital</th>  
+                      <th scope="col" class="text-center">Saldo</th>  
+                      <th scope="col" class="text-center">Saldo Capital</th>  
+                      <th scope="col" class="text-center">Saldo Interes</th>  
+                      <th scope="col" class="text-center">Saldo Seguro</th>  
+                      <th scope="col" class="text-center">Abono</th>  
                     </tr>
                   </thead>
                   <tbody id="tb_clientes">

@@ -85,6 +85,11 @@
 		 	   echo (json_encode($banco->eliminarCorteDeCaja($_REQUEST['caja_id'],$_REQUEST['tipo_caja'],$_REQUEST['fecha'])));  
 
 		 		break;
+		 	case 16: 
+
+		 	  echo (json_encode($banco->verClientesPorCarteraEnPagos($_REQUEST['c_cartera']))); 
+
+		 		break;
  		 
  	}
 
