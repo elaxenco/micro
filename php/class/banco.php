@@ -265,10 +265,11 @@
 		}	
 
 		//checamos el estado de cuenta del cliente
-		public function guardarPagoDeCliente($cliente_id,$pago,$capturista_id){
+		public function guardarPagoDeCliente($cliente_id,$pago){
 					$res=array();
 					$datos=array();  
 					$i=0; 
+					$capturista_id=$_COOKIE["micro_id"]; 
 					$sql="SELECT id,tipo_id FROM desembolsos WHERE cliente_id=$cliente_id AND estatus_id=5"; 
 					$resultado= mysqli_query($this->con(), $sql); 
 					while ($res = mysqli_fetch_row($resultado)){
@@ -755,7 +756,7 @@
 					$datos=array();  
 					$i=0; 
 
-			  	$sql="SELECT * FROM v_saldos_cte WHERE cartera_id=$cartera_id"; 
+			  	$sql="SELECT * FROM v_saldos_cte WHERE cartera_id=$cartera_id ORDER BY nombre"; 
 					$resultado= mysqli_query($this->con(), $sql); 
 					while ($res = mysqli_fetch_row($resultado)){
 						$datos[$i]['cliente_id'] 	= $res[0]; 

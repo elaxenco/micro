@@ -116,7 +116,7 @@ function guardarPago(){
             })
             .then((respuesta) => {
                if(respuesta){
-                    onRequestBanco({ opcion : 7 ,cliente_id:b_cliente_id[0],pago:monto,capturista_id:USUARIO_ID},resEstadoCtaCliente);
+                    onRequestBanco({ opcion : 7 ,cliente_id:b_cliente_id[0],pago:monto},resEstadoCtaCliente);
                }else{
                     mensajeAlerta('¡El movimiento fue cancelado.!','error')
                }
@@ -303,6 +303,71 @@ function seleccionarFechaCorte(fecha){
       verCorteDeCaja()
 
 }
+
+//funcion para parsear y obtener el total de pagos
+function totalPagos(){
+    let table = document.querySelector("table");
+    let tablaParseada  = parseTable(table);   
+    let pagoTotal =0; 
+
+    for(var i=0;i<tablaParseada.length;i++){ 
+      if(parseInt(tablaParseada[i].Abono)<=parseInt(tablaParseada[i].Saldo)){ 
+
+          pagoTotal +=parseInt(tablaParseada[i].Abono);
+            //console.log(tablaParseada[i].Abono+' - '+tablaParseada[i].Id) 
+           // onRequest({ opcion : 11 ,datos:data[i],txtcoorid: txtIdCoor,reg:i},resArray);  
+      }else{
+        mensajeAlerta('El monto que intenta ingresar no es correcto','error');  
+        document.getElementById('totalPago').innerHTML=`Verifique Abono`; 
+        return
+      }
+    } 
+
+    document.getElementById('totalPago').innerHTML=`${pagoTotal}`;
+}
+//abonar pagos
+function realizarPagos(){
+
+    let total= parseInt(document.getElementById('totalPago').innerHTML);
+    let table = document.querySelector("table");
+    let tablaParseada  = parseTable(table);  
+
+   if(Number.isInteger(total)){
+      swal({ 
+          title: `¿Seguro desea ingresar los pagos?`,
+          icon: "warning",
+          buttons: true,  
+        })
+        .then((respuesta) => {
+           if(respuesta){
+                for(var i=0;i<tablaParseada.length;i++){ 
+                  if(parseInt(tablaParseada[i].Abono)>0){  
+                    onRequestBanco({ opcion : 7 ,cliente_id:tablaParseada[i].Id,pago:tablaParseada[i].Abono},respAbonos); 
+                  }
+                } 
+                mensajeAlerta('¡Se realizo el abono correctamente.!','success')
+                   
+           }else{
+                mensajeAlerta('¡El movimiento fue cancelado.!','error')
+           }
+        }); 
+
+   }else{
+    mensajeAlerta('¡Alguno de los montos ingresados no es correcto!','error')
+   }
+
+
+   
+}
+
+//poner todos los abonos en 0
+function quitarAbonos(){ 
+ 
+   document.querySelectorAll('.abono').forEach(function (celda) {
+       celda.innerHTML='0.00';  
+    }) 
+   totalPagos();
+}
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
@@ -330,12 +395,13 @@ var resClientesCartera = function(data){
      
           let contenido=''  
 
+
           for(var i=0; i<data.length; i++){
   
                 //generamos un arreglo con todos los clientes que traiga la cartera 0-> ID 1->NOMBRE 2->PRESTAMO 3->SALDO ACTUAL 4->SALDO CAPITAL 5-> SALDO INTERES 6->SALDO SEGURO
                 arregloClientes[data[i].cliente_id] = [ data[i].cliente_id ,data[i].nombre , data[i].capital ,data[i].saldo, data[i].saldo_capital, data[i].saldo_interes, data[i].saldo_seguro];
                 //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios  data-toggle="modal" data-target="#modalBanco" onclick="seleccionarCliente(${data[i].cliente_id})<- en el row
-                contenido += `<tr  class="subrallar-tabla" "><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td class="text-right">${data[i].capital}</td><td class="text-right">${data[i].saldo}</td><td class="text-right">${data[i].saldo_capital}</td><td class="text-right">${data[i].saldo_interes}</td><td class="text-right">${data[i].saldo_seguro}</td><td class="text-right">${data[i].saldo_interes}</td>
+                contenido += `<tr  class="subrallar-tabla" "><td> ${data[i].cliente_id}</td><td>${data[i].nombre}</td><td class="text-right">${data[i].capital}</td><td class="text-right">${data[i].saldo}</td><td class="text-right">${data[i].saldo_capital}</td><td class="text-right">${data[i].saldo_interes}</td><td class="text-right">${data[i].saldo_seguro}</td><td class="text-right abono">${data[i].saldo_interes}</td>
                               </tr> ` 
 
           }
@@ -345,6 +411,11 @@ var resClientesCartera = function(data){
           $('[data-toggle="tooltip"]').tooltip() 
 
           $('.heavyTable').heavyTable();
+
+          totalPagos();
+
+
+         
 }
 
 //respuesta de carteras por usuario
@@ -534,6 +605,10 @@ var resEliminarCorte = function(data){
                 break; 
 
           }
+}
+
+var respAbonos =function(data){
+
 }
 
 
