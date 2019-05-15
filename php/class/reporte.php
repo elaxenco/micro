@@ -96,31 +96,23 @@
 								else
 									$qc=" ";
 
-								if($tipo_id>0)
-									$qt=" AND d.tipo_id=$tipo_id";
-								else
-									$qt=" ";
+								 
 
 								$sql="SELECT cte.id,CONCAT(cte.nombre,' ',cte.appaterno,' ',cte.apmaterno) cliente,p.fecha,p.pago_completo,p.pago_capital,p.pago_interes,p.pago_seguro,CONCAT(cap.nombre,' ',cap.appaterno,' ',cap.apmaterno) capturista, ct.descripcion FROM
 									pagos p
 									JOIN clientes cte ON cte.id=p.cliente_id
-									JOIN usuarios cap ON cap.id=p.capturista_id 
-									JOIN desembolsos d ON d.cliente_id= cte.id
+									JOIN usuarios cap ON cap.id=p.capturista_id  
 									JOIN carteras ct ON ct.id=cte.cartera_id
-									WHERE p.fecha BETWEEN '$fecha_inicial' AND '$fecha_final' ".$qc.$qt." ORDER BY p.fecha DESC";
+									WHERE p.fecha BETWEEN '$fecha_inicial' AND '$fecha_final' ".$qc." ORDER BY p.fecha DESC";
 																
 							}else{
-
-								if($tipo_id>0)
-									$qt=" AND d.tipo_id=$tipo_id";
-
+ 
 								$sql="SELECT cte.id,CONCAT(cte.nombre,' ',cte.appaterno,' ',cte.apmaterno) cliente,p.fecha,p.pago_completo,p.pago_capital,p.pago_interes,p.pago_seguro,CONCAT(cap.nombre,' ',cap.appaterno,' ',cap.apmaterno) capturista , ct.descripcion FROM
 									pagos p
 									JOIN clientes cte ON cte.id=p.cliente_id
-									JOIN usuarios cap ON cap.id=p.capturista_id 
-									JOIN desembolsos d ON d.cliente_id= cte.id
+									JOIN usuarios cap ON cap.id=p.capturista_id  
 									JOIN carteras ct ON ct.id=cte.cartera_id
-									WHERE p.fecha BETWEEN '$fecha_inicial' AND '$fecha_final' AND cte.cartera_id=$cartera_id ".$qt." ORDER BY p.fecha DESC";;
+									WHERE p.fecha BETWEEN '$fecha_inicial' AND '$fecha_final' AND cte.cartera_id=$cartera_id   ORDER BY p.fecha DESC";;
 							} 
 
 							 

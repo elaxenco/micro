@@ -275,7 +275,7 @@
 					while ($res = mysqli_fetch_row($resultado)){
 						$desembolso_id =$res[0];
 						$tipo_id =$res[1]; 
-					} 
+					}  
 
 					if($tipo_id==3){
 						$respuesta = $this-> pagoDesembolsoDeDiez($cliente_id,$pago,$capturista_id,$desembolso_id);
@@ -322,12 +322,12 @@
 						//validamos que la consulta se efectue para proseguir a actualizar la corrida	 
 						if($resultado= mysqli_query($this->con(), $sql)) 
 						{	//query para actualizar corrida de pago de diez
-							$sql="UPDATE corridas_tipo_c SET pago_capital=pago_capital+$capital, pago_interes=pago_interes+$interes, estatus_id=2, saldo=0 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
-							$resultado= mysqli_query($this->con(), $sql); 
+							$sql3="UPDATE corridas_tipo_c SET pago_capital=pago_capital+$capital, pago_interes=pago_interes+$interes, estatus_id=2, saldo=0 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
+							$resultado= mysqli_query($this->con(), $sql3); 
 
 							//query para actualizar corrida de pago de diez
-							$sql="UPDATE desembolsos SET estatus_id=2 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
-							$resultado= mysqli_query($this->con(), $sql);
+							$sql2="UPDATE desembolsos SET estatus_id=2 WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
+							$resultado= mysqli_query($this->con(), $sql2);
 
 								return $this -> estadoDeCuentDeCliente($cliente_id); //retornamosel estado de cuenta 
 
@@ -344,10 +344,10 @@
 							$sql="INSERT INTO pagos (fecha,pago_completo,pago_capital,pago_interes,cliente_id,desembolso_id,tipo_pago,capturista_id,fecha_registro,hora_registro)
 											VALUES(CURDATE(),$pago,$pago-$interes,$interes,$cliente_id,$desembolso_id,'A',$capturista_id,CURDATE(),CURTIME())";
 							//validamos que la consulta se efectue para proseguir a actualizar la corrida	 
-							if($resultado= mysqli_query($this->con(), $sql)) 
+							if(mysqli_query($this->con(), $sql)) 
 							{	//query para actualizar corrida de pago de diez
-								$sql="UPDATE corridas_tipo_c SET pago_capital=pago_capital+$pago-$interes, pago_interes=pago_interes+$interes, saldo=saldo-$pago WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
-								$resultado= mysqli_query($this->con(), $sql); 
+								$sql2="UPDATE corridas_tipo_c SET pago_capital=pago_capital+$pago-$interes, pago_interes=pago_interes+$interes, saldo=saldo-$pago WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id"; 
+								  mysqli_query($this->con(), $sql2); 
 								return $this -> estadoDeCuentDeCliente($cliente_id); //retornamosel estado de cuenta  
 
 
@@ -360,10 +360,10 @@
 								$sql="INSERT INTO pagos (fecha,pago_completo,pago_capital,pago_interes,cliente_id,desembolso_id,tipo_pago,capturista_id,fecha_registro,hora_registro)
 												VALUES(CURDATE(),$pago,0,$pago,$cliente_id,$desembolso_id,'A',$capturista_id,CURDATE(),CURTIME())";  
 								//validamos que la consulta se efectue para proseguir a actualizar la corrida	 
-								if($resultado= mysqli_query($this->con(), $sql)) 
+								if( mysqli_query($this->con(), $sql)) 
 								{	//query para actualizar corrida de pago de diez
-									$sql="UPDATE corridas_tipo_c SET  pago_interes=pago_interes+$pago, saldo=saldo-$pago WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 
-									$resultado= mysqli_query($this->con(), $sql); 
+									$sql2="UPDATE corridas_tipo_c SET  pago_interes=pago_interes+$pago, saldo=saldo-$pago WHERE cliente_id=$cliente_id AND desembolso_id=$desembolso_id AND estatus_id=5"; 
+							 		 mysqli_query($this->con(), $sql2); 
 									return $this -> estadoDeCuentDeCliente($cliente_id); //retornamosel estado de cuenta 
 								}else{
 									return 1;//regresa 1 que indica error al guardar el pago
@@ -646,15 +646,15 @@
 						$datos[$i]['caja_id'] 		= $res[1]; 
 						$datos[$i]['fecha'] 		= $res[2];  
 						$datos[$i]['tipo_caja'] 	= $res[3]; 
-						$datos[$i]['saldo_inicial'] = $res[4]; 
-						$datos[$i]['entradas']		= $res[5];
-						$datos[$i]['capital']		= $res[6];
-						$datos[$i]['interes'] 		= $res[7];  
-						$datos[$i]['seguro'] 		= $res[8]; 
-						$datos[$i]['salidas'] 		= $res[9]; 
-						$datos[$i]['desembolsos']	= $res[10];
+						$datos[$i]['saldo_inicial'] = number_format($res[4],2); 
+						$datos[$i]['entradas']		= number_format($res[5],2);
+						$datos[$i]['capital']		= number_format($res[6],2);
+						$datos[$i]['interes'] 		= number_format($res[7],2);  
+						$datos[$i]['seguro'] 		= number_format($res[8],2); 
+						$datos[$i]['salidas'] 		= number_format($res[9],2); 
+						$datos[$i]['desembolsos']	= number_format($res[10],2);
 						$datos[$i]['procesado']		= $res[11];
-						$datos[$i]['saldoFinal']	= $res[12];
+						$datos[$i]['saldoFinal']	= number_format($res[12],2);
 
 						$i++;
 					} 

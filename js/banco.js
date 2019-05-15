@@ -323,7 +323,7 @@ function totalPagos(){
       }
     } 
 
-    document.getElementById('totalPago').innerHTML=`${pagoTotal}`;
+    document.getElementById('totalPago').innerHTML=`${formatoDeNumero(pagoTotal,2)}`;
 }
 //abonar pagos
 function realizarPagos(){
@@ -343,9 +343,11 @@ function realizarPagos(){
                 for(var i=0;i<tablaParseada.length;i++){ 
                   if(parseInt(tablaParseada[i].Abono)>0){  
                     onRequestBanco({ opcion : 7 ,cliente_id:tablaParseada[i].Id,pago:tablaParseada[i].Abono},respAbonos); 
+                     
+
                   }
-                } 
-                mensajeAlerta('¡Se realizo el abono correctamente.!','success')
+                }  
+                mensajeAlerta('¡Se realizo el abono correctamente.!','success')  
                    
            }else{
                 mensajeAlerta('¡El movimiento fue cancelado.!','error')
@@ -354,7 +356,10 @@ function realizarPagos(){
 
    }else{
     mensajeAlerta('¡Alguno de los montos ingresados no es correcto!','error')
+    return;
    }
+
+ 
 
 
    
@@ -555,7 +560,7 @@ var resVerCortesPorCaja = function(data){
 
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
-              contenido += `<tr onclick="seleccionarFechaCorte('${data[i].fecha}')" class='subrallar-tabla'><td>${data[i].corte_id}</td><td>${data[i].fecha}</td><td>${data[i].saldo_inicial}</td><td>${data[i].entradas}</td><td>${data[i].capital}</td><td>${data[i].interes}</td><td>${data[i].seguro}</td><td>${data[i].salidas}</td><td>${data[i].desembolsos}</td><td>${data[i].saldoFinal}</td><td>${data[i].procesado}</td></tr>` 
+              contenido += `<tr onclick="seleccionarFechaCorte('${data[i].fecha}')" class='subrallar-tabla'><td class="text-center">${data[i].corte_id}</td><td class="text-center">${data[i].fecha}</td><td class="text-right">$ ${data[i].saldo_inicial}</td><td class="text-right">$ ${data[i].entradas}</td><td class="text-right">$ ${data[i].capital}</td><td class="text-right">$ ${data[i].interes}</td><td class="text-right">$ ${data[i].seguro}</td><td class="text-right">$ ${data[i].salidas}</td><td class="text-right">$ ${data[i].desembolsos}</td><td class="text-right">$ ${data[i].saldoFinal}</td><td>${data[i].procesado}</td></tr>` 
           }
           //incrustamos el codigo html en la tabla
           //$("#c_cartera").html(contenido);  
@@ -608,7 +613,7 @@ var resEliminarCorte = function(data){
 }
 
 var respAbonos =function(data){
-
+  onRequestBanco({ opcion : 16 ,c_cartera:document.getElementById('c_cartera').value},resClientesCartera);
 }
 
 

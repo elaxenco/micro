@@ -238,7 +238,7 @@
 
 							$sql="SELECT c.id,c.descripcion,IFNULL(u.id,0) usuario_id,IFNULL(CONCAT(u.nombre,' ',u.appaterno),'SIN ASIGNAR') encargado FROM carteras c
 									LEFT JOIN detalles_usuario_cartera duc ON duc.cartera_id=c.id
-									LEFT JOIN usuarios u ON u.id=duc.usuario_id GROUP BY c.id ORDER BY c.id "; 
+									LEFT JOIN usuarios u ON u.id=duc.usuario_id GROUP BY c.id ORDER BY c.descripcion "; 
 							$resultado = mysqli_query($this->con(), $sql); 
 						    while ($res = mysqli_fetch_row($resultado)) {
 
@@ -268,7 +268,7 @@
 
 							$sql="SELECT c.id,c.descripcion,IFNULL(u.id,0),IFNULL(CONCAT(u.nombre,' ',u.appaterno),'SIN ASIGNAR') encargado FROM carteras c
 									LEFT JOIN detalles_usuario_cartera duc ON duc.cartera_id=c.id
-									LEFT JOIN usuarios u ON u.id=duc.usuario_id $ql GROUP BY c.id ORDER BY c.id ";    
+									LEFT JOIN usuarios u ON u.id=duc.usuario_id $ql GROUP BY c.id ORDER BY c.descripcion ";    
  
 							$resultado = mysqli_query($this->con(), $sql); 
 						    while ($res = mysqli_fetch_row($resultado)) {

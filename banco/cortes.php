@@ -63,17 +63,17 @@
                     <table class="table   table-sm table-striped table-hover">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Fecha</th> 
-                            <th scope="col">Saldo Ini</th>
-                            <th scope="col">Entradas</th>
-                            <th scope="col">Capital</th>
-                            <th scope="col">Interes</th>
-                            <th scope="col">Seguro</th> 
-                            <th scope="col">Salidas</th> 
-                            <th scope="col">Desembolsos</th>  
-                            <th scope="col">Saldo Fin</th> 
-                            <th scope="col">Corte</th> 
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">Fecha</th> 
+                            <th scope="col" class="text-right">Saldo Ini</th>
+                            <th scope="col" class="text-right">Entradas</th>
+                            <th scope="col" class="text-right">Capital</th>
+                            <th scope="col" class="text-right">Interes</th>
+                            <th scope="col" class="text-right">Seguro</th> 
+                            <th scope="col" class="text-right">Salidas</th> 
+                            <th scope="col" class="text-right">Desembolsos</th>  
+                            <th scope="col" class="text-right">Saldo Fin</th> 
+                            <th scope="col" class="text-center">Corte</th> 
                           </tr>
                         </thead>
                         <tbody id="tb_cortes" class="">
