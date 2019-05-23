@@ -182,25 +182,22 @@ var resClientesCartera = function(data){
             return    
           
           let contenido='' 
-          let deshabilitarBotton=''
+          let deshabilitatBotton=''
 
           for(var i=0; i<data.length; i++){
 
               if(data[i].desembolso>0){
-                deshabilitarBotton='disabled';
-                deshabilitarBottonCapital='';
+                deshabilitatBotton='disabled';
                 disponible=''
               }else{
-                deshabilitarBotton=''
+                deshabilitatBotton=''
                 disponible=''
-                deshabilitarBottonCapital='disabled';
               }
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
               contenido += `<tr  style="${disponible}"><td>${data[i].cliente_id}</td><td>${data[i].nombre}</td><td>${data[i].desembolso}</td>
-                            <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitarBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
-                            <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitarBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
-                            <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})" ${deshabilitarBottonCapital }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
-                            <button  onclick="agregarCapitalACliente(${data[i].cliente_id})"      ${deshabilitarBottonCapital }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Agregar Capital"><i class="fas fa-balance-scale "></i></button> 
+                            <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitatBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
+                            <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitatBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
+                            <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
                             <span data-toggle="modal" data-target="#modalHistial"><button  onclick="buscarClienteHistorico(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span></td></tr>`
 
           }

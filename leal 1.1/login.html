@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content=""> 
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/login.css" rel="stylesheet">
+  </head>
+
+  <body  >
+    <div class="form-signin"> 
+      <h1 class="h3 mb-3 font-weight-normal">Ingrese sus datos</h1>
+      <label for="inputEmail" class="sr-only">Ingrese su usuario</label>
+      <input type="text" id="inputUsurio" class="form-control" placeholder="Ingrese su usuario" required autofocus> <br>
+      <label for="inputPassword" class="sr-only">Contraseña</label>
+      <input type="password" id="inputPassword" onkeypress="ingresarSistema(event)" class="form-control" placeholder="Contraseña" required>
+      <div id="alertLogin"></div>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Recordar
+        </label>
+      </div>
+      <button id="btnLogin" class="btn btn-lg btn-primary btn-block">Entrar</button>
+      
+    </div>
+  </body>
+
+  <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/js.cookie.js"></script>
+  <script type="text/javascript" src="js/ajax.js"></script> 
+  <script type="text/javascript" src="js/login.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</html>
