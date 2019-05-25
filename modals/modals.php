@@ -117,3 +117,44 @@
   </div>
 </div>
 
+
+<!-- MODAL AGREGAR CAPITAL -->
+<div class="modal fade" id="modalAgregarCapital" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"  >Capital A Clientes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container"> 
+          <div class="row mb-3">  
+                 <div class="col-md-3 col-4 mt-1"> 
+                    <input class="form-control" id="idCteCapital"  readonly>
+                 </div> 
+                 <div class="col-md-6 col-8 mt-1"> 
+                    <input class="form-control" id="cteCteCapital"  readonly>
+                 </div> 
+                 <div class="col-md-3 col-12 mt-1"> 
+                    <input class="form-control" id="desembolsoActualCte"  readonly>
+                 </div> 
+                 <div class="col-md-6 col-12 mt-1"> 
+                    <label>Capital Actual</label>
+                    <input class="form-control" id="capitalActual"     readonly>
+                 </div>   
+                 <div class="col-md-6 col-12 mt-1"> 
+                    <label>Capital Extra</label>
+                    <input class="form-control" id="montoExtra"  placeholder="Agregar Capital" onkeypress="return soloNumeros(event)">
+                 </div>     
+          </div>  
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> 
+      </div>
+    </div>
+  </div>
+</div>
+
