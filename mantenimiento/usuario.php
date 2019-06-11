@@ -5,26 +5,26 @@
 </div>
 <div class="container-fluid  "> 
 	<div class="row">
-		<div class="col-md-6 col-12">
+		<div class="col-md-12 col-lg-6 col-12 mx-auto">
 			<div class="row ">
  
 		          <div class="col-md-2 col-3">
 		              <label for="usuario_id">Id</label>
 		              <input type="number" min="1" class="form-control" id="usuario_id" placeholder="0" value="0"   readonly=""> 
 		          </div>
-		          <div class="col-md-8 col-9 ">
+		          <div class="col-md-10 col-9 ">
 		              <label for="usuario_nombre ">Nombre</label>
 		              <input type="text" class="form-control" id="usuario_nombre" placeholder="Ingrese su nombre" onkeypress="return soloLetras(event)"  required> 
 		           </div> 
-		           <div class="col-md-5 col-12 ">
+		           <div class="col-md-6 col-12 ">
 		              <label for="usuario_app ">Apellido Paterno</label>
 		              <input type="text" class="form-control" id="usuario_app" placeholder="Ingrese su apellido paterno" onkeypress="return soloLetras(event)"  required> 
 		           </div> 
-		           <div class="col-md-5 col-12 ">
+		           <div class="col-md-6 col-12 ">
 		              <label for="usuario_apm ">Apellido Materno</label>
 		              <input type="text" class="form-control" id="usuario_apm" placeholder="Ingrese su apellido materno" onkeypress="return soloLetras(event)"  required> 
 		           </div>  
-		           <div class="col-md-5 col-12 ">
+		           <div class="col-md-6 col-12 ">
 		              <label for="usuario_rol ">Rol</label>
 		               <select class="custom-select" id="usuario_rol" onchange="verPermisos(this.value)">
 			                <option selected value="0">Seleccione un Rol</option> 
@@ -38,15 +38,15 @@
 			                ?>
 			              </select>
 		           </div>  
-		         	<div class="col-md-5 col-12 ">
+		         	<div class="col-md-6 col-12 ">
 		              <label for="nombre_usuario ">Nombre Usuario</label>
 		              <input type="text" class="form-control" id="nombre_usuario" placeholder="Nombre de usuario"  > 
 		           </div> 
-		           <div class="col-md-5 col-12 ">
+		           <div class="col-md-6 col-12 ">
 		              <label for="usuario_pwd ">Contraseña</label>
 		              <input type="password" class="form-control" id="usuario_pwd" placeholder="Contraseña"     > 
 		           </div> 
-		           <div class="col-md-5 col-12 ">
+		           <div class="col-md-6 col-12 ">
 		              <label for="usuario_pwdv ">Confirmar Contraseña</label>
 		              <input type="password" class="form-control" id="usuario_pwdv" placeholder="Confirmar contraseña"  > 
 		           </div>  
@@ -61,7 +61,7 @@
 		     		</div>
 	         </div>	
 		</div>
-		<div class="col-md-6 col-12" id="divAccesosUsuarios" style="display: none">
+		<div class="col-md-12 col-lg-6  col-12" id="divAccesosUsuarios" style="display: none">
 				<div class=" col-12 text-center ">
 					<h3>Accesos</h3>
 				</div>

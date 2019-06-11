@@ -44,7 +44,7 @@
         <div class="container mt-5 mb-2"> 
           <div class="text-center"><h2> Registro de Clientes</h2></div> 
           <div class="form-row">
-             <div class="col-md-4 col-12">
+             <div class="col-md-6 col-lg-4 col-12">
               <b><label for="c_cartera">Seleccione su cartera</label></b>
               <select class="custom-select " id="c_cartera">
                 <option selected value="0">Seleccione una cartera</option> 
@@ -95,8 +95,7 @@
                               </div> 
                               <div class="col-md-4 col-12 ">
                                 <label for="c_ife">IFE/INE</label>
-                                <input type="text" class="form-control" id="c_ife" placeholder="IFE/INE"  required>
-                         
+                                <input type="text" class="form-control" id="c_ife" placeholder="IFE/INE"  required> 
                               </div> 
                               <div class="col-md-1 col-3 ">
                                 <label for="c_cp">CP</label>

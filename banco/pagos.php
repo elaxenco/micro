@@ -3,14 +3,13 @@
 			<h2>Modulo de Pagos</h2>
 	</div> 
 	<div class="form-row">
-	     <div class="col-md-4 col-12 ">
+	     <div class="col-md-6 col-12 ">
 	      <b><label for="c_cartera">Seleccione su cartera</label></b>
-	      <select class="custom-select" id="c_cartera" onchange="buscarClientesPorCartera(this.value)">
+	      <select class="custom-select " id="c_cartera" onchange="buscarClientesPorCartera(this.value)">
 	        <option selected value="0">Seleccione una cartera</option> 
 	      </select>
 	    </div> 
-      <div class="col-md-8 col-12 ">
-
+      <div class="col-md-6 col-12 mt-2"> 
          <button type="button" onclick="realizarPagos()" class="btn btn-warning mt-4 float-right" class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Realizar Pago"><i class="fas fa-dollar-sign"></i> Realizar Pago</button>
          <button type="button" onclick="quitarAbonos()" class="btn btn-secundary mr-2 mt-4 float-right" class="mr-1 ml-1" data-toggle="tooltip" data-placement="top" title="Pagos en 0"><i class="fas fa-dollar-sign"></i> Abonos en 0</button>
       </div> 

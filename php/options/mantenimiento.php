@@ -38,7 +38,12 @@
 			 		break;  
 			 	case 11: 
 			 			   echo (json_encode($mantenimientoclass->menuPorRoles()));
-			 		break; 
+					 break; 
+				 case 12: 
+				 $response = array('id' =>'aa',  'nombre' => 'Juan perez');
+
+				 echo(json_encode($response));
+			  		break;
  
  		 
  	}
