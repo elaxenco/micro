@@ -36,11 +36,18 @@ function guardarNuevoNombreCartera(){
   let descripcion =document.getElementById("txtCarteraEdit").value; 
 
   newCartera ={opcion:12,id,descripcion} 
-  let respuesta =  onRequestMant(newCartera, resRegCartera).then(console.log('bien'), console.log('mal'));
-
-  console.log(respuesta);
-
-  
+  onRequestMant(newCartera,(resp)=>{
+      switch(resp[0].estatus){
+        case 0:
+              cargarCarteras();
+              mensajeAlerta('Los cambios fueron realizados correctamente.','success');
+          break;
+        case 1:
+            mensajeAlerta(resp[0].error,'error');
+          break;
+      }
+  });
+   
 }
 //respuestas de carteras
 

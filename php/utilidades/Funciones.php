@@ -136,6 +136,17 @@ class Funciones extends Conectar{
         return $corte; 
     }
 
+    function consulta($sql){
+           $mysqli = $this->con();
+            
+        if (!$resultado=$mysqli->query($sql)){
+            $codigo="Error codigo:".$mysqli->errno;
+            $mensage = " ".$mysqli->error;
+            return   $codigo.$mensage;
+        }
+        return $resultado;
+    }
+
 
 	
 }

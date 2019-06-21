@@ -33,7 +33,7 @@ var onRequestMant = function( prParams, callback,load=1) {
 		    // son pasados como argumentos a la función
 		    // el objeto de la petición en crudo y código de estatus de la petición
 		    error : function(xhr, status) {
-		        console.log('Disculpe, existió un problema');
+		        console.error(status);
 		    },
 		 
 		    // código a ejecutar sin importar si la petición falló o no

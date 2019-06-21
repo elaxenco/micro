@@ -38,11 +38,9 @@
 			 		break;  
 			 	case 11: 
 			 			   echo (json_encode($mantenimientoclass->menuPorRoles()));
-					 break; 
+					break; 
 				 case 12: 
-				 $response = array('id' =>'aa',  'nombre' => 'Juan perez');
-
-				 echo(json_encode($response));
+						   echo (json_encode($mantenimientoclass->editarCartera($_REQUEST['id'],$_REQUEST['descripcion'])));
 			  		break;
  
  		 
@@ -50,5 +48,19 @@
 
 	/*$response = array('id' =>'aa',  'nombre' => 'Juan perez');
 
-	echo(json_encode($response));*/
+	echo(json_encode($response));
+	$mysqli = new mysqli("localhost", "root", "", "micro");
+
+		/* comprobar la conexión */
+	/*	if ($mysqli->connect_errno) {
+			printf("Falló la conexión: %s\n", $mysqli->connect_error);
+			exit();
+		}
+
+		if (!$mysqli->query("UPDATE carteras SET descripcion ='CARTERA BEATRIZ A' WHERE id=8")) {
+			printf("Código de error: %d\n", $mysqli->errno);
+		}
+
+		/* cerrar la conexión */
+	//	$mysqli->close();
 ?>

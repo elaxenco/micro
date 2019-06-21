@@ -307,9 +307,35 @@
 						       $datos[$i]['m_html_id'] 			= $res[1]; 
 
 						       $i++;
-						    } 
+			 				} 
 							 
 							return $datos; 
+				}
+
+				// buscamos las carteras por usuarios
+				public function editarCartera($id,$descripcion){
+					$res=array();
+					$datos=array();
+					$i=0;
+					$respuesta=0;   
+
+					$query="UPDATE carteras SET descripcion ='$descripcion' WHERE id=$id ";
+
+					$resultado = $this->consulta($query);
+					//$resultado = mysqli_query($this->con(), $sql);    
+
+
+					if($resultado>0){
+						$datos[0]['estatus']=0;
+						//$datos[0]['otros']=[$resultado];
+					} 
+					else{
+						$datos[0]['estatus']=1; 
+						$datos[0]['error']=$resultado;
+					}
+					
+					return $datos;
+					 
 				}
  
 
