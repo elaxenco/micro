@@ -39,8 +39,7 @@ function validarEstatusUsuario(){
 var resMenuPorRoles = function(data){
   	if (!data && data == null) 
   			return
-
-  		console.log(data)
+ 
   	let i =0 ;
 
   	while(data[i]){ 

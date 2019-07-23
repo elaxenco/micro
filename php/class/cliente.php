@@ -257,10 +257,24 @@
 
 							return $datos;
 				}
+		
+		public function capitalActualCliente($cliente_id){
+			$res=array();
+			$datos=array();  
+			$i=0;
+				
+			$sql="SELECT saldo,capital-pago_capital capital,interes-pago_interes interes FROM corridas_tipo_c WHERE  cliente_id=$cliente_id AND estatus_id=5";  
+			$resultado= mysqli_query($this->con(), $sql); 
+			while ($res = mysqli_fetch_row($resultado)){
+				$datos[$i]['saldo']= $res[0]; 
+				$datos[$i]['capital']= $res[1]; 
+				$datos[$i]['interes']= $res[2]; 
+			}
+				
 
- 
-
-
+			return $datos;
+		}
+  
 
 
 	}

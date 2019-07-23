@@ -46,7 +46,12 @@
 
 		 	  echo (json_encode($cliente->cancelarDesembolsoCliente($_REQUEST['cliente_id']))); 
 
-		 		break; 
+				 break; 
+			case 9: 
+
+			echo (json_encode($cliente->capitalActualCliente($_REQUEST['cliente_id']))); 
+
+				break;
  	
  		 
  	}

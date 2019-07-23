@@ -200,7 +200,7 @@ var resClientesCartera = function(data){
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitarBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
                             <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitarBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
                             <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})" ${deshabilitarBottonCapital }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
-                            <button  onclick="agregarCapitalACliente(${data[i].cliente_id})"      ${deshabilitarBottonCapital } data-toggle="modal" data-target="#modalAgregarCapital"  class="mr-1 ml-1"   title="Agregar Capital"><i class="fas fa-balance-scale "></i></button> 
+                            <button  onclick="agregarCapitalACliente(${data[i].cliente_id})"      ${deshabilitarBottonCapital } data-toggle="modal" data-target="#modalAgregarCapital"  class="mr-1 ml-1"   title="Agregar Capital"><i data-toggle="tooltip" data-placement="right" title="Agregar Capital" class="fas fa-balance-scale "></i></button> 
                             <span data-toggle="modal" data-target="#modalHistial"><button  onclick="buscarClienteHistorico(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span></td></tr>`
 
           }
@@ -380,9 +380,20 @@ var resAgregarCapitalCte= function(data){
     document.getElementById('idCteCapital').value=data[0].cliente_id;
     document.getElementById('cteCteCapital').value=data[0].cliente;
     document.getElementById('desembolsoActualCte').value=data[0].desembolso;
-    onRequestCte({ opcion :7,cliente_id:data[0].cliente_id },respCapitalActual); 
+    onRequestCte({ opcion :9,cliente_id:data[0].cliente_id },respCapitalActual); 
    
 }
+
+var respCapitalActual= function(data){
+  if (!data && data == null) 
+          return;   
+
+  document.getElementById('saldoActual').value=data[0].saldo;
+ 
+}
+
+
+
 ///FUNCIONES 
 
 // cargamos controles iniciales
@@ -533,3 +544,39 @@ function cancelarDesembolsoDeCliente(cliente_id){
 function agregarCapitalACliente(cliente_id){
     onRequestCte({ opcion : 5 ,cliente_id:cliente_id},resAgregarCapitalCte);
 }
+
+//calculamos el nuevo capital
+function calcularNuevoCapital(nuevoCapital){
+  let saldoActual =document.getElementById('saldoActual').value;
+  saldoActual = parseInt(saldoActual);
+  nuevoCapital = parseInt(nuevoCapital); 
+
+  if(nuevoCapital>99){
+    document.getElementById('nuevoCapital').value=saldoActual+nuevoCapital;
+  }else{
+    document.getElementById('nuevoCapital').value=saldoActual;
+  }
+}
+
+//renovar cliente
+function renovarCliente(){
+
+  let cliente_id = document.getElementById('idCteCapital').value;
+  let cliente = document.getElementById('cteCteCapital').value;
+  let saldoActual = document.getElementById('desembolsoActualCte').value;
+  let nuevoCapital = document.getElementById('nuevoCapital').value;
+
+  swal({ 
+    title: `¿Seguro que desea renovar al siguiente cliente?`,
+    text:`${cliente} su capital sera de : ${nuevoCapital}`,
+    icon: "warning",
+    buttons: true,  
+  })
+  .then((respuesta) => {
+     if(respuesta){
+          onRequestCte({ opcion : 10,cliente_id:cliente_id ,saldo: saldoActual , capital:nuevoCapital },resRenovacion);
+     }else{
+          mensajeAlerta('¡La operacion fue cancelada.!','error')
+     }
+  });
+} 
