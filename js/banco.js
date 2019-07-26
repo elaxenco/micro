@@ -128,37 +128,48 @@ function guardarPago(){
 //funcion para guardar movimiento e/s
 function guardarMovimiento(){
   // inicializamos las variables
+  let caja_id_gen = document.getElementById('c_caja_id').value; 
+  if(caja_id_gen<1) 
+      return mensajeAlerta('La caja seleccionada no es valida','error'); 
 
-
-  let caja_id_gen = document.getElementById('c_caja_id').value;
-  
   let caja_id =arregloCajas[caja_id_gen][0].id_real;
+  //validamos que los campos esten correctamente llenados
+  
+
+  
   let movimiento_id = document.getElementById('c_movimiento_id').value;
   let descripcion = document.getElementById('c_descripcion_movimiento').value.toUpperCase();
   let tipo_id = document.getElementById('c_tipo_id').value;
   let fecha = document.getElementById('c_fecha').value;
-  let importe = document.getElementById('c_importe').value;
+  let importe = document.getElementById('c_importe').value; 
+  let caja_tranf_id = document.getElementById('c_caja_id_transf').value;
+  let tipo_caja_tranf="";
   
-  //validamos que los campos esten correctamente llenados
-  if(caja_id<1)
-      return mensajeAlerta('Lacaja seleccionada no es valida','error')
+  
 
   if(descripcion.length<5)
-      return mensajeAlerta('La descripcion no es correcta','error')
+      return mensajeAlerta('La descripcion no es correcta','error'); 
 
   if(tipo_id<1)
-      return mensajeAlerta('No se espesifico el tipo de movimiento', 'error')
-
+      return mensajeAlerta('No se espesifico el tipo de movimiento', 'error'); 
   if(fecha=='')
-      return mensajeAlerta('La fecha ingresada no es valida','error')
+      return mensajeAlerta('La fecha ingresada no es valida','error'); 
 
   if(importe<1)
-      return mensajeAlerta('El importe ingresado no es valido','error')
-
+      return mensajeAlerta('El importe ingresado no es valido','error'); 
+  
+   //verificamos si es transferencia
+   if(tipo_id=='T'){
+        if(caja_tranf_id <=0){
+          mensajeAlerta("El movimiento que intenta hacer requiere una caja receptora!!",'error');
+          return;
+        }
+      tipo_caja_tranf =arregloCajas[caja_tranf_id][0].tipo_caja;
+    } 
     //extraemos del arreglo de cajas el tipo de caja ya sea cartera o oficina
-  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;
+  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja; 
 
-  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja },resGuardarMovimiento);
+  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja,caja_tranf_id:caja_tranf_id,tipo_caja_tranf:tipo_caja_tranf },resGuardarMovimiento);
 }
 
 // funcion para limpiar los campos
@@ -187,7 +198,7 @@ function buscarMovimientosPorCaja(caja_id_gen){
 }
 //nos posicionamos en el movimiento seleccionado
 function seleccionarMovimiento(movimiento_id){
-  let tipo_movimiento= ''
+  let tipo_movimiento= '';
   if(arregloMovimientos[movimiento_id][0].tipo=='ENTRADA')
       tipo_movimiento='E'
   else
@@ -373,6 +384,18 @@ function quitarAbonos(){
     }) 
    totalPagos();
 }
+
+// hacemos visibles el select para transferencias
+function transferenciaActiva(tipo){
+
+  if(tipo=='T')
+    document.getElementById('divTransf').classList.remove('d-none');
+  else
+    document.getElementById('divTransf').classList.add('d-none');
+
+}
+
+
 /////////////////////////////////////////////////////////////////////////////// respuestas pagos//////////////////////////////
 //respuesta de carteras por usuario
 var resRegCarterasPorUsuario = function(data){
@@ -454,12 +477,11 @@ var resRegCajas = function(data){
           for(var i=0; i<data.length; i++){
             //generamos  codigo html en el cual creamos parte de la tabla con los datos necesarios 
              arregloCajas[data[i].identificador_gen] = [{ id_real: data[i].id_real , id_compuesto : data[i].id_compuesto  ,descripcion: data[i].descripcion ,tipo_caja:data[i].tipo_caja}];
-              contenido += `<option value="${data[i].identificador_gen}">${data[i].descripcion}</option>`
-
-
+              contenido += `<option value="${data[i].identificador_gen}">${data[i].descripcion}</option>`  
           }
           //incrustamos el codigo html en la tabla
           document.getElementById('c_caja_id').innerHTML=contenido;
+          document.getElementById('c_caja_id_transf').innerHTML=contenido;
  
 
 }

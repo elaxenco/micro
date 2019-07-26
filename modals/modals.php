@@ -43,7 +43,7 @@
                         </div>
                         <div id="divMontoDiez" class="form-group col-12 col-md-4" style="display: none">
                             <label for="importeDiez">Monto</label>
-                            <input class="form-control" id="importeDiez" onkeyup="calcularPagoDiez(this.value)"
+                            <input class="form-control"   id="importeDiez" onkeyup="calcularPagoDiez(this.value)"
                                 onkeypress="return soloNumeros(event)" placeholder="Monto a Prestar">
                         </div>
                         <div class="form-group col-12 col-md-4">
@@ -155,12 +155,12 @@
                         </div>
                         <div class="col-md-6 col-12 mt-1">
                             <label>Capital Extra</label>
-                            <input class="form-control" id="montoExtra" placeholder="Agregar Capital"
+                            <input class="form-control text-right" id="montoExtra" placeholder="Agregar Capital"
                                 onkeyup="calcularNuevoCapital(this.value)" onkeypress="return soloNumeros(event)">
                         </div>
                         <div class="col-md-6 col-12 mt-1 mx-auto">
                             <label>Nuevo Capital</label>
-                            <input class="form-control" id="nuevoCapital" readonly>
+                            <input class="form-control text-right" id="nuevoCapital" readonly>
                         </div>
                     </div>
                     <div class="col-12  mt-3 ">

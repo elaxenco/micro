@@ -200,7 +200,7 @@ var resClientesCartera = function(data){
                             <td><button onclick="buscarClientePorId(${data[i].cliente_id})" ${deshabilitarBotton } class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Editar"><i class="fas fa-edit "></i></button>
                             <span ><button onclick="buscarClientePorIdDesembolso(${data[i].cliente_id})" ${deshabilitarBotton } data-toggle="modal" data-target="#modalDesembolso" class="mr-1 ml-1" ><i class="fas fa-hand-holding-usd "></i></button></span>
                             <button  onclick="cancelarDesembolsoDeCliente(${data[i].cliente_id})" ${deshabilitarBottonCapital }  class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Cancelar Desembolso"><i class="fas fa-strikethrough "></i></button> 
-                            <button  onclick="agregarCapitalACliente(${data[i].cliente_id})"      ${deshabilitarBottonCapital } data-toggle="modal" data-target="#modalAgregarCapital"  class="mr-1 ml-1"   title="Agregar Capital"><i data-toggle="tooltip" data-placement="right" title="Agregar Capital" class="fas fa-balance-scale "></i></button> 
+                            <button  onclick="agregarCapitalACliente(${data[i].cliente_id})"      ${deshabilitarBottonCapital }   class="mr-1 ml-1"   title="Agregar Capital"><i onclick="agregarCapitalACliente(${data[i].cliente_id})" data-toggle="tooltip" data-placement="right" title="Agregar Capital" class="fas fa-balance-scale "></i></button> 
                             <span data-toggle="modal" data-target="#modalHistial"><button  onclick="buscarClienteHistorico(${data[i].cliente_id})"   class="mr-1 ml-1" data-toggle="tooltip" data-placement="right" title="Historial"><i class="fas fa-file-alt "></i></button></span></td></tr>`
 
           }
@@ -328,8 +328,7 @@ var resHistoricoCte= function(data){
 var respCorridaActual= function(data){
     if (!data && data == null) 
             return;   
-
-          console.log(data)
+ 
            let contenido='' 
 
           for(var i=0; i<data.length; i++){
@@ -349,8 +348,7 @@ var respCorridaActual= function(data){
 var resCancelarDesembolso= function(data){
     if (!data && data == null) 
             return;   
-
-    console.log(data)
+ 
     switch(data[0].respuesta){
              case '1':
                     mensajeAlerta('El desembolso fue cancelado correctamente.','success');
@@ -380,6 +378,8 @@ var resAgregarCapitalCte= function(data){
     document.getElementById('idCteCapital').value=data[0].cliente_id;
     document.getElementById('cteCteCapital').value=data[0].cliente;
     document.getElementById('desembolsoActualCte').value=data[0].desembolso;
+    document.getElementById('montoExtra').value=0;
+    document.getElementById('nuevoCapital').value=0;
     onRequestCte({ opcion :9,cliente_id:data[0].cliente_id },respCapitalActual); 
    
 }
@@ -387,9 +387,15 @@ var resAgregarCapitalCte= function(data){
 var respCapitalActual= function(data){
   if (!data && data == null) 
           return;   
-
-  document.getElementById('saldoActual').value=data[0].saldo;
- 
+           
+  if(parseInt(data[0].interes)>0){
+    
+    mensajeAlerta('El cliente aun cuenta con interes, es necesario pagarlo.','error');
+     
+  }else{
+      $('#modalAgregarCapital').modal('show');
+      document.getElementById('saldoActual').value=data[0].saldo;
+  } 
 }
 
 
@@ -452,8 +458,7 @@ function buscarClientesReg(){
 
   var c_cartera = $("#c_cartera").val();
 // buscamos clientes despues de que el usuario agrege almenos 3 caracteres
-
-console.log(cliente)
+ 
   if(cliente.length>3){
       onRequestCte({ opcion : 3 ,nombre:cliente,c_cartera:c_cartera},resClientesCartera);
   }else{
@@ -541,7 +546,7 @@ function cancelarDesembolsoDeCliente(cliente_id){
 }
 
 //historico cliente
-function agregarCapitalACliente(cliente_id){
+function agregarCapitalACliente(cliente_id){ 
     onRequestCte({ opcion : 5 ,cliente_id:cliente_id},resAgregarCapitalCte);
 }
 
@@ -564,7 +569,14 @@ function renovarCliente(){
   let cliente_id = document.getElementById('idCteCapital').value;
   let cliente = document.getElementById('cteCteCapital').value;
   let saldoActual = document.getElementById('desembolsoActualCte').value;
+  let montoExtra = document.getElementById('montoExtra').value;
   let nuevoCapital = document.getElementById('nuevoCapital').value;
+  let cartera_id = document.getElementById('c_cartera').value;
+
+  if(montoExtra<=0 || montoExtra==''){
+    mensajeAlerta('¡El monto ingresado no es valido.!','error')
+    return;
+  }
 
   swal({ 
     title: `¿Seguro que desea renovar al siguiente cliente?`,
@@ -574,9 +586,22 @@ function renovarCliente(){
   })
   .then((respuesta) => {
      if(respuesta){
-          onRequestCte({ opcion : 10,cliente_id:cliente_id ,saldo: saldoActual , capital:nuevoCapital },resRenovacion);
+      onRequestBanco({ opcion : 17,cliente_id:cliente_id ,saldo: saldoActual , capital:montoExtra ,cartera_id,nuevoCapital},(data)=>{
+        mensajeAlerta('¡El nuevo capital fue agregado.!','success');
+        reiniciarValoresRenovacion();
+        onRequestCte({ opcion : 2 ,c_cartera:cartera_id},resClientesCartera);
+      });
      }else{
           mensajeAlerta('¡La operacion fue cancelada.!','error')
      }
   });
 } 
+
+function reiniciarValoresRenovacion(){
+    document.getElementById('idCteCapital').value=0;
+    document.getElementById('cteCteCapital').value=0;
+    document.getElementById('desembolsoActualCte').value=0;
+    document.getElementById('montoExtra').value=0;
+    document.getElementById('nuevoCapital').value=0;
+    $('#modalAgregarCapital').modal('hide');
+}

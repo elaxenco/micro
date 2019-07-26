@@ -52,6 +52,7 @@
 			echo (json_encode($cliente->capitalActualCliente($_REQUEST['cliente_id']))); 
 
 				break;
+			
  	
  		 
  	}

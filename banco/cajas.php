@@ -50,7 +50,7 @@
                   </div> 
                   <div class="col-md-1 col-2">
                       <label for="c_movimiento_id">Id</label>
-                      <input type="number"   class="form-control" id="c_movimiento_id" placeholder="Id" value="0"   readonly=""> 
+                      <input     class="form-control" id="c_movimiento_id" placeholder="Id" value="0"   readonly=""> 
                   </div>
                   <div class="col-md-7 col-10 ">
                       <label for="c_descripcion_movimiento">Descripcion</label>
@@ -58,10 +58,11 @@
                   </div> 
                   <div class="col-md-2 col-2 ">
                       <b><label for="c_tipo_id">Seleccione un Tipo</label></b>
-                      <select class="custom-select" id="c_tipo_id"  >
+                      <select class="custom-select" id="c_tipo_id"  onchange="transferenciaActiva(this.value)">
                         <option selected value="0">Tipo</option> 
                         <option   value="E">Entrada</option> 
                         <option   value="S">Salida</option> 
+                        <option   value="T">Transferencia</option> 
                       </select>
                   </div> 
                   <div class="col-md-3 col-12">
@@ -71,10 +72,16 @@
                   <div class="col-md-3 col-12">
                       <label for="c_importe ">Importe</label>
                       <input type="text" class="form-control" id="c_importe" placeholder="Ingrese su Importe" onkeypress="return soloNumeros(event)"  required> 
-                  </div> 
-                  
+                  </div>  
+                  <div class="col-md-4 col-12 d-none" id="divTransf">
+                  <b><label for="c_caja_id_transf">Transferir A :</label></b>
+                  <select class="custom-select   " id="c_caja_id_transf"   >
+                    <option selected value="0">Seleccione una caja</option> 
+                  </select>
+                </div> 
               </div>
               <div class="col-12 mt-2  offset-md-6 mb-2">
+              
                       <button type="button" class="btn btn-outline-secondary col-md-2 col-12 mr-1" onclick="limpiarCamposCaja()">Nuevo</button>
                       <button type="button" class="btn btn-danger col-md-2 col-12 mr-1" onclick="cancelarMovimiento()">Cancelar</button>
                       <button type="button" class="btn btn-primary col-md-2 col-12" onclick="guardarMovimiento()">Guardar</button>

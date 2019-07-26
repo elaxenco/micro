@@ -482,7 +482,7 @@
 		}
 
 		// guardar o actualizar movimiento de caja ya sea entrada o salida
-		public function guardarMovimientoCaja($caja_id,$movimiento_id,$descripcion,$tipo,$fecha,$importe,$tipo_caja){
+		public function guardarMovimientoCaja($caja_id,$movimiento_id,$descripcion,$tipo,$fecha,$importe,$tipo_caja,$caja_tranf_id,$tipo_caja_tranf){
 				$datos=array(); 
 				$capturista_id=$_COOKIE["micro_id"]; 
 
@@ -774,6 +774,35 @@
 					return $datos;
 				       		  
 		}
+	
+		public function renovarCliente($cliente_id,$saldo,$capital,$cartera_id,$nuevoCapital){ 
+		$fechaActual = date('Y-m-d'); 
+		$capturista_id=$_COOKIE['micro_id'];
+		$sql="SELECT saldo,capital-pago_capital capital FROM corridas_tipo_c WHERE  cliente_id=$cliente_id AND estatus_id=5";   
+		 $resultado= mysqli_query($this->con(), $sql); 
+		while ($res = mysqli_fetch_row($resultado)){
+			$saldo= $res[0]; 
+			$capital= $res[1];  
+		} 
+		 
+		 $respuesta = $this->guardarPagoDeCliente($cliente_id,$capital);
+
+		list($anio, $mes, $dia) = explode('-', $fechaActual); 
+		if ( $dia >= 1 && $dia <= 15 )
+		{
+			// OBTENER LOS DIAS QUE TIENE UN MES // 
+			$dias=15;
+		}
+		else{
+			$dias = $this->diasMes($mes,$anio);  
+		}
+		
+		$fechaPago =  $anio.'-'.$mes.'-'.$dias;
+ 
+		$respuesta2=$this->gurdarDesembolsoDeDiez($cliente_id,$nuevoCapital,3,$capturista_id,$fechaPago,$cartera_id); 
+		 
+		return $respuesta2; 
+	}
 
 
 		 

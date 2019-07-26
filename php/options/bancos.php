@@ -51,7 +51,7 @@
 		 		break;
  			case 9: 
 
-		 	  echo (json_encode($banco->guardarMovimientoCaja($_REQUEST['caja_id'],$_REQUEST['movimiento_id'],$_REQUEST['descripcion'],$_REQUEST['tipo_id'],$_REQUEST['fecha'],$_REQUEST['importe'],$_REQUEST['tipo_caja'])));  
+		 	  echo (json_encode($banco->guardarMovimientoCaja($_REQUEST['caja_id'],$_REQUEST['movimiento_id'],$_REQUEST['descripcion'],$_REQUEST['tipo_id'],$_REQUEST['fecha'],$_REQUEST['importe'],$_REQUEST['tipo_caja'],$_REQUEST['caja_tranf_id'],$_REQUEST['tipo_caja_tranf'])));  
 		 		break;
 		 	case 10: 
 
@@ -89,7 +89,12 @@
 
 		 	  echo (json_encode($banco->verClientesPorCarteraEnPagos($_REQUEST['c_cartera']))); 
 
-		 		break;
+				 break;
+			case 17:  
+
+				  	echo (json_encode($banco->renovarCliente($_REQUEST['cliente_id'],$_REQUEST['saldo'],$_REQUEST['capital'],$_REQUEST['cartera_id'],$_REQUEST['nuevoCapital']))); 
+	 
+					 break;
  		 
  	}
 
