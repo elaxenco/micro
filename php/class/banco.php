@@ -4,6 +4,14 @@
 
 	class Banco extends Funciones{
 
+		public $mysqli;
+     
+		function __construct() {
+			$funciones= new Funciones();   
+			$this->mysqli =  $funciones->con(); 
+		}
+	
+
 		 	//buscar monstos dependiendo el tipo de cartera
 		public function buscarMontosPorTipoId($tipo_id){
 					$res=array();
@@ -495,38 +503,47 @@
 					if($tipo=='T'){
 
 						if($movimiento_id>0){ 
-							$datos[0]['respuesta'] 		='4'; 
+							$datos[0]['respuesta'] 		='5'; 
 						}
 						else{
 							$sql=" INSERT INTO  transferencias ( fecha,s_caja_id,s_tipo_caja_id,e_caja_id,e_tipo_caja_id,capturista_id,fecha_captura,hora_captura)
 													VALUES ( '$fecha',$caja_id,$tipo_caja,$caja_tranf_id,$tipo_caja_tranf,$capturista_id,CURDATE(),CURTIME());";   
-								  mysqli_query($this->con(), $sql); 
-							$transferencia_id = 	mysqli_insert_id($this->con()); 
+								  mysqli_query($this->mysqli, $sql); 
+							$transferencia_id = 	mysqli_insert_id($this->mysqli); 
 							//sale de :
 							$sqlentra="INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
-									VALUES ( 'Salida por transferencia a $caja_entrada, $descripcion','$fecha',$importe,$caja_id,'S',$capturista_id,$transferencia_id,$tipo_caja,CURDATE(),CURTIME())";   
+									VALUES ( 'SALIDA POR TRANSFERENCIA A  $caja_entrada, $descripcion','$fecha',$importe,$caja_id,'S',$capturista_id,$transferencia_id,$tipo_caja,CURDATE(),CURTIME())";   
 								  mysqli_query($this->con(), $sqlentra); 
 							//entra a :
 							$sqlsale="INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
-									VALUES ( 'Entrada por transferencia de $caja_salida,$descripcion','$fecha',$importe,$caja_tranf_id,'E',$capturista_id,$transferencia_id,$tipo_caja_tranf,CURDATE(),CURTIME())";   
+									VALUES ( 'ENTRADA POR TRANSFERENCIA DE $caja_salida,$descripcion','$fecha',$importe,$caja_tranf_id,'E',$capturista_id,$transferencia_id,$tipo_caja_tranf,CURDATE(),CURTIME())";   
 								mysqli_query($this->con(), $sqlsale); 
 							
 							$datos[0]['respuesta'] 		='5'; 
-						}
-
-							
-
+						} 
 
 					}else{
 						if($movimiento_id>0){
-							$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
-							$resp =  mysqli_query($this->con(), $sql); 
+								$sqls="SELECT transferencia_id FROM caja WHERE id=$movimiento_id"; 
+								$resultados= mysqli_query($this->con(), $sqls); 
+								while ($ress = mysqli_fetch_row($resultados)) 
+									$transferencia_id	= $ress[0]; 
+
+
+							if($transferencia_id>0){
+								$datos[0]['respuesta'] 		='6'; 
+								return $datos;
+							}else{
+								$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
+								$resp =  mysqli_query($this->mysqli, $sql); 
+							}
+							
 						}
 						else{
 	
 							$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
 								VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
-							$resp =  mysqli_query($this->con(), $sql);  
+							$resp =  mysqli_query($this->mysqli, $sql);  
 						}
 	
 						if($resp>0){
@@ -571,25 +588,54 @@
 					$datos=array();  
 					$i=0; 
 
-					$sql="SELECT fecha,caja_id,tipo_caja FROM caja WHERE id=$movimiento_id"; 
-					$resultado= mysqli_query($this->con(), $sql); 
+					
+
+					$sql="SELECT caja_id,tipo_caja,fecha,transferencia_id FROM caja WHERE id=$movimiento_id"; 
+					$resultado= mysqli_query($this->mysqli, $sql); 
 					while ($res = mysqli_fetch_row($resultado)){
 						$caja_id = $res[0]; 
 						$tipo_caja 	= $res[1];
-						$fecha 	= $res[2];      
-
+						$fecha 	= $res[2];  
+						$transferencia_id    =$res[3]; 
 						$i++;
-					} 
+					}   
 
-					$corte = $this->corte($caja_id,$tipo_caja,$fecha);
+					if($transferencia_id>0){
+						$sqltransf="SELECT caja_id,tipo_caja,fecha,transferencia_id FROM caja WHERE transferencia_id=$transferencia_id"; 
+						$resultadot= mysqli_query($this->mysqli, $sqltransf); 
+						while ($rest = mysqli_fetch_row($resultadot)){
+							$caja_id2 			= $rest[0]; 
+							$tipo_caja2 			= $rest[1];
+							$fecha2				= $rest[2];  
+							$transferencia_id2   =$rest[3]; 
 
-					if($corte=='S'){
-						$datos[0]['respuesta'] ='4';  
-					}else{ 
-					$sql="DELETE FROM caja WHERE id=$movimiento_id";   
-							mysqli_query($this->con(), $sql);  
-							$datos[0]['respuesta'] 		='2';
-					}  
+							$corte = $this->corte($caja_id2,$tipo_caja2,$fecha2);
+
+							if($corte=='S'){
+								$datos[0]['respuesta'] ='4';  
+								return $datos;
+							}
+							$i++;
+						} 
+
+						$sql="DELETE FROM transferencias WHERE id=$transferencia_id";   
+						mysqli_query($this->mysqli, $sql);  
+						$sql="DELETE FROM caja WHERE transferencia_id=$transferencia_id";   
+						mysqli_query($this->mysqli, $sql);  
+						$datos[0]['respuesta'] 		='2';
+						
+					}else{
+						$corte = $this->corte($caja_id,$tipo_caja,$fecha);
+				 
+						if($corte=='S'){
+							$datos[0]['respuesta'] ='4';  
+						}else{ 
+						$sql="DELETE FROM caja WHERE id=$movimiento_id";   
+								mysqli_query($this->con(), $sql);  
+								$datos[0]['respuesta'] 		='2';
+						}  
+					}
+					
 
 					return $datos;
 				       		  

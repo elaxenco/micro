@@ -143,8 +143,10 @@ function guardarMovimiento(){
   let fecha = document.getElementById('c_fecha').value;
   let importe = document.getElementById('c_importe').value; 
   let caja_tranf_id = document.getElementById('c_caja_id_transf').value;
+
   let tipo_caja_tranf="";
   let caja_entrada ="";
+  let caja_tranf_id_real="";
   let caja_salida =arregloCajas[caja_id_gen][0].descripcion; 
 
   if(descripcion.length<5)
@@ -164,13 +166,14 @@ function guardarMovimiento(){
           mensajeAlerta("El movimiento que intenta hacer requiere una caja receptora!!",'error');
           return;
         }
+      caja_tranf_id_real= arregloCajas[caja_tranf_id][0].id_real;
       tipo_caja_tranf =arregloCajas[caja_tranf_id][0].tipo_caja;
       caja_entrada =  arregloCajas[caja_tranf_id][0].descripcion; 
     } 
     //extraemos del arreglo de cajas el tipo de caja ya sea cartera o oficina
   let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;  
 
-  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja,caja_tranf_id:caja_tranf_id,tipo_caja_tranf:tipo_caja_tranf,caja_entrada,caja_salida  },resGuardarMovimiento);
+  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja,caja_tranf_id:caja_tranf_id_real,tipo_caja_tranf:tipo_caja_tranf,caja_entrada,caja_salida  },resGuardarMovimiento);
 }
 
 // funcion para limpiar los campos
@@ -491,12 +494,13 @@ var resRegCajas = function(data){
 var resGuardarMovimiento = function(data){
     if (!data && data == null) 
             return;   
-
+      
+      let caja_id = document.getElementById('c_caja_id').value;
          // console.log(data)
         switch(data[0].respuesta){
             case '2':
                   mensajeAlerta('El movimiento se registro correctamente','success');
-                  let caja_id = document.getElementById('c_caja_id').value;
+                  
                    buscarMovimientosPorCaja(caja_id)
                 // limpiarCamposCaja();
               break
@@ -506,6 +510,13 @@ var resGuardarMovimiento = function(data){
             case '4':
                   mensajeAlerta('El corte ya fue creado no es posible realizar el movimiento.','error')
               break
+            case '5':
+                mensajeAlerta('El movimiento se efectuo correctamente .','success'); 
+                buscarMovimientosPorCaja(caja_id); 
+            break
+            case '6':
+              mensajeAlerta('Las transferencias no pueden ser editadas!!.','error')
+            break
         }
 }
 //arreglo de movimientos
@@ -531,8 +542,9 @@ var resMovimientosPorCaja = function(data){
 ///respuesta de cancelar movimientos
 var resCancelarMovimiento = function(data){
     if (!data && data == null) 
-            return;  
-
+            return; 
+    
+       
     switch(data[0].respuesta){
         case '2':
                 let caja_id = document.getElementById('c_caja_id').value;
@@ -543,7 +555,7 @@ var resCancelarMovimiento = function(data){
           break
 
     }
-    
+     
 }
 
 ///respuesta de cancelar movimientos
