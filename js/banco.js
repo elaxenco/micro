@@ -144,8 +144,8 @@ function guardarMovimiento(){
   let importe = document.getElementById('c_importe').value; 
   let caja_tranf_id = document.getElementById('c_caja_id_transf').value;
   let tipo_caja_tranf="";
-  
-  
+  let caja_entrada ="";
+  let caja_salida =arregloCajas[caja_id_gen][0].descripcion; 
 
   if(descripcion.length<5)
       return mensajeAlerta('La descripcion no es correcta','error'); 
@@ -165,11 +165,12 @@ function guardarMovimiento(){
           return;
         }
       tipo_caja_tranf =arregloCajas[caja_tranf_id][0].tipo_caja;
+      caja_entrada =  arregloCajas[caja_tranf_id][0].descripcion; 
     } 
     //extraemos del arreglo de cajas el tipo de caja ya sea cartera o oficina
-  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja; 
+  let tipo_caja =arregloCajas[caja_id_gen][0].tipo_caja;  
 
-  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja,caja_tranf_id:caja_tranf_id,tipo_caja_tranf:tipo_caja_tranf },resGuardarMovimiento);
+  onRequestBanco({ opcion :9,caja_id:caja_id,movimiento_id:movimiento_id,descripcion:descripcion,tipo_id:tipo_id,fecha:fecha,importe:importe,tipo_caja:tipo_caja,caja_tranf_id:caja_tranf_id,tipo_caja_tranf:tipo_caja_tranf,caja_entrada,caja_salida  },resGuardarMovimiento);
 }
 
 // funcion para limpiar los campos

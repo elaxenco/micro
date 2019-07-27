@@ -482,7 +482,7 @@
 		}
 
 		// guardar o actualizar movimiento de caja ya sea entrada o salida
-		public function guardarMovimientoCaja($caja_id,$movimiento_id,$descripcion,$tipo,$fecha,$importe,$tipo_caja,$caja_tranf_id,$tipo_caja_tranf){
+		public function guardarMovimientoCaja($caja_id,$movimiento_id,$descripcion,$tipo,$fecha,$importe,$tipo_caja,$caja_tranf_id,$tipo_caja_tranf,$caja_entrada,$caja_salida){
 				$datos=array(); 
 				$capturista_id=$_COOKIE["micro_id"]; 
 
@@ -492,22 +492,50 @@
 						$datos[0]['respuesta'] ='4';  
 				}else{
 
-					if($movimiento_id>0){
-						$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
-		                $resp =  mysqli_query($this->con(), $sql); 
-					}
-					else{
+					if($tipo=='T'){
 
-						$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
-							VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
-		                $resp =  mysqli_query($this->con(), $sql);  
-		            }
+						if($movimiento_id>0){ 
+							$datos[0]['respuesta'] 		='4'; 
+						}
+						else{
+							$sql=" INSERT INTO  transferencias ( fecha,s_caja_id,s_tipo_caja_id,e_caja_id,e_tipo_caja_id,capturista_id,fecha_captura,hora_captura)
+													VALUES ( '$fecha',$caja_id,$tipo_caja,$caja_tranf_id,$tipo_caja_tranf,$capturista_id,CURDATE(),CURTIME());";   
+								  mysqli_query($this->con(), $sql); 
+							$transferencia_id = 	mysqli_insert_id($this->con()); 
+							//sale de :
+							$sqlentra="INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
+									VALUES ( 'Salida por transferencia a $caja_entrada, $descripcion','$fecha',$importe,$caja_id,'S',$capturista_id,$transferencia_id,$tipo_caja,CURDATE(),CURTIME())";   
+								  mysqli_query($this->con(), $sqlentra); 
+							//entra a :
+							$sqlsale="INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
+									VALUES ( 'Entrada por transferencia de $caja_salida,$descripcion','$fecha',$importe,$caja_tranf_id,'E',$capturista_id,$transferencia_id,$tipo_caja_tranf,CURDATE(),CURTIME())";   
+								mysqli_query($this->con(), $sqlsale); 
+							
+							$datos[0]['respuesta'] 		='5'; 
+						}
 
-	                if($resp>0){
-						$datos[0]['respuesta'] 		='2'; 
+							
+
+
 					}else{
-						$datos[0]['respuesta'] 		='3'; 
-					}
+						if($movimiento_id>0){
+							$sql="UPDATE caja SET descripcion = '$descripcion',importe=$importe,tipo='$tipo' WHERE id=$movimiento_id";   
+							$resp =  mysqli_query($this->con(), $sql); 
+						}
+						else{
+	
+							$sql=" INSERT INTO caja(descripcion,fecha,importe,caja_id,tipo,capturista_id,transferencia_id,tipo_caja,fecha_captura,hora_captura)
+								VALUES ( '$descripcion','$fecha',$importe,$caja_id,'$tipo',$capturista_id,0,$tipo_caja,CURDATE(),CURTIME())";   
+							$resp =  mysqli_query($this->con(), $sql);  
+						}
+	
+						if($resp>0){
+							$datos[0]['respuesta'] 		='2'; 
+						}else{
+							$datos[0]['respuesta'] 		='3'; 
+						}
+					} 
+					
 				}
 
 				return $datos;
@@ -520,7 +548,7 @@
 					$i=0; 
 					 $sql="SELECT caja.id,descripcion,fecha,importe,IF(tipo='E','ENTRADA','SALIDA') tipo,CONCAT(usuarios.nombre,' ',usuarios.appaterno,' ',usuarios.apmaterno) capturista FROM caja
 								JOIN usuarios ON usuarios.id=caja.capturista_id
-							WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja"; 
+							WHERE caja_id=$caja_id AND tipo_caja=$tipo_caja ORDER BY caja.fecha DESC"; 
 					$resultado= mysqli_query($this->con(), $sql); 
 					while ($res = mysqli_fetch_row($resultado)){
 						$datos[$i]['movimiento_id'] = $res[0]; 
@@ -610,7 +638,6 @@
 								"; 
 						$resultado= mysqli_query($this->con(), $sql); 
 						while ($res = mysqli_fetch_row($resultado)){
-							 
 							$datos[$i]['caja_id'] 		= $caja_id; 
 							$datos[$i]['fecha']			= $fecha;
 							$datos[$i]['tipo_caja']		= $tipo_caja;  

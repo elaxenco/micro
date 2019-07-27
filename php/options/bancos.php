@@ -51,7 +51,7 @@
 		 		break;
  			case 9: 
 
-		 	  echo (json_encode($banco->guardarMovimientoCaja($_REQUEST['caja_id'],$_REQUEST['movimiento_id'],$_REQUEST['descripcion'],$_REQUEST['tipo_id'],$_REQUEST['fecha'],$_REQUEST['importe'],$_REQUEST['tipo_caja'],$_REQUEST['caja_tranf_id'],$_REQUEST['tipo_caja_tranf'])));  
+		 	  echo (json_encode($banco->guardarMovimientoCaja($_REQUEST['caja_id'],$_REQUEST['movimiento_id'],$_REQUEST['descripcion'],$_REQUEST['tipo_id'],$_REQUEST['fecha'],$_REQUEST['importe'],$_REQUEST['tipo_caja'],$_REQUEST['caja_tranf_id'],$_REQUEST['tipo_caja_tranf'],$_REQUEST['caja_entrada'],$_REQUEST['caja_salida'])));  
 		 		break;
 		 	case 10: 
 
