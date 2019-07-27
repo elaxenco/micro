@@ -513,6 +513,7 @@ var resGuardarMovimiento = function(data){
             case '5':
                 mensajeAlerta('El movimiento se efectuo correctamente .','success'); 
                 buscarMovimientosPorCaja(caja_id); 
+                document.getElementById('divTransf').classList.add('d-none');
             break
             case '6':
               mensajeAlerta('Las transferencias no pueden ser editadas!!.','error')
