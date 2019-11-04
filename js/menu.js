@@ -28,7 +28,7 @@ function cerrarSesion(){
 // validamos que la sesion este iniciada sino lo direccionamos al login
 function validarEstatusUsuario(){
 	if(leerCookie('micro_id')==null || leerCookie('micro_id')==''){
-		window.location = "/micro/login.html";
+		window.location = "/login.html";
 	} 
 	
 
